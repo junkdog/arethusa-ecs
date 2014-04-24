@@ -87,9 +87,5 @@ bool EntitySystem::isInterested(const Entity& e) {
 	return true;
 }
 
-void EntitySystem::added(Entity& e) {}
-void EntitySystem::removed(Entity& e) {}
-void EntitySystem::updated(Entity& e) {}
-
 }
 

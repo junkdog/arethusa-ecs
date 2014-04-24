@@ -42,7 +42,7 @@ namespace es {
 
 	using ComponentBits = std::bitset<MAX_COMPONENTS>;
 	using SystemBits = std::bitset<MAX_SYSTEMS>;
-};
+}
 
 
 
