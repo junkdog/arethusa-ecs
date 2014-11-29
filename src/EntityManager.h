@@ -1,5 +1,4 @@
-#ifndef ENTITYMANAGER_H
-#define	ENTITYMANAGER_H
+#pragma once
 
 #include <vector>
 #include <list>
@@ -33,7 +32,3 @@ namespace es {
 			EntityStates entityChanges {};
 	};
 }
-
-
-#endif	
-

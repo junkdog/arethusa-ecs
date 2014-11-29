@@ -1,5 +1,4 @@
-#ifndef MAPPER_H_
-#define MAPPER_H_
+#pragma once
 
 #include <memory>
 #include <vector>
@@ -44,5 +43,3 @@ namespace es {
 			std::bitset<MAX_COMPONENTS> componentBit;
 	};
 }
-
-#endif

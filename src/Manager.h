@@ -1,9 +1,6 @@
-#ifndef MANAGER_H_
-#define MANAGER_H_
+#pragma once
 
 #include "Entity.h"
-
-
 
 namespace es {
 
@@ -23,5 +20,3 @@ class Manager {
 };
 
 }
-
-#endif

@@ -1,5 +1,4 @@
-#ifndef SYSTEMMANAGER_H_
-#define SYSTEMMANAGER_H_
+#pragma once
 
 #include <unordered_map>
 #include "Constants.h"
@@ -17,7 +16,7 @@ class SystemManager : public Manager {
 			systems.reserve(MAX_COMPONENTS);
 		};
 
-		virtual ~SystemManager() {};
+		virtual ~SystemManager() = default;
 		void process();
 		void inform(EntityStates& entitiesChangedChanged);
 
@@ -34,7 +33,8 @@ class SystemManager : public Manager {
 			systems.push_back(std::move(system));
 			systemMap[typeid(T)] = systemBit;
 
-			return static_cast<T&>(systemRef);
+//			return static_cast<T&>(systemRef);
+			return systemRef;
 		}
 
 		template <typename T,
@@ -52,5 +52,3 @@ class SystemManager : public Manager {
 };
 
 }
-
-#endif

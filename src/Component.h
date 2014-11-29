@@ -1,9 +1,5 @@
-#ifndef COMPONENT_H
-#define	COMPONENT_H
+#pragma once
 
 namespace es {
 	struct Component {};
 }
-
-
-#endif

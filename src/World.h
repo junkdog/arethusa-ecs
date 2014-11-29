@@ -1,5 +1,4 @@
-#ifndef WORLD_H_
-#define WORLD_H_
+#pragma once
 
 #include <cstdint>
 #include <unordered_map>
@@ -16,7 +15,6 @@ typedef uint32_t uint; // osx fix
 
 namespace es {
 
-struct Entity;
 class EntityManager;
 class SystemManager;
 class ComponentManager;
@@ -69,5 +67,3 @@ class World {
 };
 
 }
-
-#endif

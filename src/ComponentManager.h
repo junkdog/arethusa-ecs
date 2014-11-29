@@ -1,5 +1,4 @@
-#ifndef COMPONENTMANAGER_H_
-#define COMPONENTMANAGER_H_
+#pragma once
 
 #include <cassert>
 #include <typeinfo>
@@ -128,5 +127,3 @@ class ComponentManager : public Manager {
 };
 
 }
-
-#endif

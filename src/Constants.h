@@ -1,5 +1,4 @@
-#ifndef ESCONFIG_H_
-#define ESCONFIG_H_
+#pragma once
 
 #include <iostream>
 #include <bitset>
@@ -44,6 +43,3 @@ namespace es {
 	using SystemBits = std::bitset<MAX_SYSTEMS>;
 }
 
-
-
-#endif

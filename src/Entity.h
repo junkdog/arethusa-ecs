@@ -1,5 +1,4 @@
-#ifndef ENTITY_H_
-#define ENTITY_H_
+#pragma once
 
 #include "Constants.h"
 #include <ostream>
@@ -51,5 +50,3 @@ namespace es {
 		return out;
 	}
 }
-
-#endif
