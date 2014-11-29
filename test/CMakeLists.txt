@@ -10,20 +10,20 @@ if(NOT EXISTS "../test/lib/${GTEST}")
 endif()
 
 add_subdirectory(lib/${GTEST})
-include_directories(lib/${GTEST}/include lib/${GTEST}/src)
+include_directories(lib/${GTEST}/include lib/${GTEST}/src ../src)
 
 enable_testing()
 
 # Add test executable target
 add_executable(unit-tests
-	tests.cpp
-	sample1.cpp)
+	WorldTest.cpp)
 
 target_link_libraries(
 	unit-tests
+	arethusa
 	gtest
 	gtest_main)
-
+`
 add_custom_command(
 	TARGET unit-tests POST_BUILD
 	COMMAND unit-tests)
