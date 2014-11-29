@@ -10,7 +10,7 @@ if(NOT EXISTS "../test/lib/${GTEST}")
 endif()
 
 add_subdirectory(lib/${GTEST})
-include_directories(lib/${GTEST}/include lib/${GTEST}/src ../src)
+include_directories(include lib/${GTEST}/include lib/${GTEST}/src ../src)
 
 enable_testing()
 
@@ -23,7 +23,7 @@ target_link_libraries(
 	arethusa
 	gtest
 	gtest_main)
-`
+
 add_custom_command(
 	TARGET unit-tests POST_BUILD
 	COMMAND unit-tests)

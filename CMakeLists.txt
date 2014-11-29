@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 2.8.4)
 
 project(arethusa-root)
 
+include_directories(${CMAKE_CURRENT_LIST_DIR})
+
 # Bump up warning levels appropriately for clang, gcc & msvc and build in debug mode
 if (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU" OR ${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -pedantic -g -std=c++11")
