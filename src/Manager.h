@@ -8,7 +8,7 @@ class World;
 
 class Manager {
     public:
-        Manager(World* world) {}
+        Manager(World* world) : world(world) {}
         virtual ~Manager() {}
         virtual void initialize() {}
         virtual void added(Entity& e);
