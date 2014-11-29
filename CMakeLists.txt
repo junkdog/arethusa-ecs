@@ -22,3 +22,4 @@ add_subdirectory(src)
 if (${ARETHUSA_TESTS})
 	add_subdirectory(test)
 endif()
+
