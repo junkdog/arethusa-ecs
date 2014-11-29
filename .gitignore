@@ -1,6 +1,3 @@
-CMakeFiles
-CMakeCache.txt
-Makefile
-*.cmake
-*.a
+.idea
+build/
 
