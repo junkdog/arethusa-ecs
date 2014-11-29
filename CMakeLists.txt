@@ -14,18 +14,7 @@ elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL "MSVC")
 	endif()
 endif()
 
-ExternalProject_Add(googletest
-	SVN_REPOSITORY http://googletest.googlecode.com/svn/tags/release-1.7.0/
-	CMAKE_ARGS -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
-			   -DCMAKE_ARCHIVE_OUTPUT_DIRECTORY_DEBUG:PATH=DebugLibs
-			   -Dgtest_force_shared_crt=ON
-	TIMEOUT 10
-	INSTALL_COMMAND ""
-	#LOG_DOWNLOAD ON
-	#LOG_CONFIGURE ON
-	#LOG_BUILD ON
-	)
+
 
 add_subdirectory(src)
-# add_subdirectory(test)
-
+add_subdirectory(test)
