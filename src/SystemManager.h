@@ -4,9 +4,11 @@
 #include <unordered_map>
 #include "Constants.h"
 #include "EntitySystem.h"
-#include "World.h"
+#include "Manager.h"
 
 namespace es {
+
+class World;
 
 class SystemManager : public Manager {
 

@@ -1,6 +1,5 @@
 #include <algorithm>
 #include <cassert>
-#include <vector>
 #include "Constants.h"
 #include "Entity.h"
 #include "EntitySystem.h"

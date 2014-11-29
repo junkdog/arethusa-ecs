@@ -2,8 +2,6 @@
 #include "ComponentManager.h"
 #include "EntityManager.h"
 #include "SystemManager.h"
-#include "Component.h"
-#include "Entity.h"
 #include "World.h"
 
 namespace es {

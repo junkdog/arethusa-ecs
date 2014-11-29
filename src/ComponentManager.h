@@ -7,7 +7,11 @@
 #include <memory>
 #include <vector>
 #include <unordered_map>
-#include "World.h"
+#include "Manager.h"
+#include "Component.h"
+//#include "World.h"
+
+class World;
 
 namespace es {
 

@@ -3,8 +3,7 @@
 #include "EntityManager.h"
 #include "SystemManager.h"
 #include "ComponentManager.h"
-#include <memory>
-#include <vector>
+#include "World.h"
 
 namespace es {
 

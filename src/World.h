@@ -7,6 +7,7 @@
 #include <typeindex>
 #include <memory>
 #include <vector>
+#include "Manager.h"
 #include "Constants.h"
 #include "Entity.h"
 #include "Component.h"
@@ -15,25 +16,10 @@ typedef uint32_t uint; // osx fix
 
 namespace es {
 
-class World;
-class Entity;
+struct Entity;
 class EntityManager;
 class SystemManager;
 class ComponentManager;
-
-
-class Manager {
-	public:
-		Manager(World* world) : world(world) {}
-		virtual ~Manager() {}
-		virtual void initialize() {}
-		virtual void added(Entity& e); 
-		virtual void removed(Entity& e); 
-		virtual void updated(Entity& e);
-
-	protected:
-		World* world;
-};
 
 class World {
 	public:

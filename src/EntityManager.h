@@ -5,11 +5,12 @@
 #include <list>
 #include "Constants.h"
 #include "Entity.h"
-#include "World.h"
+#include "Manager.h"
 
 
 namespace es {
-	class Entity;
+	struct Entity;
+	class World;
 
 	class EntityManager : public Manager {
 		public:

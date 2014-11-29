@@ -1,7 +1,6 @@
 #include <memory>
 #include "Constants.h"
 #include "SystemManager.h"
-#include "World.h"
 
 namespace es {
 

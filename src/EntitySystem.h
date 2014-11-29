@@ -1,5 +1,4 @@
-#ifndef ENTITYSYSTEM_H_
-#define ENTITYSYSTEM_H_
+#pragma once
 
 #include <unordered_map>
 #include <typeinfo>
@@ -11,11 +10,8 @@
 #include "Component.h"
 
 namespace es {
+
 class World;
-class Entity;
-class EntityManager;
-class SystemManager;
-class ComponentManager;
 
 class EntitySystem {
 	public:
@@ -62,5 +58,3 @@ class EntitySystem {
 		bool isInterested(const Entity& e);
 };
 }
-
-#endif
