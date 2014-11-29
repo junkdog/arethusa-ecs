@@ -2,6 +2,9 @@ cmake_minimum_required(VERSION 2.8.4)
 
 project(arethusa-root)
 
+set(ARETHUSA_TESTS false CACHE BOOL "Build test suite.")
+
+
 include_directories(${CMAKE_CURRENT_LIST_DIR})
 
 # Bump up warning levels appropriately for clang, gcc & msvc and build in debug mode
@@ -16,4 +19,6 @@ elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL "MSVC")
 endif()
 
 add_subdirectory(src)
-add_subdirectory(test)
+if (${ARETHUSA_TESTS})
+	add_subdirectory(test)
+endif()
