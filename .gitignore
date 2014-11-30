@@ -1,4 +1,7 @@
 .idea
 build
 test/lib
+test/src
+test/test
+CMakeFiles
 
