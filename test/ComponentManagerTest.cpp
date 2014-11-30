@@ -28,11 +28,16 @@ TEST(ComponentManager, AddRetrieveComponents) {
     world.initialize();
 
     es::Entity& e = world.createEntity();
+    es::Entity& e2 = world.createEntity();
+    es::Entity& e3 = world.createEntity();
 
     auto& cm = world.components();
     cm.set<Position>(e, 1.0, 2.0);
     cm.set<Velocity>(e, 3.0, 4.0);
     cm.set<Sprite>(e, 1);
+    cm.set<Sprite>(e2, 2);
+    cm.set<Position>(e3, 5.0, 6.0);
+    cm.set<Sprite>(e3, 3);
 
     world.process();
 
@@ -42,7 +47,12 @@ TEST(ComponentManager, AddRetrieveComponents) {
     ASSERT_FLOAT_EQ(cm.get<Velocity>(e).x, 3.0);
     ASSERT_FLOAT_EQ(cm.get<Velocity>(e).y, 4.0);
 
+    ASSERT_FLOAT_EQ(cm.get<Position>(e3).x, 5.0);
+    ASSERT_FLOAT_EQ(cm.get<Position>(e3).y, 6.0);
+
     ASSERT_EQ(cm.get<Sprite>(e).id, 1);
+    ASSERT_EQ(cm.get<Sprite>(e2).id, 2);
+    ASSERT_EQ(cm.get<Sprite>(e3).id, 3);
 }
 
 
