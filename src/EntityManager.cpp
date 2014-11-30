@@ -3,13 +3,15 @@
 #include "EntityManager.h"
 #include "SystemManager.h"
 #include "ComponentManager.h"
-#include "World.h"
 
 namespace es {
 
-	void EntityManager::initialize() {
-
+	EntityManager::EntityManager(World *world) : Manager(world) {
+		entities.reserve(MAX_COMPONENTS);
 	}
+
+
+	void EntityManager::initialize() {}
 
 	Entity& EntityManager::createEntity() {
 		uint16_t id;
@@ -36,10 +38,6 @@ namespace es {
 		return entities[id].get();
 	}
 
-	Entity& EntityManager::entity(uint id) {
-		return *(entities[id].get());
-	}
-
 	void EntityManager::kill(Entity& e) {
 		entityChanges.removed.insert(&e);
 	}
@@ -62,6 +60,10 @@ namespace es {
 			recycled.push_back(e->id);
 			entities[e->id] = nullptr;
 		}
+	}
+
+	int EntityManager::getActiveCount() {
+		return entities.size();
 	}
 }
 

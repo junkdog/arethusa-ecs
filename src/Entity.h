@@ -15,7 +15,7 @@ namespace es {
 		ComponentBits componentBits;
 		SystemBits systemBits;
 		
-	} typedef Entity;
+	};
 
 	inline std::ostream &operator << (std::ostream &out, const es::Entity &e) {
 		out << "Entity[" <<  e.id << "]:" + e.componentBits.to_string();

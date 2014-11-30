@@ -1,4 +1,5 @@
 set(sources
+	bleh.cpp
 	Manager.cpp
 	ComponentManager.cpp
 	EntityManager.cpp
