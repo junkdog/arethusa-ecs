@@ -41,5 +41,6 @@ namespace es {
 
 	using ComponentBits = std::bitset<MAX_COMPONENTS>;
 	using SystemBits = std::bitset<MAX_SYSTEMS>;
+	using EntityBits = std::bitset<MAX_ENTITIES>;
 }
 

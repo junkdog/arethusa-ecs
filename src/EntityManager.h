@@ -1,5 +1,6 @@
 #pragma once
 
+#include <bitset>
 #include <vector>
 #include <list>
 #include "Constants.h"
@@ -21,7 +22,7 @@ namespace es {
 
 		virtual void initialize();
 		Entity& createEntity();
-		Entity* getEntity(uint id);
+		Entity& getEntity(uint id);
 		void updateState(Entity& e);
 		Entity& entity(uint id);
 		void kill(Entity& e);
@@ -30,9 +31,10 @@ namespace es {
 		int getActiveCount();
 
 	private:
-		u_int16_t nextEntityId = 0;
-		std::vector<std::unique_ptr<Entity>> entities {};
-		std::list<u_int16_t> recycled;
+		u_int32_t nextEntityId = 0;
+		EntityBits active {};
+		std::vector<Entity> entities {};
+		std::list<u_int32_t> recycled;
 
 		// per processing round
 		EntityStates entityChanges {};

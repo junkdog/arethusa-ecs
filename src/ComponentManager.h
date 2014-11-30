@@ -8,6 +8,7 @@
 #include <unordered_map>
 #include "Manager.h"
 #include "Component.h"
+//#include "Mapper.h"
 //#include "World.h"
 
 class World;
@@ -15,7 +16,9 @@ class World;
 namespace es {
 
 class ComponentManager : public Manager {
+	friend class Mapper;
 	public:
+
 		ComponentManager(World* world) : Manager(world) {
 			LOG("Initializing component manager.");
 			if (componentEntityTable.size() < MAX_COMPONENTS) {
@@ -24,6 +27,7 @@ class ComponentManager : public Manager {
 					componentTable.resize(MAX_ENTITIES);
 				}
 			}
+			entityComponentBits.reserve(MAX_ENTITIES);
 		}
 		virtual ~ComponentManager() = default;
 
@@ -39,7 +43,7 @@ class ComponentManager : public Manager {
 			int typeIndex = componentToIndex[typeid(T)];
 			componentEntityTable[typeIndex][e.id] = std::move(c);
 
-			e.componentBits.set(typeIndex, true);
+			entityComponentBits[e.id].set(typeIndex, true);
 
 			return componentRef;
 		}
@@ -56,7 +60,7 @@ class ComponentManager : public Manager {
 			u_int16_t typeIndex = componentToIndex[typeid(T)];
 			componentEntityTable[typeIndex][e.id] = nullptr;
 
-			e.componentBits[typeIndex] = false;
+			entityComponentBits[e.id].set(typeIndex, false);
 		}
 
 		template <typename T,
@@ -66,7 +70,7 @@ class ComponentManager : public Manager {
 			ensureRegistered<T>();
 
 			int typeIndex = componentToIndex[typeid(T)];
-			if (e.componentBits[typeIndex]) {
+			if (entityComponentBits[e.id][typeIndex]) {
 				auto component = componentEntityTable[typeIndex][e.id].get();
 				return static_cast<T&>(*component);
 			} else {
@@ -91,9 +95,7 @@ class ComponentManager : public Manager {
 		}
 
 		template <typename C1, typename C2, typename ... Cn>
-		ComponentBits componentBits() {
-			return componentBits<C1>() | componentBits<C2, Cn...>();
-		}
+		ComponentBits componentBits() {}
 
 		template <typename T,
 			typename std::enable_if<std::is_base_of<Component, T>::value>::type* = nullptr>
@@ -106,12 +108,16 @@ class ComponentManager : public Manager {
 		}
 
 		void clear(Entity& e);
-
+		ComponentBits& getComponentBits(const Entity& e);
 
 	private:
+
 		std::vector<std::vector<std::unique_ptr<Component>>> componentEntityTable;
 		u_int16_t nextComponentTypeId = 0;
 		std::unordered_map<std::type_index, u_int16_t> componentToIndex;
+
+		// not used
+		std::vector<ComponentBits> entityComponentBits;
 
 		template <typename C,
 			typename std::enable_if<std::is_base_of<Component, C>::value>::type* = nullptr>
@@ -125,5 +131,7 @@ class ComponentManager : public Manager {
 		}
 
 };
+
+
 
 }

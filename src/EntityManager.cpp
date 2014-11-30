@@ -14,7 +14,7 @@ namespace es {
 	void EntityManager::initialize() {}
 
 	Entity& EntityManager::createEntity() {
-		uint16_t id;
+		uint32_t id;
 		if (recycled.size() > 0) {
 			id = recycled.front();
 			recycled.pop_front();
@@ -22,20 +22,21 @@ namespace es {
 			id = nextEntityId++;
 		}
 
-		std::unique_ptr<Entity> entity = std::unique_ptr<Entity>{new Entity{id}};
+//		std::unique_ptr<Entity> entity = std::unique_ptr<Entity>{new Entity{id}};
 
-		Entity &ref = *entity;
-		entities[ref.id] = std::move(entity);
-		entityChanges.added.insert(&ref);
-		return ref;
+//		Entity &ref = *entity;
+		entities[id] = Entity {id};
+		entityChanges.added.insert(&entities[id]);
+		active[id] = true;
+		return entities[id];
 	}
 
 	void EntityManager::updateState(Entity& e) {
 		entityChanges.changed.insert(&e);
 	}
 
-	Entity* EntityManager::getEntity(uint id) {
-		return entities[id].get();
+	Entity& EntityManager::getEntity(uint id) {
+		return entities[id];
 	}
 
 	void EntityManager::kill(Entity& e) {
@@ -58,7 +59,8 @@ namespace es {
 		for (auto e : oldState.removed) {
 			world->components().clear(*e);
 			recycled.push_back(e->id);
-			entities[e->id] = nullptr;
+//			entities[e->id] = nullptr;
+			entities[e->id] = Entity {0};
 		}
 	}
 

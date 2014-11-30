@@ -26,4 +26,8 @@ target_link_libraries(
 
 add_custom_command(
 	TARGET unit-tests POST_BUILD
-	COMMAND unit-tests)
+	COMMAND valgrind --track-origins=yes --tool=memcheck --leak-check=full --num-callers=40 ./unit-tests)
+
+#add_custom_command(
+#	TARGET unit-tests POST_BUILD
+#	COMMAND unit-tests)

@@ -32,7 +32,7 @@ Entity& World::createEntity() {
 	return entityManager->createEntity();
 }
 
-Entity* World::getEntity(uint id) {
+Entity& World::getEntity(uint id) {
 	return entityManager->getEntity(id);
 }
 

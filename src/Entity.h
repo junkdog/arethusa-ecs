@@ -10,15 +10,27 @@
 namespace es {
 
 	struct Entity {
-		Entity(u_int16_t id) :  id(id) {}
-		const u_int16_t id;
-		ComponentBits componentBits;
-		SystemBits systemBits;
-		
+	public:
+		Entity(u_int32_t id) :  id(id) {}
+		virtual ~Entity() = default;
+
+//		ComponentBits componentBits;
+
+		Entity& operator=(Entity other) {
+			std::swap(id, other.id);
+			return *this;
+		}
+
+//		int id() {
+//			return id;
+//		}
+//
+//	private:
+		u_int32_t id;
 	};
 
 	inline std::ostream &operator << (std::ostream &out, const es::Entity &e) {
-		out << "Entity[" <<  e.id << "]:" + e.componentBits.to_string();
+		out << "Entity[" <<  e.id << "]";
 		return out;
 	}
 

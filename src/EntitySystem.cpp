@@ -3,6 +3,8 @@
 #include "Constants.h"
 #include "Entity.h"
 #include "EntitySystem.h"
+#include "ComponentManager.h"
+#include "World.h"
 
 namespace es {
 
@@ -77,10 +79,11 @@ bool EntitySystem::isActive() {
 bool EntitySystem::isInterested(const Entity& e) {
 	if (isVoidSystem) return false;
 
-	if (requiredComponents != (e.componentBits & requiredComponents))
+	auto& componentBits = world->components().getComponentBits(e);
+	if (requiredComponents != (componentBits & requiredComponents))
 		return false;
 
-	if ((disallowedComponents & e.componentBits).any())
+	if ((disallowedComponents & componentBits).any())
 		return false;
 
 	return true;
