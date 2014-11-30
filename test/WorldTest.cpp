@@ -6,12 +6,12 @@ struct Ent {
     uint32_t id;
 };
 
-TEST(WorldTest, InitializeWorld) {
+TEST(World, InitializeWorld) {
     es::World world;
     world.initialize();
 }
 
-TEST(WorldTest, RetrieveSystems) {
+TEST(World, RetrieveSystems) {
     es::World world;
     world.initialize();
 
@@ -21,13 +21,13 @@ TEST(WorldTest, RetrieveSystems) {
 }
 
 
-TEST(WorldTest, SizeTest) {
+TEST(World, SizeTest) {
     int size = sizeof(uint32_t);
     int sizeEnt = sizeof(Ent);
     ASSERT_EQ(size, sizeEnt);
 }
 
-TEST(WorldTest, CreateDeleteEntity) {
+TEST(World, CreateDeleteEntity) {
     es::World world;
     world.initialize();
 
