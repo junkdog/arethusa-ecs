@@ -55,5 +55,31 @@ TEST(ComponentManager, AddRetrieveComponents) {
     ASSERT_EQ(cm.get<Sprite>(e3).id, 3);
 }
 
+TEST(ComponentManager, ComponentBits) {
+    es::World world;
+    world.initialize();
 
+    es::Entity& e = world.createEntity();
+    es::Entity& e2 = world.createEntity();
+    es::Entity& e3 = world.createEntity();
+
+    auto& cm = world.components();
+    cm.set<Position>(e, 1.0, 2.0);
+    cm.set<Velocity>(e, 3.0, 4.0);
+    cm.set<Sprite>(e, 1);
+    cm.set<Sprite>(e2, 2);
+    cm.set<Position>(e3, 5.0, 6.0);
+    cm.set<Sprite>(e3, 3);
+
+    world.process();
+
+    cm.getComponentBits(e);
+
+    // sanity check
+    ASSERT_NE((cm.componentBits<Position, Sprite>()), (cm.componentBits<Sprite>()));
+
+    ASSERT_EQ((cm.componentBits<Position, Sprite, Velocity>()), cm.getComponentBits(e));
+    ASSERT_EQ((cm.componentBits<Sprite>()), cm.getComponentBits(e2));
+    ASSERT_EQ((cm.componentBits<Position, Sprite>()), cm.getComponentBits(e3));
+}
 

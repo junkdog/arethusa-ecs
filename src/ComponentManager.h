@@ -90,7 +90,9 @@ class ComponentManager : public Manager {
 		}
 
 		template <typename C1, typename C2, typename ... Cn>
-		ComponentBits componentBits() {}
+		ComponentBits componentBits() {
+			return componentBits<C1>() | componentBits<C2, Cn...>();
+		}
 
 		template <typename T,
 			typename std::enable_if<std::is_base_of<Component, T>::value>::type* = nullptr>

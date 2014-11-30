@@ -41,11 +41,9 @@ void hmm() {
 
 	world.process();
 
-	cm.get<Position>(e).x;
-	cm.get<Position>(e).y;
+	cm.getComponentBits(e);
 
-	cm.get<Velocity>(e).x;
-	cm.get<Velocity>(e).y;
-
-	cm.get<Sprite>(e).id;
+	cm.componentBits<Position, Sprite, Velocity>();
+	cm.componentBits<Sprite>();
+	cm.componentBits<Position, Sprite>();
 }
