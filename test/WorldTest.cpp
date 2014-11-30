@@ -3,7 +3,7 @@
 
 TEST(WorldTest, InitializeWorld) {
     es::World world;
-//    world.initialize();
+    world.initialize();
 }
 
 

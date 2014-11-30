@@ -15,6 +15,7 @@ typedef uint32_t uint; // osx fix
 
 namespace es {
 
+class Manager;
 class EntityManager;
 class SystemManager;
 class ComponentManager;

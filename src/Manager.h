@@ -9,8 +9,8 @@ class World;
 class Manager {
 	public:
 		Manager(World* world) : world(world) {}
-		virtual ~Manager() {}
-		virtual void initialize() {}
+		virtual ~Manager() = default;
+		virtual void initialize();
 		virtual void added(Entity& e);
 		virtual void removed(Entity& e);
 		virtual void updated(Entity& e);
@@ -18,5 +18,6 @@ class Manager {
 	protected:
 		World* world;
 };
+
 
 }

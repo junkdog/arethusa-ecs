@@ -4,7 +4,6 @@ project(arethusa-root)
 
 set(ARETHUSA_TESTS false CACHE BOOL "Build test suite.")
 
-
 include_directories(${CMAKE_CURRENT_LIST_DIR})
 
 # Bump up warning levels appropriately for clang, gcc & msvc and build in debug mode

@@ -1,4 +1,5 @@
 set(sources
+	Manager.cpp
 	ComponentManager.cpp
 	EntityManager.cpp
 	EntitySystem.cpp

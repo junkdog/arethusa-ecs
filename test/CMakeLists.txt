@@ -10,7 +10,7 @@ if(NOT EXISTS "../test/lib/${GTEST}")
 endif()
 
 add_subdirectory(lib/${GTEST})
-include_directories(include lib/${GTEST}/include lib/${GTEST}/src ../src)
+include_directories(include  ../src lib/${GTEST}/include lib/${GTEST}/src)
 
 enable_testing()
 
