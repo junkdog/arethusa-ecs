@@ -34,7 +34,6 @@ class World {
 		template <typename T, typename ... Args,
 			typename std::enable_if<std::is_base_of<Manager, T>::value>::type* = nullptr>
 		T& setManager(Args && ... args) {
-			LOG("adding manager " << typeid(T).name());
 
 			auto manager = std::unique_ptr<T>(new T(this, std::forward<Args>(args) ...));
 			T& managerRef = *manager;

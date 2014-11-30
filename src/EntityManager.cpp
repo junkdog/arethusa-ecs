@@ -22,9 +22,6 @@ namespace es {
 			id = nextEntityId++;
 		}
 
-//		std::unique_ptr<Entity> entity = std::unique_ptr<Entity>{new Entity{id}};
-
-//		Entity &ref = *entity;
 		entities[id] = Entity {id};
 		entityChanges.added.insert(&entities[id]);
 		active[id] = true;
@@ -47,7 +44,6 @@ namespace es {
 		if (entityChanges.isEmpty())
 			return;
 
-		LOG(entityChanges);
 		EntityStates oldState(entityChanges);
 		entityChanges.clear();
 
@@ -59,7 +55,6 @@ namespace es {
 		for (auto e : oldState.removed) {
 			world->components().clear(*e);
 			recycled.push_back(e->id);
-//			entities[e->id] = nullptr;
 			entities[e->id] = Entity {0};
 		}
 	}

@@ -23,8 +23,6 @@ class SystemManager : public Manager {
 		template <typename T, typename ... Args,
 			typename std::enable_if<std::is_base_of<EntitySystem, T>::value>::type* = nullptr>
 		T& set(Args && ... args) {
-			LOG("adding system " << typeid(T).name());
-
 			auto system = std::unique_ptr<T>(new T(world, std::forward<Args>(args) ...));
 			uint systemBit = (uint)systems.size();
 			system->systemBit = systemBit;
@@ -33,7 +31,6 @@ class SystemManager : public Manager {
 			systems.push_back(std::move(system));
 			systemMap[typeid(T)] = systemBit;
 
-//			return static_cast<T&>(systemRef);
 			return systemRef;
 		}
 

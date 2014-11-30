@@ -30,7 +30,6 @@ void EntitySystem::initialize() {}
 
 void EntitySystem::insert(Entity& e) {
 	if (isInterested(e) && !activeIds[e.id]) {
-		CLOG("Inserting entity[" << e.id << "]");
 
 		actives.push_back(&e);
 		activeIds[e.id] = true;
@@ -40,8 +39,6 @@ void EntitySystem::insert(Entity& e) {
 
 void EntitySystem::remove(Entity& e) {
 	if (activeIds[e.id]) {
-		CLOG("Removing entity[" << e.id << "]");
-
 		activeIds[e.id] = false;
 		auto it = std::find(actives.begin(), actives.end(), &e);
 		if (it != actives.end()) {
@@ -60,8 +57,6 @@ void EntitySystem::update(Entity& e) {
 	bool inSystem = activeIds[e.id];
 
 	if (interested && !inSystem) {
-		CLOG("Adding entity[" << e.id << "] via update");
-
 		actives.push_back(&e);
 		activeIds[e.id] = true;
 		added(e);

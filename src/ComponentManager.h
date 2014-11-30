@@ -20,7 +20,6 @@ class ComponentManager : public Manager {
 	public:
 
 		ComponentManager(World* world) : Manager(world) {
-			LOG("Initializing component manager.");
 			if (componentEntityTable.size() < MAX_COMPONENTS) {
 				componentEntityTable.resize(MAX_COMPONENTS);
 				for (auto& componentTable : componentEntityTable) {
@@ -38,7 +37,6 @@ class ComponentManager : public Manager {
 			T& componentRef = *c;
 
 			ensureRegistered<T>();
-			CLOG("adding component " << typeid(T).name() << " to entity[" << e.id << "]");
 
 			int typeIndex = componentToIndex[typeid(T)];
 			componentEntityTable[typeIndex][e.id] = std::move(c);
@@ -52,8 +50,6 @@ class ComponentManager : public Manager {
 		template <typename T, typename ... Args,
 			typename std::enable_if<std::is_base_of<Component, T>::value>::type* = nullptr>
 		void remove(Entity &e) {
-
-			CLOG("removing component " << typeid(T).name() << " for entity[" << e.id << "]");
 
 			assert(componentToIndex.count(typeid(T)) == 1);
 
@@ -74,7 +70,6 @@ class ComponentManager : public Manager {
 				auto component = componentEntityTable[typeIndex][e.id].get();
 				return static_cast<T&>(*component);
 			} else {
-				CLOG("Attempted to retrieve NULL " << typeid(T).name() << " for " << e.id);
 				auto component = componentEntityTable[typeIndex][e.id].get();
 				return static_cast<T&>(*component);
 			}
@@ -125,7 +120,6 @@ class ComponentManager : public Manager {
 
 			auto& Component = typeid(C);
 			if (componentToIndex.count(Component) == 0) {
-				CLOG("registering component type " << nextComponentTypeId << "="<< typeid(C).name());
 				componentToIndex[Component] = nextComponentTypeId++;
 			}
 		}

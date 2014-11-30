@@ -5,7 +5,6 @@
 namespace es {
 
 void SystemManager::initialize() {
-	CLOG("initializing systems.");
 	for (auto system = systems.begin(); system != systems.end(); ++system) {
 		system->get()->configureAspect();
 		system->get()->initialize();
