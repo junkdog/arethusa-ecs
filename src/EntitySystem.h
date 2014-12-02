@@ -49,7 +49,7 @@ class EntitySystem {
 	protected:
 		World* world;
 		std::vector<Entity*> actives;
-		std::bitset<MAX_ENTITIES> activeIds;
+		EntityBits activeIds;
 
 	private:
 		ComponentBits requiredComponents;

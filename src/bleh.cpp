@@ -3,21 +3,21 @@
 #include <cstdint>
 
 struct Position : public es::Component {
-	Position(float x, float y) : x(x), y(y) {
+	Position(float x = 0, float y = 0) : x(x), y(y) {
 	}
 
 	float x, y;
 };
 
 struct Velocity : public es::Component {
-	Velocity(float x, float y) : x(x), y(y) {
+	Velocity(float x = 0, float y = 0) : x(x), y(y) {
 	}
 
 	float x, y;
 };
 
 struct Sprite : public es::Component {
-	Sprite(int id) : id(id) {
+	Sprite(int id = 0) : id(id) {
 	}
 
 	int id;
@@ -41,7 +41,7 @@ void hmm() {
 
 	world.process();
 
-	cm.getComponentBits(e);
+	cm.get<Position>(e3).x;
 
 	cm.componentBits<Position, Sprite, Velocity>();
 	cm.componentBits<Sprite>();

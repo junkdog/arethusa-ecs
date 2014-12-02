@@ -10,18 +10,16 @@
 
 namespace es {
 
-	template<typename C,
-			typename std::enable_if<std::is_base_of<Component, C>::value>::type * = nullptr>
+	template<typename C, typename enable_if_component<C>::type* = nullptr>
 	class Mapper {
 
 
 	public:
 		Mapper(World *world) {
-			ComponentManager &cm = world->components();
+			ComponentManager& cm = world->components();
 			entityComponentBits = cm.entityComponentBits;
-			auto& ct = cm.componentTable<C>();
-			components = &ct;
-			componentBit = world->components().componentBits<C>();
+			components = cm.store.getComponents()<C>();
+			componentBit = cm.componentBits<C>();
 		}
 
 		virtual ~Mapper() = default;
@@ -36,14 +34,13 @@ namespace es {
 			return static_cast<C &>(c);
 		}
 
-		bool has(Entity &e) {
-			return componentBit == (entityComponentBits[e.id] & componentBit);
-		}
+//		bool has(Entity &e) {
+//			return componentBit == (entityComponentBits[e.id] & componentBit);
+//		}
 
 	private:
 
-		std::vector<std::unique_ptr<es::Component>> *components;
-		std::bitset<MAX_COMPONENTS> componentBit;
-		std::vector<ComponentBits>& entityComponentBits;
+		std::vector<C>& components;
+		ComponentBits& componentBit;
 	};
 }
