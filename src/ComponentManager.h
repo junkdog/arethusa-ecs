@@ -15,7 +15,14 @@ class World;
 
 namespace es {
 
+template <typename C>
+using is_component = std::is_base_of<Component, C>;
+
+template <typename C>
+using enable_if_component = std::enable_if<is_component<C>::value>;
+
 class ComponentManager : public Manager {
+
 	friend class Mapper;
 	public:
 
@@ -47,8 +54,7 @@ class ComponentManager : public Manager {
 		}
 
 
-		template <typename T, typename ... Args,
-			typename std::enable_if<std::is_base_of<Component, T>::value>::type* = nullptr>
+		template <typename T, typename ... Args, typename enable_if_component<T>::type* = nullptr>
 		void remove(Entity &e) {
 
 			assert(componentToIndex.count(typeid(T)) == 1);
@@ -59,8 +65,7 @@ class ComponentManager : public Manager {
 			entityComponentBits[e.id].set(typeIndex, false);
 		}
 
-		template <typename T,
-			typename std::enable_if<std::is_base_of<Component, T>::value>::type* = nullptr>
+		template <typename T, typename enable_if_component<T>::type* = nullptr>
 		T& get(const Entity &e) {
 
 			ensureRegistered<T>();
@@ -75,8 +80,7 @@ class ComponentManager : public Manager {
 			}
 		}
 
-		template <typename C,
-			typename std::enable_if<std::is_base_of<Component, C>::value>::type* = nullptr>
+		template <typename C, typename enable_if_component<C>::type* = nullptr>
 		ComponentBits componentBits() {
 
 			std::bitset<MAX_COMPONENTS> aspect;
@@ -94,8 +98,7 @@ class ComponentManager : public Manager {
 			return componentBits<C1>() | componentBits<C2, Cn...>();
 		}
 
-		template <typename T,
-			typename std::enable_if<std::is_base_of<Component, T>::value>::type* = nullptr>
+		template <typename T, typename enable_if_component<T>::type* = nullptr>
 		std::vector<std::unique_ptr<Component>>& componentTable() {
 
 			ensureRegistered<T>();
@@ -116,8 +119,7 @@ class ComponentManager : public Manager {
 		// not used
 		std::vector<ComponentBits> entityComponentBits;
 
-		template <typename C,
-			typename std::enable_if<std::is_base_of<Component, C>::value>::type* = nullptr>
+		template <typename C, typename enable_if_component<C>::type* = nullptr>
 		void ensureRegistered() {
 
 			auto& Component = typeid(C);
