@@ -28,7 +28,7 @@ namespace ecs {
 
 		template<typename T, typename ... Args, typename enable_if_component<T>::type* = nullptr>
 		T& set(Entity& e, Args&& ... args) {
-			auto cid = componentId<T>();
+			auto cid = store.index<T>();
 
 			entityComponentBits[e.id].set(cid, true);
 			store.getComponents<T>()[e.id] = T(std::forward<Args>(args) ...);
@@ -40,9 +40,7 @@ namespace ecs {
 		template<typename T, typename enable_if_component<T>::type* = nullptr>
 		void remove(Entity& e) {
 
-			assert(componentToIndex.count(typeid(T)) == 1);
-
-			u_int16_t cid = componentId<T>();
+			u_int16_t cid = store.index<T>();
 			entityComponentBits[e.id].set(cid, false);
 			store.getComponents<T>() = {};
 		}
@@ -56,13 +54,8 @@ namespace ecs {
 		ComponentBits componentBits() {
 
 			ComponentBits aspect;
-
-			auto& Component = typeid(C);
-			componentId<C>();
-
-			assert(componentToIndex.count(Component) == 1);
-			aspect[componentToIndex[Component]] = true;
-			return aspect;;
+			aspect[store.index<C>()] = true;
+			return aspect;
 		}
 
 		template<typename C1, typename C2, typename ... Cn>
@@ -80,23 +73,8 @@ namespace ecs {
 		ComponentBits& getComponentBits(const Entity& e);
 
 	private:
-
 		u_int16_t nextComponentTypeId = 0;
-		std::unordered_map<std::type_index, u_int16_t> componentToIndex;
-
 		Store store;
 		std::vector<ComponentBits> entityComponentBits;
-
-		template<typename C, typename enable_if_component<C>::type* = nullptr>
-		u_int16_t componentId() {
-			auto& Component = typeid(C);
-			if (componentToIndex.count(Component) == 0) {
-				componentToIndex[Component] = nextComponentTypeId++;
-			}
-			return componentToIndex[Component];
-		}
-
 	};
-
-
 }

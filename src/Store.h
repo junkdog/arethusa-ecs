@@ -21,6 +21,15 @@ namespace ecs {
 //			static std::bitset<MAX_ENTITIES> entityBits;
 //			return entityBits;
 //		}
+
+		template<typename T, typename enable_if_component<T>::type* = nullptr>
+		u_int16_t index() {
+			static const u_int16_t id = nextComponentId++;
+			return id;
+		}
+
+	private:
+		u_int16_t nextComponentId = 0;
 	};
 
 }
