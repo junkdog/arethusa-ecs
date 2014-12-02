@@ -42,7 +42,7 @@ namespace ecs {
 
 			u_int16_t cid = store.index<T>();
 			entityComponentBits[e.id].set(cid, false);
-			store.getComponents<T>() = {};
+			store.getComponents<T>()[e.id] = {};
 		}
 
 		template<typename T, typename enable_if_component<T>::type* = nullptr>
