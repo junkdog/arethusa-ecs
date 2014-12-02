@@ -73,7 +73,6 @@ namespace ecs {
 		ComponentBits& getComponentBits(const Entity& e);
 
 	private:
-		u_int16_t nextComponentTypeId = 0;
 		Store store;
 		std::vector<ComponentBits> entityComponentBits;
 	};
