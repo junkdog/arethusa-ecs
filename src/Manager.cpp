@@ -1,6 +1,6 @@
 #include "Manager.h"
 
-namespace es {
+namespace ecs {
 	void Manager::initialize() {}
 	void Manager::added(__attribute__ ((unused)) Entity &e) {}
 	void Manager::removed(__attribute__ ((unused)) Entity &e) {}

@@ -10,7 +10,7 @@
 #include "Component.h"
 #include "Store.h"
 
-namespace es {
+namespace ecs {
 
 	class World;
 

@@ -7,7 +7,7 @@
 #include <vector>
 #include <memory>
 
-namespace es {
+namespace ecs {
 
 	struct Entity {
 	public:
@@ -29,7 +29,7 @@ namespace es {
 		u_int32_t id;
 	};
 
-	inline std::ostream &operator << (std::ostream &out, const es::Entity &e) {
+	inline std::ostream &operator << (std::ostream &out, const Entity &e) {
 		out << "Entity[" <<  e.id << "]";
 		return out;
 	}
@@ -57,7 +57,7 @@ namespace es {
 
 	} typedef Changed;
 	
-	inline std::ostream &operator << (std::ostream &out, const es::EntityStates &c) {
+	inline std::ostream &operator << (std::ostream &out, const EntityStates &c) {
 		out << "EntityStates[added: " <<  c.added.size()  << ", removed: " << c.removed.size() << ", changed: " << c.changed.size() << "]:";
 		return out;
 	}

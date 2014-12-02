@@ -1,6 +1,6 @@
 #pragma once
 
-namespace es {
+namespace ecs {
 	struct Component {};
 
 	template <typename C>

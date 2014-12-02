@@ -9,7 +9,7 @@
 #include "Entity.h"
 #include "Component.h"
 
-namespace es {
+namespace ecs {
 
 class World;
 

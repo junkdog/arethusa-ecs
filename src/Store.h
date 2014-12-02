@@ -5,7 +5,7 @@
 #include "Constants.h"
 #include "Component.h"
 
-namespace es {
+namespace ecs {
 	class Store {
 	public:
 

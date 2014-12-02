@@ -6,7 +6,7 @@
 #include "ComponentManager.h"
 #include "World.h"
 
-namespace es {
+namespace ecs {
 
 void EntitySystem::processSystem() {
 	if (!isActive()) return;
@@ -18,11 +18,11 @@ void EntitySystem::processSystem() {
 	end();
 }
 
-ComponentBits es::EntitySystem::requiredAspect() {
+ComponentBits EntitySystem::requiredAspect() {
 	return ComponentBits();
 }
 
-ComponentBits es::EntitySystem::disallowedAspect() {
+ComponentBits EntitySystem::disallowedAspect() {
 	return ComponentBits();
 }
 

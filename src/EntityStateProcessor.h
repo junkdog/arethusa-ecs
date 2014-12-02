@@ -7,7 +7,7 @@
 
 // todo: track created vs changedd
 // todo: save entities in vector
-namespace es {
+namespace ecs {
 	class InEditProcessor {
 
 	public:

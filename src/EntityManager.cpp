@@ -4,7 +4,7 @@
 #include "SystemManager.h"
 #include "ComponentManager.h"
 
-namespace es {
+namespace ecs {
 
 	EntityManager::EntityManager(World *world) : Manager(world) {
 		entities.reserve(MAX_COMPONENTS);

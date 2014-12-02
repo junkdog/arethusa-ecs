@@ -1,7 +1,7 @@
 #include "Constants.h"
 #include "ComponentManager.h"
 
-namespace es {
+namespace ecs {
 
 	void ComponentManager::clear(Entity &e) {
 		auto &components = entityComponentBits[e.id];

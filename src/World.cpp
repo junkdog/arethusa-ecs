@@ -4,7 +4,7 @@
 #include "SystemManager.h"
 #include "World.h"
 
-namespace es {
+namespace ecs {
 
 World::World() {
 	managers.reserve(MAX_MANAGERS);

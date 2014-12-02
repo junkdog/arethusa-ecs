@@ -9,7 +9,7 @@
 #include "World.h"
 
 
-namespace es {
+namespace ecs {
 
 	struct Entity;
 	class World;

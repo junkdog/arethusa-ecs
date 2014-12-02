@@ -2,7 +2,7 @@
 #include "Constants.h"
 #include "SystemManager.h"
 
-namespace es {
+namespace ecs {
 
 void SystemManager::initialize() {
 	for (auto system = systems.begin(); system != systems.end(); ++system) {

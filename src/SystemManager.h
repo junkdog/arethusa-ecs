@@ -5,7 +5,7 @@
 #include "EntitySystem.h"
 #include "Manager.h"
 
-namespace es {
+namespace ecs {
 
 class World;
 

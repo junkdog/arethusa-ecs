@@ -2,21 +2,21 @@
 #include "gtest/gtest.h"
 #include "arethusa.h"
 
-struct Position : public es::Component {
+struct Position : public ecs::Component {
     Position(float x = 0, float y = 0) : x(x), y(y) {
     }
 
     float x, y;
  };
 
-struct Velocity : public es::Component {
+struct Velocity : public ecs::Component {
     Velocity(float x = 0, float y = 0) : x(x), y(y) {
     }
 
     float x, y;
  };
 
- struct Sprite : public es::Component {
+ struct Sprite : public ecs::Component {
     Sprite(int id = 0) : id(id) {
     }
 
@@ -24,12 +24,12 @@ struct Velocity : public es::Component {
  };
 
 TEST(ComponentManager, AddRetrieveComponents) {
-    es::World world;
+    ecs::World world;
     world.initialize();
 
-    es::Entity& e = world.createEntity();
-    es::Entity& e2 = world.createEntity();
-    es::Entity& e3 = world.createEntity();
+    ecs::Entity& e = world.createEntity();
+    ecs::Entity& e2 = world.createEntity();
+    ecs::Entity& e3 = world.createEntity();
 
     auto& cm = world.components();
     cm.set<Position>(e, 1.0, 2.0);
@@ -56,12 +56,12 @@ TEST(ComponentManager, AddRetrieveComponents) {
 }
 
 TEST(ComponentManager, ComponentBits) {
-    es::World world;
+    ecs::World world;
     world.initialize();
 
-    es::Entity& e = world.createEntity();
-    es::Entity& e2 = world.createEntity();
-    es::Entity& e3 = world.createEntity();
+    ecs::Entity& e = world.createEntity();
+    ecs::Entity& e2 = world.createEntity();
+    ecs::Entity& e3 = world.createEntity();
 
     auto& cm = world.components();
     cm.set<Position>(e, 1.0, 2.0);
@@ -82,12 +82,12 @@ TEST(ComponentManager, ComponentBits) {
 }
 
 TEST(ComponentManager, ReadComponents) {
-    es::World world;
+    ecs::World world;
     world.initialize();
 
-    es::Entity& e = world.createEntity();
-    es::Entity& e2 = world.createEntity();
-    es::Entity& e3 = world.createEntity();
+    ecs::Entity& e = world.createEntity();
+    ecs::Entity& e2 = world.createEntity();
+    ecs::Entity& e3 = world.createEntity();
 
     auto& cm = world.components();
     cm.set<Position>(e, 1.0, 2.0);
@@ -113,12 +113,12 @@ TEST(ComponentManager, ReadComponents) {
 }
 
 TEST(ComponentManager, WriteComponents) {
-    es::World world;
+    ecs::World world;
     world.initialize();
 
-    es::Entity& e = world.createEntity();
-    es::Entity& e2 = world.createEntity();
-    es::Entity& e3 = world.createEntity();
+    ecs::Entity& e = world.createEntity();
+    ecs::Entity& e2 = world.createEntity();
+    ecs::Entity& e3 = world.createEntity();
 
     auto& cm = world.components();
     cm.set<Position>(e, 1.0, 2.0);

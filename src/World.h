@@ -13,7 +13,7 @@
 
 typedef uint32_t uint; // osx fix
 
-namespace es {
+namespace ecs {
 
 class Manager;
 class EntityManager;

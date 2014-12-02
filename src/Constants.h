@@ -5,7 +5,7 @@
 #include <typeinfo>
 #include <cstring>
 
-namespace es {
+namespace ecs {
 
 	const int MAX_MANAGERS = 16;
 	const int MAX_SYSTEMS = 16;

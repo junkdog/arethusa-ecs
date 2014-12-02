@@ -8,7 +8,7 @@
 #include "Entity.h"
 #include "World.h"
 
-namespace es {
+namespace ecs {
 
 	template<typename C, typename enable_if_component<C>::type* = nullptr>
 	class Mapper {

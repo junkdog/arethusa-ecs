@@ -7,17 +7,17 @@ struct Ent {
 };
 
 TEST(World, InitializeWorld) {
-    es::World world;
+    ecs::World world;
     world.initialize();
 }
 
 TEST(World, RetrieveSystems) {
-    es::World world;
+    ecs::World world;
     world.initialize();
 
-    world.getManager<es::SystemManager>();
-    world.getManager<es::ComponentManager>();
-    world.getManager<es::EntityManager>();
+    world.getManager<ecs::SystemManager>();
+    world.getManager<ecs::ComponentManager>();
+    world.getManager<ecs::EntityManager>();
 }
 
 
@@ -28,13 +28,13 @@ TEST(World, SizeTest) {
 }
 
 TEST(World, CreateDeleteEntity) {
-    es::World world;
+    ecs::World world;
     world.initialize();
 
-    es::EntityManager& em = world.getManager<es::EntityManager>();
+    ecs::EntityManager& em = world.getManager<ecs::EntityManager>();
 
     ASSERT_EQ(0, em.getActiveCount());
-    es::Entity e = world.createEntity();
+    ecs::Entity e = world.createEntity();
     world.process();
 
     ASSERT_EQ(1, em.getActiveCount());

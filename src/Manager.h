@@ -2,7 +2,7 @@
 
 #include "Entity.h"
 
-namespace es {
+namespace ecs {
 
 class World;
 
