@@ -33,12 +33,12 @@ class ComponentManager : public Manager {
 					componentTable.resize(MAX_ENTITIES);
 				}
 			}
-			entityComponentBits.reserve(MAX_ENTITIES);
+			entityComponentBits.resize(MAX_ENTITIES);
 		}
 		virtual ~ComponentManager() = default;
 
-		template <typename T, typename ... Args,
-			typename std::enable_if<std::is_base_of<Component, T>::value>::type* = nullptr>
+		template <typename T, typename ... Args, typename enable_if_component<T>::type* = nullptr>
+
 		T& set(Entity &e,  Args && ... args) {
 			std::unique_ptr<T> c = std::unique_ptr<T>(new T(std::forward<Args>(args) ...));
 			T& componentRef = *c;
@@ -54,7 +54,7 @@ class ComponentManager : public Manager {
 		}
 
 
-		template <typename T, typename ... Args, typename enable_if_component<T>::type* = nullptr>
+		template <typename T, typename enable_if_component<T>::type* = nullptr>
 		void remove(Entity &e) {
 
 			assert(componentToIndex.count(typeid(T)) == 1);
