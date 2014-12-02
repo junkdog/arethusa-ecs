@@ -73,8 +73,6 @@ TEST(ComponentManager, ComponentBits) {
 
     world.process();
 
-    cm.getComponentBits(e);
-
     // sanity check
     ASSERT_NE((cm.componentBits<Position, Sprite>()), (cm.componentBits<Sprite>()));
 
@@ -83,3 +81,33 @@ TEST(ComponentManager, ComponentBits) {
     ASSERT_EQ((cm.componentBits<Position, Sprite>()), cm.getComponentBits(e3));
 }
 
+TEST(ComponentManager, Components) {
+    es::World world;
+    world.initialize();
+
+    es::Entity& e = world.createEntity();
+    es::Entity& e2 = world.createEntity();
+    es::Entity& e3 = world.createEntity();
+
+    auto& cm = world.components();
+    cm.set<Position>(e, 1.0, 2.0);
+    cm.set<Velocity>(e, 3.0, 4.0);
+    cm.set<Sprite>(e, 1);
+    cm.set<Sprite>(e2, 2);
+    cm.set<Position>(e3, 5.0, 6.0);
+    cm.set<Sprite>(e3, 3);
+
+    world.process();
+
+    // sanity check
+    ASSERT_EQ(1, (cm.get<Position>(e).x));
+    ASSERT_EQ(2, (cm.get<Position>(e).y));
+    ASSERT_EQ(3, (cm.get<Velocity>(e).x));
+    ASSERT_EQ(4, (cm.get<Velocity>(e).y));
+    ASSERT_EQ(5, (cm.get<Position>(e3).x));
+    ASSERT_EQ(6, (cm.get<Position>(e3).y));
+
+    ASSERT_EQ(1, (cm.get<Sprite>(e).id));
+    ASSERT_EQ(2, (cm.get<Sprite>(e2).id));
+    ASSERT_EQ(3, (cm.get<Sprite>(e3).id));
+}
