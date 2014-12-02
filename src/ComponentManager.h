@@ -26,28 +26,28 @@ namespace ecs {
 
 		virtual ~ComponentManager() = default;
 
-		template<typename T, typename ... Args, typename enable_if_component<T>::type* = nullptr>
-		T& set(Entity& e, Args&& ... args) {
-			auto cid = store.index<T>();
+		template<typename C, typename ... Args, typename enable_if_component<C>::type* = nullptr>
+		C& set(Entity& e, Args&& ... args) {
+			auto cid = store.index<C>();
 
 			entityComponentBits[e.id].set(cid, true);
-			store.getComponents<T>()[e.id] = T(std::forward<Args>(args) ...);
+			store.getComponents<C>()[e.id] = C(std::forward<Args>(args) ...);
 
-			return store.getComponents<T>()[e.id];
+			return store.getComponents<C>()[e.id];
 		}
 
 
-		template<typename T, typename enable_if_component<T>::type* = nullptr>
+		template<typename C, typename enable_if_component<C>::type* = nullptr>
 		void remove(Entity& e) {
 
-			u_int16_t cid = store.index<T>();
+			u_int16_t cid = store.index<C>();
 			entityComponentBits[e.id].set(cid, false);
-			store.getComponents<T>()[e.id] = {};
+			store.getComponents<C>()[e.id] = {};
 		}
 
-		template<typename T, typename enable_if_component<T>::type* = nullptr>
-		T& get(const Entity& e) {
-			return store.getComponents<T>()[e.id];
+		template<typename C, typename enable_if_component<C>::type* = nullptr>
+		C& get(const Entity& e) {
+			return store.getComponents<C>()[e.id];
 		}
 
 		template<typename C, typename enable_if_component<C>::type* = nullptr>
@@ -63,9 +63,9 @@ namespace ecs {
 			return componentBits<C1>() | componentBits<C2, Cn...>();
 		}
 
-		template<typename T, typename enable_if_component<T>::type* = nullptr>
-		std::vector<T>& getComponents() {
-			return store.getComponents<T>();
+		template<typename C, typename enable_if_component<C>::type* = nullptr>
+		std::vector<C>& getComponents() {
+			return store.getComponents<C>();
 		}
 
 		void clear(Entity& e);
