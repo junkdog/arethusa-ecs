@@ -1,10 +1,6 @@
- #include <src/ComponentManager.h>
+#include <src/ComponentManager.h>
 #include "gtest/gtest.h"
 #include "arethusa.h"
-
-struct Ent {
-    uint32_t id;
-};
 
 TEST(World, InitializeWorld) {
     ecs::World world;
@@ -20,11 +16,8 @@ TEST(World, RetrieveSystems) {
     world.getManager<ecs::EntityManager>();
 }
 
-
 TEST(World, SizeTest) {
-    int size = sizeof(uint32_t);
-    int sizeEnt = sizeof(Ent);
-    ASSERT_EQ(size, sizeEnt);
+    ASSERT_EQ((sizeof(uint32_t)), (sizeof(ecs::Entity)));
 }
 
 TEST(World, CreateDeleteEntity) {

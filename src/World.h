@@ -26,9 +26,9 @@ class World {
 		World();
 		virtual ~World();
 
-		Entity& createEntity();
+		Entity createEntity();
 		void updateState(Entity& e);
-		Entity& getEntity(uint id);
+		Entity getEntity(uint id);
 		void deleteEntity(Entity& e);
 
 		template <typename T, typename ... Args,

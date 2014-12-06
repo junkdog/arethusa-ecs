@@ -28,11 +28,11 @@ void World::initialize() {
 	systemManager->initialize();
 }
 
-Entity& World::createEntity() {
+Entity World::createEntity() {
 	return entityManager->createEntity();
 }
 
-Entity& World::getEntity(uint id) {
+Entity World::getEntity(uint id) {
 	return entityManager->getEntity(id);
 }
 
@@ -51,11 +51,11 @@ ComponentManager& World::components() {
 void World::informManagers(EntityStates& newStates) {
 	for (auto manager = managers.begin(); manager != managers.end(); ++manager) {
 		for (auto e : newStates.added)
-			manager->get()->added(*e);
+			manager->get()->added(e);
 		for (auto e : newStates.changed)
-			manager->get()->updated(*e);
+			manager->get()->updated(e);
 		for (auto e : newStates.removed)
-			manager->get()->removed(*e);
+			manager->get()->removed(e);
 	}
 }
 

@@ -15,10 +15,8 @@ namespace ecs {
 	friend class EntitySystem;
 
 	public:
-		~Entity() = default;
-
 		Entity& operator=(Entity other) {
-			std::swap(id, other.id);
+			id = other.id;
 			return *this;
 		}
 
@@ -38,15 +36,20 @@ namespace ecs {
 	}
 
 	struct EntityStates {
-		EntityStates() {}
+		EntityStates() {
+			added.reserve(MAX_ENTITIES);
+			removed.reserve(MAX_ENTITIES);
+			changed.reserve(MAX_ENTITIES);
+		}
+
 		EntityStates(const EntityStates& source) :
 			added(source.added),
 			removed(source.removed),
 			changed(source.changed) {}
 
-		std::set<Entity*> added;
-		std::set<Entity*> removed;
-		std::set<Entity*> changed;
+		std::vector<Entity> added {};
+		std::vector<Entity> removed {};
+		std::vector<Entity> changed {};
 
 		bool isEmpty() {
 			return added.empty() && removed.empty() && changed.empty();
@@ -57,7 +60,6 @@ namespace ecs {
 			removed.clear();
 			changed.clear();
 		}
-
 	};
 	
 	inline std::ostream &operator << (std::ostream &out, const EntityStates &c) {

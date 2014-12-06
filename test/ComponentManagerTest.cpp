@@ -27,9 +27,9 @@ TEST(ComponentManager, AddRetrieveComponents) {
     ecs::World world;
     world.initialize();
 
-    ecs::Entity& e = world.createEntity();
-    ecs::Entity& e2 = world.createEntity();
-    ecs::Entity& e3 = world.createEntity();
+    ecs::Entity e = world.createEntity();
+    ecs::Entity e2 = world.createEntity();
+    ecs::Entity e3 = world.createEntity();
 
     auto& cm = world.components();
     cm.set<Position>(e, 1.0, 2.0);
@@ -59,9 +59,9 @@ TEST(ComponentManager, ComponentBits) {
     ecs::World world;
     world.initialize();
 
-    ecs::Entity& e = world.createEntity();
-    ecs::Entity& e2 = world.createEntity();
-    ecs::Entity& e3 = world.createEntity();
+    ecs::Entity e = world.createEntity();
+    ecs::Entity e2 = world.createEntity();
+    ecs::Entity e3 = world.createEntity();
 
     auto& cm = world.components();
     cm.set<Position>(e, 1.0, 2.0);
@@ -85,9 +85,9 @@ TEST(ComponentManager, ReadComponents) {
     ecs::World world;
     world.initialize();
 
-    ecs::Entity& e = world.createEntity();
-    ecs::Entity& e2 = world.createEntity();
-    ecs::Entity& e3 = world.createEntity();
+    ecs::Entity e = world.createEntity();
+    ecs::Entity e2 = world.createEntity();
+    ecs::Entity e3 = world.createEntity();
 
     auto& cm = world.components();
     cm.set<Position>(e, 1.0, 2.0);
@@ -116,9 +116,9 @@ TEST(ComponentManager, WriteComponents) {
     ecs::World world;
     world.initialize();
 
-    ecs::Entity& e = world.createEntity();
-    ecs::Entity& e2 = world.createEntity();
-    ecs::Entity& e3 = world.createEntity();
+    ecs::Entity e = world.createEntity();
+    ecs::Entity e2 = world.createEntity();
+    ecs::Entity e3 = world.createEntity();
 
     auto& cm = world.components();
     cm.set<Position>(e, 1.0, 2.0);

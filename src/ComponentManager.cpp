@@ -3,7 +3,7 @@
 
 namespace ecs {
 
-	void ComponentManager::clear(Entity &e) {
+	void ComponentManager::clear(const Entity e) {
 		auto &components = entityComponentBits[e.id];
 		for (uint componentBit = 0; components.size() > componentBit; componentBit++) {
 //			if (components[componentBit]) {

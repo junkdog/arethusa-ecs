@@ -21,11 +21,10 @@ namespace ecs {
 		virtual ~EntityManager() = default;
 
 		virtual void initialize();
-		Entity& createEntity();
-		Entity& getEntity(uint id);
-		void updateState(Entity& e);
-		Entity& entity(uint id);
-		void kill(Entity& e);
+		Entity createEntity();
+		Entity getEntity(uint id);
+		void updateState(const Entity e);
+		void kill(const Entity e);
 		void process();
 
 		int getActiveCount();
@@ -33,8 +32,7 @@ namespace ecs {
 	private:
 		u_int32_t nextEntityId = 0;
 		EntityBits active {};
-		std::vector<Entity> entities {};
-		std::list<u_int32_t> recycled;
+		std::vector<int> recycled;
 
 		// per processing round
 		EntityStates entityChanges {};

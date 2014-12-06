@@ -1,3 +1,4 @@
+#include <cassert>
 #include "Constants.h"
 #include "Entity.h"
 #include "EntityManager.h"
@@ -6,38 +7,37 @@
 
 namespace ecs {
 
-	EntityManager::EntityManager(World *world) : Manager(world) {
-		entities.reserve(MAX_COMPONENTS);
+	EntityManager::EntityManager(World* world) : Manager(world) {
+		recycled.reserve(MAX_ENTITIES);
 	}
-
 
 	void EntityManager::initialize() {}
 
-	Entity& EntityManager::createEntity() {
+	Entity EntityManager::createEntity() {
 		uint32_t id;
 		if (recycled.size() > 0) {
-			id = recycled.front();
-			recycled.pop_front();
+			id = recycled.back();
+			recycled.pop_back();
 		} else {
 			id = nextEntityId++;
 		}
 
-		entities[id] = Entity {id};
-		entityChanges.added.insert(&entities[id]);
+		entityChanges.added.push_back({id});
 		active[id] = true;
-		return entities[id];
+		return {id};
 	}
 
-	void EntityManager::updateState(Entity& e) {
-		entityChanges.changed.insert(&e);
+	void EntityManager::updateState(const Entity e) {
+		entityChanges.changed.push_back(e);
 	}
 
-	Entity& EntityManager::getEntity(uint id) {
-		return entities[id];
+	Entity EntityManager::getEntity(uint id) {
+		assert(active[id]);
+		return {id};
 	}
 
-	void EntityManager::kill(Entity& e) {
-		entityChanges.removed.insert(&e);
+	void EntityManager::kill(const Entity e) {
+		entityChanges.removed.push_back(e);
 	}
 
 	void EntityManager::process() {
@@ -52,15 +52,15 @@ namespace ecs {
 
 		// postponing clearing the components of deleted entities
 		// in case a system wants to act on any entities' components.
-		for (auto e : oldState.removed) {
-			world->components().clear(*e);
-			recycled.push_back(e->id);
-			entities[e->id] = Entity {0};
+		for (const auto e : oldState.removed) {
+			world->components().clear(e);
+			recycled.push_back(e.id);
+			active[e.id] = false;
 		}
 	}
 
 	int EntityManager::getActiveCount() {
-		return entities.size();
+		return active.count();
 	}
 }
 

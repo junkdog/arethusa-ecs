@@ -22,11 +22,11 @@ void SystemManager::process() {
 void SystemManager::inform(EntityStates& entitiesChanged) {
 	for (auto system = systems.begin(); system != systems.end(); ++system) {
 		for (auto e : entitiesChanged.added)
-			system->get()->insert(*e);
+			system->get()->insert(e);
 		for (auto e : entitiesChanged.changed)
-			system->get()->update(*e);
+			system->get()->update(e);
 		for (auto e : entitiesChanged.removed)
-			system->get()->remove(*e);
+			system->get()->remove(e);
 	}
 }
 

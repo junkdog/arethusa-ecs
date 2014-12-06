@@ -68,7 +68,7 @@ namespace ecs {
 			return store.getComponents<C>();
 		}
 
-		void clear(Entity& e);
+		void clear(const Entity e);
 
 		ComponentBits& getComponentBits(const Entity& e);
 

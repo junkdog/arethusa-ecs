@@ -11,9 +11,9 @@ class Manager {
 		Manager(World* world) : world(world) {}
 		virtual ~Manager() = default;
 		virtual void initialize();
-		virtual void added(Entity& e);
-		virtual void removed(Entity& e);
-		virtual void updated(Entity& e);
+		virtual void added(Entity e);
+		virtual void removed(Entity e);
+		virtual void updated(Entity e);
 
 	protected:
 		World* world;
