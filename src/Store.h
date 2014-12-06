@@ -29,6 +29,7 @@ namespace ecs {
 		}
 
 	private:
+
 		u_int16_t nextComponentId = 0;
 	};
 

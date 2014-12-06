@@ -10,27 +10,30 @@
 namespace ecs {
 
 	struct Entity {
-	public:
-		Entity(u_int32_t id) :  id(id) {}
-		virtual ~Entity() = default;
+	friend class ComponentManager;
+	friend class EntityManager;
+	friend class EntitySystem;
 
-//		ComponentBits componentBits;
+	public:
+		~Entity() = default;
 
 		Entity& operator=(Entity other) {
 			std::swap(id, other.id);
 			return *this;
 		}
 
-//		int id() {
-//			return id;
-//		}
-//
-//	private:
+		int getId() const {
+			return id;
+		}
+
+	private:
+		Entity(u_int32_t id) :  id(id) {}
+
 		u_int32_t id;
 	};
 
 	inline std::ostream &operator << (std::ostream &out, const Entity &e) {
-		out << "Entity[" <<  e.id << "]";
+		out << "Entity[" <<  e.getId() << "]";
 		return out;
 	}
 
@@ -55,7 +58,7 @@ namespace ecs {
 			changed.clear();
 		}
 
-	} typedef Changed;
+	};
 	
 	inline std::ostream &operator << (std::ostream &out, const EntityStates &c) {
 		out << "EntityStates[added: " <<  c.added.size()  << ", removed: " << c.removed.size() << ", changed: " << c.changed.size() << "]:";
