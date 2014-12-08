@@ -1,9 +1,10 @@
 cmake_minimum_required(VERSION 2.8.4)
 
-project(arethusa-root)
+project(arethusa-ecs)
 
 set(ARETHUSA_TESTS false CACHE BOOL "Build test suite.")
 
+# todo: remove?
 include_directories(${CMAKE_CURRENT_LIST_DIR})
 
 # Bump up warning levels appropriately for clang, gcc & msvc and build in debug mode
