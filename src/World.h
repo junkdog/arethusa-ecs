@@ -10,6 +10,7 @@
 #include "Constants.h"
 #include "Entity.h"
 #include "Component.h"
+#include "SystemManager.h"
 
 typedef uint32_t uint; // osx fix
 
@@ -20,11 +21,12 @@ class EntityManager;
 class SystemManager;
 class ComponentManager;
 
+//template<u_int32_t maxEntities = 2048>
 class World {
+friend class ComponentManager;
 	public:
-
 		World();
-		virtual ~World();
+		~World() = default;
 
 		Entity createEntity();
 		void updateState(Entity& e);
@@ -64,6 +66,8 @@ class World {
 		ComponentManager* componentManager;
 		EntityManager* entityManager;
 		SystemManager* systemManager;
+
+		static const u_int32_t MAX_ENTITIES;
 };
 
 }

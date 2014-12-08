@@ -1,20 +1,14 @@
 #include "Constants.h"
 #include "ComponentManager.h"
 #include "EntityManager.h"
-#include "SystemManager.h"
-#include "World.h"
 
 namespace ecs {
 
 World::World() {
-	managers.reserve(MAX_MANAGERS);
-
 	systemManager = &setManager<SystemManager>();
 	entityManager = &setManager<EntityManager>();
 	componentManager = &setManager<ComponentManager>();
 }
-
-World::~World() {}
 
 void World::initialize() {
 

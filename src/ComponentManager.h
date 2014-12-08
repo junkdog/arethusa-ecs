@@ -38,7 +38,7 @@ namespace ecs {
 
 
 		template<typename C, typename enable_if_component<C>::type* = nullptr>
-		void remove(Entity& e) {
+		void remove(const Entity& e) {
 
 			u_int16_t cid = store.index<C>();
 			entityComponentBits[e.id].set(cid, false);
