@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Bits.h"
 #include "Entity.h"
 #include "World.h"
 #include "Manager.h"

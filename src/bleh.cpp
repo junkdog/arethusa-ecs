@@ -46,4 +46,7 @@ void hmm() {
 	cm.componentBits<Position, Sprite, Velocity>();
 	cm.componentBits<Sprite>();
 	cm.componentBits<Position, Sprite>();
+
+	ecs::Bits bits;
+	bits[2] = true;
 }

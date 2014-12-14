@@ -17,7 +17,8 @@ enable_testing()
 # Add test executable target
 add_executable(unit-tests
 	WorldTest.cpp
-	ComponentManagerTest.cpp)
+	ComponentManagerTest.cpp
+	BitsTest.cpp)
 
 target_link_libraries(
 	unit-tests
