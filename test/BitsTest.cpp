@@ -70,6 +70,18 @@ TEST(Bits, BitwiseOR) {
     ASSERT_TRUE(bits1 == bits3);
 }
 
+TEST(Bits, IterateBits) {
+    ecs::Bits bits {1, 14, 23, 43, 534, 256, 124};
+    auto count = 0u;
+
+    auto index = bits.nextSetBit();
+    while (index != -1) {
+        ASSERT_TRUE(bits[index]);
+        count++;
+        index = bits.nextSetBit(index + 1);
+    }
+    ASSERT_EQ(7u, count);
+}
 
 TEST(Bits, BitwiseAND) {
     ecs::Bits bits1;

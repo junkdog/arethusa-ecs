@@ -13,6 +13,14 @@ namespace ecs {
 		}
 	}
 
+
+	int Bits::nextSetBit(unsigned int fromIndex) {
+		for (unsigned int i = fromIndex, s = words.size() * WORD_SIZE; s > i; i++)
+			if ((*this)[i]) return i;
+
+		return -1;
+	}
+
 	Bits::WordProxy& Bits::operator[](unsigned int bitIndex) {
 		proxy.bit = bitIndex % WORD_SIZE;
 		auto index = bitIndex / WORD_SIZE;

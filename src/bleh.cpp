@@ -49,4 +49,11 @@ void hmm() {
 
 	ecs::Bits bits;
 	bits[2] = true;
+
+	auto index = bits.nextSetBit();
+	while (index != 1) {
+//	while ((auto i = bits.nextSetBit()) != 1) {
+		bits[index] = false;
+		index = bits.nextSetBit(index);
+	}
 }
