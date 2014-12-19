@@ -1,5 +1,5 @@
+#include <cassert>
 #include <algorithm>
-#include <pwd.h>
 #include "Bits.h"
 
 namespace ecs {
@@ -22,6 +22,8 @@ namespace ecs {
 	}
 
 	Bits::WordProxy& Bits::operator[](unsigned int bitIndex) {
+		assert(&proxy != nullptr);
+
 		proxy.bit = bitIndex % WORD_SIZE;
 		auto index = bitIndex / WORD_SIZE;
 		if (words.size() <= (index + 1))
@@ -94,6 +96,42 @@ namespace ecs {
 		ecs::Bits bits = *this;
 		bits &= rhs;
 		return bits;
+	}
+
+	unsigned int Bits::count() {
+		auto index = nextSetBit(0);
+
+		auto count = 0u;
+		while (index != -1) {
+			count++;
+			index = nextSetBit(index + 1);
+		}
+
+		return count;
+	}
+
+	bool Bits::none() {
+		for (auto word : words)
+			if (word != 0) return false;
+
+		return true;
+	}
+
+	bool Bits::any() {
+		return !none();
+	}
+
+	void Bits::set(unsigned int index, bool value) {
+		(*this)[index] = value;
+	}
+
+	void Bits::reset() {
+//		for (auto& word : words) {
+//			word = 0u;
+//		}
+
+//		for (auto i = 0u; words.size() > i; i++)
+//			words[i] = 0;
 	}
 
 	// PROXY functions

@@ -2,7 +2,6 @@
 
 #include "Constants.h"
 #include <ostream>
-#include <bitset>
 #include <set>
 #include <vector>
 #include <memory>
@@ -30,7 +29,7 @@ namespace ecs {
 		u_int32_t id;
 	};
 
-	inline std::ostream &operator << (std::ostream &out, const Entity &e) {
+	inline std::ostream &operator<<(std::ostream &out, const Entity &e) {
 		out << "Entity[" <<  e.getId() << "]";
 		return out;
 	}

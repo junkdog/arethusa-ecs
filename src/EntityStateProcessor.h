@@ -1,6 +1,5 @@
 #pragma once
 
-#include <bitset>
 #include <vector>
 #include "World.h"
 #include "Constants.h"

@@ -37,6 +37,12 @@ namespace ecs {
 		Bits operator&(const Bits& rhs);
 		unsigned long wordsInUse() const;
 		int nextSetBit(unsigned int fromIndex = 0);
+		unsigned int count();
+		void reset();
+
+		bool none();
+		bool any();
+		void set(unsigned int index, bool value);
 
 	private:
 		const static unsigned int WORD_SIZE = sizeof(Word) * 8;

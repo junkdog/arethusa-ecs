@@ -1,6 +1,5 @@
 #pragma once
 
-#include <bitset>
 #include <vector>
 #include <list>
 #include "Constants.h"

@@ -12,11 +12,9 @@ class World;
 class SystemManager : public Manager {
 
 	public:
-		SystemManager(World* world) : Manager(world) {
-			systems.reserve(MAX_COMPONENTS);
-		};
+		SystemManager(World* world) : Manager(world) {}
 
-		virtual ~SystemManager() = default;
+		~SystemManager() = default;
 		void process();
 		void inform(EntityStates& entitiesChangedChanged);
 
