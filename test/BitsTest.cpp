@@ -21,15 +21,25 @@ TEST(Bits, SetUnset) {
     ASSERT_EQ(bits[64], true);
     ASSERT_EQ(bits[96], true);
     ASSERT_EQ(bits[100],false);
-    ASSERT_EQ(2u, bits.wordsInUse());
+    ASSERT_EQ(4u, bits.wordsInUse());
 }
 
 TEST(Bits, WordsInUse) {
     ecs::Bits bits;
     ASSERT_EQ(1u, bits.wordsInUse());
 
-    ecs::Bits bits2 {4};
+    ecs::Bits bits2(4, {});
     ASSERT_EQ(4u, bits2.wordsInUse());
+
+    ecs::Bits bits3(2, {1, 3});
+    ASSERT_EQ(2u, bits3.wordsInUse());
+
+    ecs::Bits bits4{2, 1, 3};
+    ASSERT_EQ(1u, bits4.wordsInUse());
+    ASSERT_FALSE(bits4[0]);
+    ASSERT_TRUE(bits4[1]);
+    ASSERT_TRUE(bits4[2]);
+    ASSERT_FALSE(bits4[4]);
 }
 
 TEST(Bits, BitwiseOR) {
