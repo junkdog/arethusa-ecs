@@ -8,53 +8,37 @@
 #include "Constants.h"
 #include "Entity.h"
 #include "Component.h"
+#include "System.h"
 
 namespace ecs {
 
 class World;
 
-class EntitySystem {
+template<typename Derived>
+class EntitySystem : public System {
 	public:
-		EntitySystem(World* world) : world(world) {}
+		EntitySystem(World* world) : System(world) {}
 		virtual ~EntitySystem() = default;
 
-		virtual void insert(Entity& e);
-		virtual void remove(Entity& e);
-		virtual void update(Entity& e);
+		virtual void added(__attribute__((__unused__)) Entity e) {};
+		virtual void removed(__attribute__((__unused__)) Entity e) {};
+		virtual void updated(__attribute__((__unused__)) Entity e) {};
+		unsigned int getActiveCount() const {
+			return actives.size();
+		}
 
-		virtual void begin() {};
-		virtual void end() {};
-		virtual void added(Entity &e);
-		virtual void removed(Entity &e);
-		virtual void updated(Entity &e);
+		void processEntity(Entity e);
+		virtual void processSystem() {
 
-		virtual bool isActive();
+			if (!isActive()) return;
 
-		virtual void processEntity(Entity &e) = 0;
-		virtual void processSystem();
+			begin();
+			for (auto entity : actives) {
+				static_cast<Derived*>(this)->processEntity(entity);
+			}
+			end();
+		}
 
-		virtual ComponentBits requiredAspect();
-		virtual ComponentBits disallowedAspect();
-
-
-		virtual void initialize();
-		void configureAspect() {
-			this->requiredComponents = this->requiredAspect();
-			this->disallowedComponents = this->disallowedAspect();
-
-			this->isVoidSystem = requiredComponents.none() && disallowedComponents.none();
-		};
-		uint systemBit = 0;
-
-	protected:
-		World* world;
-		std::vector<Entity*> actives;
-		EntityBits activeIds;
-
-	private:
-		ComponentBits requiredComponents;
-		ComponentBits disallowedComponents;
-		bool isVoidSystem = false;
-		bool isInterested(const Entity& e);
+		unsigned int systemBit = 0;
 };
 }

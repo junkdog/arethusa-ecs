@@ -12,8 +12,9 @@ void SystemManager::initialize() {
 }
 
 void SystemManager::process() {
-	for (auto system = systems.begin(); system != systems.end(); ++system) {
-		system->get()->processSystem();
+	for (auto& system : systems) {
+//	for (auto system = systems.begin(); system != systems.end(); ++system) {
+		system->processSystem();
 	}
 }
 
@@ -21,11 +22,11 @@ void SystemManager::process() {
 // when intercepted by systems (and managers)
 void SystemManager::inform(EntityStates& entitiesChanged) {
 	for (auto system = systems.begin(); system != systems.end(); ++system) {
-		for (auto e : entitiesChanged.added)
+		for (auto e : entitiesChanged.getAdded())
 			system->get()->insert(e);
-		for (auto e : entitiesChanged.changed)
+		for (auto e : entitiesChanged.getChanged())
 			system->get()->update(e);
-		for (auto e : entitiesChanged.removed)
+		for (auto e : entitiesChanged.getRemoved())
 			system->get()->remove(e);
 	}
 }

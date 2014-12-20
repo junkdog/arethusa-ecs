@@ -10,15 +10,15 @@
 
 namespace ecs {
 
-	template<typename C, typename enable_if_component<C>::type* = nullptr>
+	template<typename C, typename enable_if_component<C>::type*>
 	class Mapper {
 
 
 	public:
 		Mapper(World *world) {
 			ComponentManager& cm = world->components();
-			entityComponentBits = cm.entityComponentBits;
-			components = cm.store.getComponents()<C>();
+//			entityComponentBits = cm.entityComponentBits;
+			components = cm.store.getComponents<C>();
 			componentBit = cm.componentBits<C>();
 		}
 

@@ -1,4 +1,3 @@
-#include <src/ComponentManager.h>
 #include "gtest/gtest.h"
 #include "arethusa.h"
 

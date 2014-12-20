@@ -44,11 +44,11 @@ ComponentManager& World::components() {
 
 void World::informManagers(EntityStates& newStates) {
 	for (auto manager = managers.begin(); manager != managers.end(); ++manager) {
-		for (auto e : newStates.added)
+		for (auto e : newStates.getAdded())
 			manager->get()->added(e);
-		for (auto e : newStates.changed)
+		for (auto e : newStates.getChanged())
 			manager->get()->updated(e);
-		for (auto e : newStates.removed)
+		for (auto e : newStates.getRemoved())
 			manager->get()->removed(e);
 	}
 }

@@ -1,63 +1,68 @@
 #include <algorithm>
-#include <cassert>
 #include "Constants.h"
 #include "Entity.h"
-#include "EntitySystem.h"
+#include "System.h"
 #include "ComponentManager.h"
 #include "World.h"
 
 namespace ecs {
 
-void EntitySystem::processSystem() {
-	if (!isActive()) return;
+//void System::processSystem() {
+//	if (!isActive()) return;
+//
+//	begin();
+//	for (auto entity : actives) {
+//		processEntity(*entity);
+//	}
+//	end();
+//}
 
-	begin();
-	for (auto entity : actives) {
-		processEntity(*entity);
-	}
-	end();
-}
 
-ComponentBits EntitySystem::requiredAspect() {
+
+ComponentBits System::requiredAspect() {
 	return ComponentBits();
 }
 
-ComponentBits EntitySystem::disallowedAspect() {
+ComponentBits System::disallowedAspect() {
 	return ComponentBits();
 }
 
-void EntitySystem::initialize() {}
+void System::initialize() {}
 
-void EntitySystem::insert(Entity& e) {
+void System::insert(Entity e) {
 	if (isInterested(e) && !activeIds[e.id]) {
 
-		actives.push_back(&e);
+		actives.push_back(e);
 		activeIds[e.id] = true;
 		added(e);
 	}
 }
 
-void EntitySystem::remove(Entity& e) {
+void System::remove(Entity e) {
 	if (activeIds[e.id]) {
 		activeIds[e.id] = false;
-		auto it = std::find(actives.begin(), actives.end(), &e);
-		if (it != actives.end()) {
-			auto last = --actives.end();
-			assert(e.id == (*it)->id);
-			if (it != last) std::iter_swap(it, last);
-			actives.erase(last);
-			removed(e);
-		}
+		actives.erase(actives.end());
+//		auto it = std::find(actives.begin(), actives.end(), e);
+//		if (it != actives.end()) {
+//			auto last = --actives.end();
+//			assert(e.id == (it)->id);
+//			if (it != last) std::iter_swap(it, last);
+//			actives.erase(e);
+//			removed(e);
+//		}
 	}
+//	if (activeIds[e.id]) {
+//
+//	}
 }
 
 
-void EntitySystem::update(Entity& e) {
+void System::update(Entity e) {
 	bool interested = isInterested(e);
 	bool inSystem = activeIds[e.id];
 
 	if (interested && !inSystem) {
-		actives.push_back(&e);
+		actives.push_back(e);
 		activeIds[e.id] = true;
 		added(e);
 	} else if (interested && inSystem) {
@@ -67,11 +72,11 @@ void EntitySystem::update(Entity& e) {
 	}
 }
 
-bool EntitySystem::isActive() {
+bool System::isActive() {
 	return isVoidSystem || !actives.empty();
 }
 
-bool EntitySystem::isInterested(const Entity& e) {
+bool System::isInterested(Entity e) {
 	if (isVoidSystem) return false;
 
 	auto& componentBits = world->components().getComponentBits(e);

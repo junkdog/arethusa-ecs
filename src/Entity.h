@@ -11,20 +11,19 @@ namespace ecs {
 	struct Entity {
 	friend class ComponentManager;
 	friend class EntityManager;
-	friend class EntitySystem;
+	friend class System;
 
 	public:
 		Entity& operator=(Entity other) {
 			id = other.id;
 			return *this;
 		}
+		Entity(u_int32_t id) :  id(id) {}
 
 		int getId() const {
 			return id;
 		}
-
 	private:
-		Entity(u_int32_t id) :  id(id) {}
 
 		u_int32_t id;
 	};
@@ -34,11 +33,14 @@ namespace ecs {
 		return out;
 	}
 
+
+
+
 	struct EntityStates {
 		EntityStates() {
-			added.reserve(MAX_ENTITIES);
-			removed.reserve(MAX_ENTITIES);
-			changed.reserve(MAX_ENTITIES);
+//			added.reserve(MAX_ENTITIES);
+//			removed.reserve(MAX_ENTITIES);
+//			changed.reserve(MAX_ENTITIES);
 		}
 
 		EntityStates(const EntityStates& source) :
@@ -46,23 +48,50 @@ namespace ecs {
 			removed(source.removed),
 			changed(source.changed) {}
 
-		std::vector<Entity> added {};
-		std::vector<Entity> removed {};
-		std::vector<Entity> changed {};
+		EntityBits added;
+		EntityBits removed;
+		EntityBits changed;
 
 		bool isEmpty() {
-			return added.empty() && removed.empty() && changed.empty();
+			return added.none() && removed.none() && changed.none();
 		}
 
 		void clear() {
-			added.clear();
-			removed.clear();
-			changed.clear();
+			added.reset();
+			removed.reset();
+			changed.reset();
 		}
+
+		std::vector<Entity>& syncEntities(EntityBits& src) {
+			data.clear();
+			auto index = src.nextSetBit();
+			while (index != -1) {
+				data.insert(data.end(), index);
+				index = src.nextSetBit(index + 1);
+			}
+
+			return data;
+		}
+
+		std::vector<Entity>& getAdded() {
+			return syncEntities(added);
+		}
+
+		std::vector<Entity>& getRemoved() {
+			return syncEntities(removed);
+		}
+
+		std::vector<Entity>& getChanged() {
+			return syncEntities(changed);
+		}
+
+	private:
+		std::vector<Entity> data {};
 	};
 	
 	inline std::ostream &operator << (std::ostream &out, const EntityStates &c) {
-		out << "EntityStates[added: " <<  c.added.size()  << ", removed: " << c.removed.size() << ", changed: " << c.changed.size() << "]:";
+//		out << "EntityStates[added: " <<  c.added.size()  << ", removed: " << c.removed.size() << ", changed: " << c.changed.size() << "]:";
 		return out;
 	}
+
 }

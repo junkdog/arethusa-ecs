@@ -16,6 +16,7 @@ namespace ecs {
 
 	class ComponentManager : public Manager {
 
+	template<typename C, typename enable_if_component<C>::type*>
 	friend class Mapper;
 
 	public:

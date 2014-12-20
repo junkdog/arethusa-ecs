@@ -1,6 +1,8 @@
 #include "arethusa.h"
+#include "EntitySystem.h"
 #include <memory>
 #include <cstdint>
+#include <iostream>
 
 struct Position : public ecs::Component {
 	Position(float x = 0, float y = 0) : x(x), y(y) {
@@ -23,37 +25,53 @@ struct Sprite : public ecs::Component {
 	int id;
 };
 
+//class PositionSystem : public ecs::EntitySystem<PositionSystem> {
+//public:
+//	PositionSystem(ecs::World* world) : EntitySystem(world) {}
+//	~PositionSystem() = default;
+//
+//
+////	virtual ecs::ComponentBits requiredAspect() override {
+////		return world->components().componentBits<Position>();
+////	}
+//
+//	void processEntity(ecs::Entity& e) {
+//		std::cout << "\tprocessEntity" << std::endl;
+//	}
+//};
+
+class PositionSystem :  public ecs::EntitySystem<PositionSystem> {
+public:
+	PositionSystem(ecs::World* world) : EntitySystem(world) {}
+	virtual ~PositionSystem() {};
+
+
+	void processEntity(ecs::Entity e) {
+		std::cout << "\tprocessEntity" << std::endl;
+	}
+
+	ecs::ComponentBits requiredAspect() {
+		return world->components().componentBits<Position>();
+	}
+};
+
 void hmm() {
 	ecs::World world;
+	PositionSystem& ps = world.systems().set<PositionSystem>();
 	world.initialize();
 
 	ecs::Entity e = world.createEntity();
+	world.components().set<Position>(e);
 	ecs::Entity e2 = world.createEntity();
 	ecs::Entity e3 = world.createEntity();
-
-	auto& cm = world.components();
-	cm.set<Position>(e, 1.0, 2.0);
-	cm.set<Velocity>(e, 3.0, 4.0);
-	cm.set<Sprite>(e, 1);
-	cm.set<Sprite>(e2, 2);
-	cm.set<Position>(e3, 5.0, 6.0);
-	cm.set<Sprite>(e3, 3);
+	world.components().set<Position>(e3);
+	ecs::Entity e4 = world.createEntity();
+	ecs::Entity e5 = world.createEntity();
+	world.components().set<Position>(e5);
 
 	world.process();
 
-	cm.get<Position>(e3).x;
+	world.process();
 
-	cm.componentBits<Position, Sprite, Velocity>();
-	cm.componentBits<Sprite>();
-	cm.componentBits<Position, Sprite>();
-
-	ecs::Bits bits;
-	bits[2] = true;
-
-	auto index = bits.nextSetBit();
-	while (index != 1) {
-//	while ((auto i = bits.nextSetBit()) != 1) {
-		bits[index] = false;
-		index = bits.nextSetBit(index);
-	}
 }
+

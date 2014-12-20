@@ -21,7 +21,6 @@ class EntityManager;
 class SystemManager;
 class ComponentManager;
 
-//template<u_int32_t maxEntities = 2048>
 class World {
 friend class ComponentManager;
 	public:

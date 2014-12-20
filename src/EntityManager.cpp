@@ -22,13 +22,13 @@ namespace ecs {
 			id = nextEntityId++;
 		}
 
-		entityChanges.added.push_back({id});
+		entityChanges.added[id] = true;
 		active[id] = true;
 		return {id};
 	}
 
 	void EntityManager::updateState(const Entity e) {
-		entityChanges.changed.push_back(e);
+		entityChanges.changed[e.id] = true;
 	}
 
 	Entity EntityManager::getEntity(uint id) {
@@ -37,7 +37,7 @@ namespace ecs {
 	}
 
 	void EntityManager::kill(const Entity e) {
-		entityChanges.removed.push_back(e);
+		entityChanges.removed[e.id] = true;
 	}
 
 	void EntityManager::process() {
@@ -52,7 +52,7 @@ namespace ecs {
 
 		// postponing clearing the components of deleted entities
 		// in case a system wants to act on any entities' components.
-		for (const auto e : oldState.removed) {
+		for (auto e : oldState.getRemoved()) {
 			world->components().clear(e);
 			recycled.push_back(e.id);
 			active[e.id] = false;

@@ -18,7 +18,8 @@ enable_testing()
 add_executable(unit-tests
 	WorldTest.cpp
 	ComponentManagerTest.cpp
-	BitsTest.cpp)
+	BitsTest.cpp
+	EntitySystemTest.cpp)
 
 target_link_libraries(
 	unit-tests
