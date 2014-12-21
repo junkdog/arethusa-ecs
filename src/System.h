@@ -16,7 +16,11 @@ class World;
 class System {
 friend class SystemManager;
 	public:
-		System(World* world) : world(world) {}
+		System(World* world, ComponentBits required, ComponentBits disallowed)
+			: world(world),	requiredComponents(required), disallowedComponents(disallowed) {
+
+			isVoidSystem = requiredComponents.none() && disallowedComponents.none();
+		}
 		virtual ~System() = default;
 
 		virtual void begin() {};
@@ -26,20 +30,10 @@ friend class SystemManager;
 		virtual void updated(__attribute__((__unused__)) Entity e) {};
 
 		virtual bool isActive();
-
 		virtual void processSystem() = 0;
-
 		virtual void initialize();
-		void configureAspect() {
-			this->requiredComponents = this->requiredAspect();
-			this->disallowedComponents = this->disallowedAspect();
-
-			this->isVoidSystem = requiredComponents.none() && disallowedComponents.none();
-		};
 
 	protected:
-		virtual ComponentBits requiredAspect();
-		virtual ComponentBits disallowedAspect();
 		World* world;
 		std::vector<Entity> actives;
 		EntityBits activeIds;

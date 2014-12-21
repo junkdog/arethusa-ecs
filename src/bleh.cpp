@@ -42,16 +42,13 @@ struct Sprite : public ecs::Component {
 
 class PositionSystem :  public ecs::EntitySystem<PositionSystem> {
 public:
-	PositionSystem(ecs::World* world) : EntitySystem(world) {}
+	PositionSystem(ecs::World* world)
+		: EntitySystem(world, world->components().componentBits<Position>()) {}
 	virtual ~PositionSystem() {};
 
 
 	void processEntity(ecs::Entity e) {
 		std::cout << "\tprocessEntity" << std::endl;
-	}
-
-	ecs::ComponentBits requiredAspect() {
-		return world->components().componentBits<Position>();
 	}
 };
 

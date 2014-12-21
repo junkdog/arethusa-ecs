@@ -19,27 +19,20 @@ struct Velocity : public ecs::Component {
 
 class PositionSystem :  public ecs::EntitySystem<PositionSystem> {
 public:
-    PositionSystem(ecs::World* world) : EntitySystem(world) {}
+    PositionSystem(ecs::World* world)
+        : EntitySystem(world, world->components().componentBits<Position>()) {}
     virtual ~PositionSystem() = default;
 
     void processEntity(__attribute__((__unused__))  ecs::Entity e) {}
-
-    ecs::ComponentBits requiredAspect() {
-        return world->components().componentBits<Position>();
-    }
 };
 
 class VelocitySystem :  public ecs::EntitySystem<VelocitySystem> {
 public:
-    VelocitySystem(ecs::World* world) : EntitySystem(world) {}
+    VelocitySystem(ecs::World* world)
+        : EntitySystem(world, world->components().componentBits<Position, Velocity>()) {}
     virtual ~VelocitySystem() = default;
 
-
     void processEntity(__attribute__((__unused__)) ecs::Entity e) {}
-
-    ecs::ComponentBits requiredAspect() {
-        return world->components().componentBits<Position, Velocity>();
-    }
 };
 
 

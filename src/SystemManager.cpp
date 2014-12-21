@@ -6,7 +6,6 @@ namespace ecs {
 
 void SystemManager::initialize() {
 	for (auto& system : systems) {
-		system->configureAspect();
 		system->initialize();
 	}
 }

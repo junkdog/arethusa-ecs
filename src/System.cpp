@@ -7,14 +7,6 @@
 
 namespace ecs {
 
-	ComponentBits System::requiredAspect() {
-		return ComponentBits();
-	}
-
-	ComponentBits System::disallowedAspect() {
-		return ComponentBits();
-	}
-
 	void System::initialize() {}
 
 	void System::insert(std::vector<Entity>& entities) {

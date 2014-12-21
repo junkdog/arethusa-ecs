@@ -17,7 +17,8 @@ class World;
 template<typename Derived>
 class EntitySystem : public System {
 	public:
-		EntitySystem(World* world) : System(world) {}
+		EntitySystem(World* world, ComponentBits required = {}, ComponentBits disallowed = {})
+			: System(world, required, disallowed) {}
 		virtual ~EntitySystem() = default;
 
 		virtual void added(__attribute__((__unused__)) Entity e) {};
