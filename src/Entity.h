@@ -34,7 +34,16 @@ namespace ecs {
 	}
 
 
+	static std::vector<Entity>& syncEntities(EntityBits& src, std::vector<Entity>& dest) {
+		dest.clear();
+		auto index = src.nextSetBit();
+		while (index != -1) {
+			dest.insert(dest.end(), index);
+			index = src.nextSetBit(index + 1);
+		}
 
+		return dest;
+	}
 
 	struct EntityStates {
 		EntityStates() {
@@ -62,36 +71,28 @@ namespace ecs {
 			changed.reset();
 		}
 
-		std::vector<Entity>& syncEntities(EntityBits& src) {
-			data.clear();
-			auto index = src.nextSetBit();
-			while (index != -1) {
-				data.insert(data.end(), index);
-				index = src.nextSetBit(index + 1);
-			}
-
-			return data;
+		std::vector<Entity>& toEntityVector(EntityBits& src) {
+			return syncEntities(src, data);
 		}
 
 		std::vector<Entity>& getAdded() {
-			return syncEntities(added);
+			return toEntityVector(added);
 		}
 
 		std::vector<Entity>& getRemoved() {
-			return syncEntities(removed);
+			return toEntityVector(removed);
 		}
 
 		std::vector<Entity>& getChanged() {
-			return syncEntities(changed);
+			return toEntityVector(changed);
 		}
 
 	private:
 		std::vector<Entity> data {};
 	};
 	
-	inline std::ostream &operator << (std::ostream &out, const EntityStates &c) {
+//	inline std::ostream &operator << (std::ostream &out, const EntityStates &c) {
 //		out << "EntityStates[added: " <<  c.added.size()  << ", removed: " << c.removed.size() << ", changed: " << c.changed.size() << "]:";
-		return out;
-	}
-
+//		return out;
+//	}
 }

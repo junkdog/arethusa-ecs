@@ -38,7 +38,5 @@ class EntitySystem : public System {
 			}
 			end();
 		}
-
-		unsigned int systemBit = 0;
 };
 }

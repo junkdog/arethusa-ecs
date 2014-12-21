@@ -17,8 +17,6 @@ class World;
 
 class SystemManager : public Manager {
 
-
-
 	public:
 		SystemManager(World* world) : Manager(world) {}
 

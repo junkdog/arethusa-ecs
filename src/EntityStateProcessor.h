@@ -11,7 +11,7 @@ namespace ecs {
 
 	public:
 		InEditProcessor(World& world) : world(world) {}
-		virtual ~InEditProcessor() = default;
+		~InEditProcessor() = default;
 		EntityEdit& edit();
 		void process();
 

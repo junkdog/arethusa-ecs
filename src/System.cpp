@@ -7,87 +7,86 @@
 
 namespace ecs {
 
-//void System::processSystem() {
-//	if (!isActive()) return;
-//
-//	begin();
-//	for (auto entity : actives) {
-//		processEntity(*entity);
-//	}
-//	end();
-//}
-
-
-
-ComponentBits System::requiredAspect() {
-	return ComponentBits();
-}
-
-ComponentBits System::disallowedAspect() {
-	return ComponentBits();
-}
-
-void System::initialize() {}
-
-void System::insert(Entity e) {
-	if (isInterested(e) && !activeIds[e.id]) {
-
-		actives.push_back(e);
-		activeIds[e.id] = true;
-		added(e);
+	ComponentBits System::requiredAspect() {
+		return ComponentBits();
 	}
-}
 
-void System::remove(Entity e) {
-	if (activeIds[e.id]) {
-		activeIds[e.id] = false;
-		actives.erase(actives.end());
-//		auto it = std::find(actives.begin(), actives.end(), e);
-//		if (it != actives.end()) {
-//			auto last = --actives.end();
-//			assert(e.id == (it)->id);
-//			if (it != last) std::iter_swap(it, last);
-//			actives.erase(e);
-//			removed(e);
-//		}
+	ComponentBits System::disallowedAspect() {
+		return ComponentBits();
 	}
-//	if (activeIds[e.id]) {
-//
-//	}
-}
 
+	void System::initialize() {}
 
-void System::update(Entity e) {
-	bool interested = isInterested(e);
-	bool inSystem = activeIds[e.id];
-
-	if (interested && !inSystem) {
-		actives.push_back(e);
-		activeIds[e.id] = true;
-		added(e);
-	} else if (interested && inSystem) {
-		updated(e);
-	} else if (!interested && inSystem) {
-		remove(e);
+	void System::insert(std::vector<Entity>& entities) {
+		for (auto e : entities)
+			insert(e);
 	}
-}
 
-bool System::isActive() {
-	return isVoidSystem || !actives.empty();
-}
+	void System::insert(Entity e) {
+		if (isInterested(e) && !this->activeIds[e.id]) {
+			this->activeIds[e.id] = true;
+			this->added(e);
 
-bool System::isInterested(Entity e) {
-	if (isVoidSystem) return false;
+			activeNeedsRebuilding = true;
+		}
+	}
 
-	auto& componentBits = world->components().getComponentBits(e);
-	if (requiredComponents != (componentBits & requiredComponents))
-		return false;
+	void System::remove(std::vector<Entity>& entities) {
+		for (auto e : entities)
+			remove(e);
+	}
 
-	if ((disallowedComponents & componentBits).any())
-		return false;
+	void System::remove(Entity e) {
+		if (this->activeIds[e.id]) {
+			this->activeIds[e.id] = false;
+			this->removed(e);
 
-	return true;
-}
+			activeNeedsRebuilding = true;
+		}
+	}
+
+
+	void System::update(std::vector<Entity>& entities) {
+		for (auto e : entities)
+			update(e);
+	}
+
+	void System::update(Entity e) {
+		bool interested = isInterested(e);
+		bool inSystem = activeIds[e.id];
+
+		if (interested && !inSystem) {
+			insert(e);
+		} else if (interested && inSystem) {
+			updated(e);
+		} else if (!interested && inSystem) {
+			remove(e);
+		}
+	}
+
+	void System::syncActiveEntities() {
+		if (activeNeedsRebuilding) {
+			activeNeedsRebuilding = false;
+			syncEntities(activeIds, actives);
+		}
+	}
+
+	bool System::isActive() {
+		return isVoidSystem || !actives.empty();
+	}
+
+	bool System::isInterested(Entity e) {
+		if (isVoidSystem) return false;
+
+		auto& componentBits = world->components().getComponentBits(e);
+		if (requiredComponents != (componentBits & requiredComponents))
+			return false;
+
+		if ((disallowedComponents & componentBits).any())
+			return false;
+
+		return true;
+	}
 
 }
 

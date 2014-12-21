@@ -14,14 +14,10 @@ namespace ecs {
 class World;
 
 class System {
-
+friend class SystemManager;
 	public:
 		System(World* world) : world(world) {}
 		virtual ~System() = default;
-
-		void insert(Entity e);
-		void remove(Entity e);
-		void update(Entity e);
 
 		virtual void begin() {};
 		virtual void end() {};
@@ -52,9 +48,20 @@ class System {
 		EntityBits activeIds;
 
 	private:
+		bool activeNeedsRebuilding;
 		ComponentBits requiredComponents;
 		ComponentBits disallowedComponents;
 		bool isVoidSystem = false;
+		unsigned int systemBit = 0;
+
+		void insert(std::vector<Entity>& entities);
+		void remove(std::vector<Entity>& entities);
+		void update(std::vector<Entity>& entities);
+		void syncActiveEntities();
+
 		bool isInterested(Entity e);
+		void insert(Entity e);
+		void remove(Entity e);
+		void update(Entity e);
 };
 }
