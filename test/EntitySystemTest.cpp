@@ -22,8 +22,7 @@ public:
     PositionSystem(ecs::World* world) : EntitySystem(world) {}
     virtual ~PositionSystem() = default;
 
-
-    void processEntity(ecs::Entity e) {}
+    void processEntity(__attribute__((__unused__))  ecs::Entity e) {}
 
     ecs::ComponentBits requiredAspect() {
         return world->components().componentBits<Position>();
@@ -36,7 +35,7 @@ public:
     virtual ~VelocitySystem() = default;
 
 
-    void processEntity(ecs::Entity e) {}
+    void processEntity(__attribute__((__unused__)) ecs::Entity e) {}
 
     ecs::ComponentBits requiredAspect() {
         return world->components().componentBits<Position, Velocity>();
@@ -60,17 +59,17 @@ TEST(EntitySystem, ProcessSystem) {
     ecs::Entity e5 = world.createEntity();
     world.components().set<Position>(e5);
 
-    ASSERT_EQ(0, ps.getActiveCount());
-    ASSERT_EQ(0, vs.getActiveCount());
+    ASSERT_EQ(0u, ps.getActiveCount());
+    ASSERT_EQ(0u, vs.getActiveCount());
     world.process();
-    ASSERT_EQ(3, ps.getActiveCount());
-    ASSERT_EQ(1, vs.getActiveCount());
+    ASSERT_EQ(3u, ps.getActiveCount());
+    ASSERT_EQ(1u, vs.getActiveCount());
 
     ecs::Entity e6 = world.createEntity();
     world.components().set<Position>(e6);
     world.process();
-    ASSERT_EQ(4, ps.getActiveCount());
-    ASSERT_EQ(1, vs.getActiveCount());
+    ASSERT_EQ(4u, ps.getActiveCount());
+    ASSERT_EQ(1u, vs.getActiveCount());
 }
 
 
@@ -87,14 +86,14 @@ TEST(EntitySystem, EntityDeleted) {
     world.components().set<Position>(e3);
 
     world.process();
-    ASSERT_EQ(3, ps.getActiveCount());
+    ASSERT_EQ(3u, ps.getActiveCount());
 
     world.deleteEntity(e2);
     world.process();
-    ASSERT_EQ(2, ps.getActiveCount());
+    ASSERT_EQ(2u, ps.getActiveCount());
 
     world.deleteEntity(e);
     world.deleteEntity(e3);
     world.process();
-    ASSERT_EQ(0, ps.getActiveCount());
+    ASSERT_EQ(0u, ps.getActiveCount());
 }
