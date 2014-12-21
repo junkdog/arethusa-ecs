@@ -13,7 +13,6 @@ namespace ecs {
 		}
 	}
 
-
 	int Bits::nextSetBit(unsigned int fromIndex) {
 		for (unsigned int i = fromIndex, s = words.size() * WORD_SIZE; s > i; i++)
 			if ((*this)[i]) return i;
@@ -126,12 +125,8 @@ namespace ecs {
 	}
 
 	void Bits::reset() {
-//		for (auto& word : words) {
-//			word = 0u;
-//		}
-
-//		for (auto i = 0u; words.size() > i; i++)
-//			words[i] = 0;
+		for (auto& word : words)
+			word = 0u;
 	}
 
 	// PROXY functions

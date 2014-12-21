@@ -23,8 +23,8 @@ namespace ecs {
 	}
 
 	void System::insert(Entity e) {
-		if (isInterested(e) && !this->activeIds[e.id]) {
-			this->activeIds[e.id] = true;
+		if (isInterested(e) && !activeIds[e.id]) {
+			activeIds[e.id] = true;
 			this->added(e);
 
 			activeNeedsRebuilding = true;
@@ -37,8 +37,8 @@ namespace ecs {
 	}
 
 	void System::remove(Entity e) {
-		if (this->activeIds[e.id]) {
-			this->activeIds[e.id] = false;
+		if (activeIds[e.id]) {
+			activeIds[e.id] = false;
 			this->removed(e);
 
 			activeNeedsRebuilding = true;
@@ -79,14 +79,20 @@ namespace ecs {
 		if (isVoidSystem) return false;
 
 		auto& componentBits = world->components().getComponentBits(e);
-		if (requiredComponents != (componentBits & requiredComponents))
+		if (requiredComponents != logicalAND(componentBits, requiredComponents))
 			return false;
 
-		if ((disallowedComponents & componentBits).any())
+		if (logicalAND(componentBits, disallowedComponents).any())
 			return false;
 
 		return true;
 	}
 
+	ComponentBits& System::logicalAND(ComponentBits a, ComponentBits b) {
+		tmpBits.reset();
+		tmpBits |= a;
+		tmpBits &= b;
+		return tmpBits;
+	}
 }
 

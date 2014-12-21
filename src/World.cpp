@@ -59,7 +59,7 @@ SystemManager& World::systems() {
 
 void World::process() {
 	entityManager->process(); // notifies systems/managers about changed entities
-	systemManager->process();
+	systemManager->process(); // runs all systems
 }
 }
 

@@ -27,8 +27,7 @@ class EntitySystem : public System {
 			return actives.size();
 		}
 
-		void processEntity(Entity e);
-		virtual void processSystem() {
+		void processSystem() {
 
 			if (!isActive()) return;
 

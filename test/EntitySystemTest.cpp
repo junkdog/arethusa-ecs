@@ -5,8 +5,13 @@
 using namespace ecs;
 
 struct Position : public ecs::Component {
-    Position(float x = 0, float y = 0) : x(x), y(y) {
-    }
+    Position(float x = 0, float y = 0) : x(x), y(y) {}
+
+    float x, y;
+};
+
+struct Velocity : public ecs::Component {
+    Velocity(float x = 0, float y = 0) : x(x), y(y) {}
 
     float x, y;
 };
@@ -25,24 +30,47 @@ public:
     }
 };
 
+class VelocitySystem :  public ecs::EntitySystem<VelocitySystem> {
+public:
+    VelocitySystem(ecs::World* world) : EntitySystem(world) {}
+    virtual ~VelocitySystem() = default;
+
+
+    void processEntity(ecs::Entity e) {}
+
+    ecs::ComponentBits requiredAspect() {
+        return world->components().componentBits<Position, Velocity>();
+    }
+};
+
 
 TEST(EntitySystem, ProcessSystem) {
     ecs::World world;
     PositionSystem& ps = world.systems().set<PositionSystem>();
+    VelocitySystem& vs = world.systems().set<VelocitySystem>();
     world.initialize();
 
     ecs::Entity e = world.createEntity();
     world.components().set<Position>(e);
-    ecs::Entity e2 = world.createEntity();
+    world.createEntity();
     ecs::Entity e3 = world.createEntity();
     world.components().set<Position>(e3);
-    ecs::Entity e4 = world.createEntity();
+    world.components().set<Velocity>(e3);
+    world.createEntity();
     ecs::Entity e5 = world.createEntity();
     world.components().set<Position>(e5);
 
     ASSERT_EQ(0, ps.getActiveCount());
+    ASSERT_EQ(0, vs.getActiveCount());
     world.process();
     ASSERT_EQ(3, ps.getActiveCount());
+    ASSERT_EQ(1, vs.getActiveCount());
+
+    ecs::Entity e6 = world.createEntity();
+    world.components().set<Position>(e6);
+    world.process();
+    ASSERT_EQ(4, ps.getActiveCount());
+    ASSERT_EQ(1, vs.getActiveCount());
 }
 
 

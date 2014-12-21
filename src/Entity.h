@@ -36,21 +36,17 @@ namespace ecs {
 
 	static std::vector<Entity>& syncEntities(EntityBits& src, std::vector<Entity>& dest) {
 		dest.clear();
-		auto index = src.nextSetBit();
-		while (index != -1) {
-			dest.insert(dest.end(), index);
-			index = src.nextSetBit(index + 1);
+		auto entityId = src.nextSetBit();
+		while (entityId != -1) {
+			dest.insert(dest.end(), entityId);
+			entityId = src.nextSetBit(entityId + 1);
 		}
 
 		return dest;
 	}
 
 	struct EntityStates {
-		EntityStates() {
-//			added.reserve(MAX_ENTITIES);
-//			removed.reserve(MAX_ENTITIES);
-//			changed.reserve(MAX_ENTITIES);
-		}
+		EntityStates() {}
 
 		EntityStates(const EntityStates& source) :
 			added(source.added),
@@ -90,9 +86,4 @@ namespace ecs {
 	private:
 		std::vector<Entity> data {};
 	};
-	
-//	inline std::ostream &operator << (std::ostream &out, const EntityStates &c) {
-//		out << "EntityStates[added: " <<  c.added.size()  << ", removed: " << c.removed.size() << ", changed: " << c.changed.size() << "]:";
-//		return out;
-//	}
 }

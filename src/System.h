@@ -27,12 +27,7 @@ friend class SystemManager;
 
 		virtual bool isActive();
 
-		void processEntity(__attribute__((__unused__)) Entity e) {};
 		virtual void processSystem() = 0;
-
-		virtual ComponentBits requiredAspect();
-		virtual ComponentBits disallowedAspect();
-
 
 		virtual void initialize();
 		void configureAspect() {
@@ -43,6 +38,8 @@ friend class SystemManager;
 		};
 
 	protected:
+		virtual ComponentBits requiredAspect();
+		virtual ComponentBits disallowedAspect();
 		World* world;
 		std::vector<Entity> actives;
 		EntityBits activeIds;
@@ -51,6 +48,7 @@ friend class SystemManager;
 		bool activeNeedsRebuilding;
 		ComponentBits requiredComponents;
 		ComponentBits disallowedComponents;
+		ComponentBits tmpBits;
 		bool isVoidSystem = false;
 		unsigned int systemBit = 0;
 
@@ -63,5 +61,7 @@ friend class SystemManager;
 		void insert(Entity e);
 		void remove(Entity e);
 		void update(Entity e);
+
+		ComponentBits& logicalAND(ComponentBits a, ComponentBits b);
 };
 }
