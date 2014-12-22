@@ -27,9 +27,9 @@ namespace ecs {
 		return {id};
 	}
 
-	void EntityManager::updateState(const Entity e) {
-		entityChanges.changed[e.id] = true;
-	}
+//	void EntityManager::updateState(const Entity e) {
+//		entityChanges.changed[e.id] = true;
+//	}
 
 	Entity EntityManager::getEntity(uint id) {
 		assert(active[id]);

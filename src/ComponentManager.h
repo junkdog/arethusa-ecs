@@ -18,6 +18,7 @@ namespace ecs {
 
 	template<typename C, typename enable_if_component<C>::type*>
 	friend class Mapper;
+	friend class EntityEdit;
 
 	public:
 

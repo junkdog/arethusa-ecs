@@ -11,6 +11,7 @@
 #include "Entity.h"
 #include "Component.h"
 #include "SystemManager.h"
+#include "EditProcessor.h"
 
 typedef uint32_t uint; // osx fix
 
@@ -20,6 +21,8 @@ class Manager;
 class EntityManager;
 class SystemManager;
 class ComponentManager;
+class EntityEdit;
+//class E;
 
 class World {
 friend class ComponentManager;
@@ -28,7 +31,8 @@ friend class ComponentManager;
 		~World() = default;
 
 		Entity createEntity();
-		void updateState(Entity e);
+//		void updateState(Entity e);
+		EntityEdit edit(Entity e);
 		Entity getEntity(uint id);
 		void deleteEntity(Entity e);
 
@@ -58,6 +62,7 @@ friend class ComponentManager;
 		float delta = 0;
 
 	private:
+		std::unique_ptr<EditProcessor> edits;
 		std::vector<std::unique_ptr<Manager>> managers;
 		std::unordered_map<std::type_index, uint> managerIndices;
 		uint nextManagerIndex = 0;

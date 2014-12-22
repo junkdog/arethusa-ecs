@@ -6,6 +6,7 @@ set(sources
 	EntityManager.cpp
 	System.cpp
 	SystemManager.cpp
+	EditProcessor.cpp
 	World.cpp)
 add_library(arethusa STATIC ${sources})
 

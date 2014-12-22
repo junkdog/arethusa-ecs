@@ -12,8 +12,6 @@ namespace ecs {
 	friend class ComponentManager;
 	friend class EntityManager;
 	friend class System;
-//	template<typename C>
-//	friend class Mapper;
 
 	public:
 		Entity& operator=(Entity other) {
@@ -30,11 +28,10 @@ namespace ecs {
 		u_int32_t id;
 	};
 
-	inline std::ostream &operator<<(std::ostream &out, const Entity &e) {
+	inline std::ostream& operator<<(std::ostream &out, const Entity &e) {
 		out << "Entity[" <<  e.getId() << "]";
 		return out;
 	}
-
 
 	static std::vector<Entity>& syncEntities(EntityBits& src, std::vector<Entity>& dest) {
 		dest.clear();

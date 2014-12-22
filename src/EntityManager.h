@@ -22,7 +22,7 @@ namespace ecs {
 		virtual void initialize();
 		Entity createEntity();
 		Entity getEntity(uint id);
-		void updateState(const Entity e);
+//		void updateState(const Entity e);
 		void kill(const Entity e);
 		void process();
 
