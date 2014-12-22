@@ -61,15 +61,15 @@ TEST(EntitySystem, ProcessSystem) {
     VelocitySystem& vs = world.systems().set<VelocitySystem>();
     world.initialize();
 
-    ecs::Entity e = world.createEntity();
-    world.components().set<Position>(e);
+    ecs::EntityEdit& e = world.createEntity();
+    e.set<Position>();
     world.createEntity();
-    ecs::Entity e3 = world.createEntity();
-    world.components().set<Position>(e3);
-    world.components().set<Velocity>(e3);
+    ecs::EntityEdit& e3 = world.createEntity();
+    e3.set<Position>();
+    e3.set<Velocity>();
     world.createEntity();
-    ecs::Entity e5 = world.createEntity();
-    world.components().set<Position>(e5);
+    ecs::EntityEdit& e5 = world.createEntity();
+    e5.set<Position>();
 
     ASSERT_EQ(0u, ps.getActiveCount());
     ASSERT_EQ(0u, vs.getActiveCount());
@@ -77,8 +77,8 @@ TEST(EntitySystem, ProcessSystem) {
     ASSERT_EQ(3u, ps.getActiveCount());
     ASSERT_EQ(1u, vs.getActiveCount());
 
-    ecs::Entity e6 = world.createEntity();
-    world.components().set<Position>(e6);
+    ecs::EntityEdit& e6 = world.createEntity();
+    e6.set<Position>();
     world.process();
     ASSERT_EQ(4u, ps.getActiveCount());
     ASSERT_EQ(1u, vs.getActiveCount());
@@ -90,12 +90,15 @@ TEST(EntitySystem, EntityDeleted) {
     PositionSystem& ps = world.systems().set<PositionSystem>();
     world.initialize();
 
-    ecs::Entity e = world.createEntity();
-    world.components().set<Position>(e);
-    ecs::Entity e2 = world.createEntity();
-    world.components().set<Position>(e2);
-    ecs::Entity e3 = world.createEntity();
-    world.components().set<Position>(e3);
+    ecs::EntityEdit& ee = world.createEntity();
+    auto e = ee.getEntity();
+    ee.set<Position>();
+    ecs::EntityEdit& ee2 = world.createEntity();
+    auto e2 = ee2.getEntity();
+    ee2.set<Position>();
+    ecs::EntityEdit& ee3 = world.createEntity();
+    auto e3 = ee3.getEntity();
+    ee3.set<Position>();
 
     world.process();
     ASSERT_EQ(3u, ps.getActiveCount());
@@ -116,25 +119,25 @@ TEST(EntitySystem, EntityRemoved) {
     PositionSystem& ps = world.systems().set<PositionSystem>();
     world.initialize();
 
-    ecs::Entity e = world.createEntity();
-    world.components().set<Position>(e);
-    ecs::Entity e2 = world.createEntity();
-    world.components().set<Position>(e2);
-    ecs::Entity e3 = world.createEntity();
-    world.components().set<Position>(e3);
+    ecs::EntityEdit& e = world.createEntity();
+    e.set<Position>();
+    auto entity = e.getEntity();
+    ecs::EntityEdit& e2 = world.createEntity();
+    e2.set<Position>();
+    auto entity2 = e2.getEntity();
+    ecs::EntityEdit& e3 = world.createEntity();
+    e3.set<Position>();
+    auto entity3 = e3.getEntity();
 
     world.process();
     ASSERT_EQ(3u, ps.getActiveCount());
 
-    world.components().unset<Position>(e2);
-    world.updateState(e2);
+    world.edit(entity2).unset<Position>();
     world.process();
     ASSERT_EQ(2u, ps.getActiveCount());
 
-    world.components().unset<Position>(e);
-    world.components().unset<Position>(e3);
-    world.updateState(e);
-    world.updateState(e3);
+    world.edit(entity).unset<Position>();
+    world.edit(entity3).unset<Position>();
     world.process();
     ASSERT_EQ(0u, ps.getActiveCount());
 }
@@ -146,10 +149,12 @@ TEST(EntitySystem, Mappers) {
     world.initialize();
 
     ecs::ComponentManager& cm = world.components();
-    auto e1 = world.createEntity();
-    cm.set<Sprite>(e1, 1);
-    auto e2 = world.createEntity();
-    cm.set<Sprite>(e2, 2);
+    auto ee1 = world.createEntity();
+    auto e1 = ee1.getEntity();
+    ee1.set<Sprite>(1);
+    auto ee2 = world.createEntity();
+    auto e2 = ee2.getEntity();
+    ee2.set<Sprite>(2);
 
     ASSERT_EQ(1, cm.get<Sprite>(e1).id);
     ASSERT_EQ(2, cm.get<Sprite>(e2).id);

@@ -59,7 +59,12 @@ namespace ecs {
 	void System::syncActiveEntities() {
 		if (activeNeedsRebuilding) {
 			activeNeedsRebuilding = false;
-			syncEntities(activeIds, actives);
+			actives.clear();
+			auto entityId = activeIds.nextSetBit();
+			while (entityId != -1) {
+				actives.insert(actives.end(), entityId);
+				entityId = activeIds.nextSetBit(entityId + 1);
+			}
 		}
 	}
 

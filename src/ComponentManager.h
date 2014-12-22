@@ -28,25 +28,6 @@ namespace ecs {
 
 		virtual ~ComponentManager() = default;
 
-		template<typename C, typename ... Args, typename enable_if_component<C>::type* = nullptr>
-		C& set(Entity& e, Args&& ... args) {
-			auto cid = store.index<C>();
-
-			entityComponentBits[e.id].set(cid, true);
-			store.getComponents<C>()[e.id] = C(std::forward<Args>(args) ...);
-
-			return store.getComponents<C>()[e.id];
-		}
-
-
-		template<typename C, typename enable_if_component<C>::type* = nullptr>
-		void unset(const Entity& e) {
-
-			u_int16_t cid = store.index<C>();
-			entityComponentBits[e.id].set(cid, false);
-			store.getComponents<C>()[e.id] = {};
-		}
-
 		template<typename C, typename enable_if_component<C>::type* = nullptr>
 		C& get(const Entity& e) {
 			return store.getComponents<C>()[e.id];

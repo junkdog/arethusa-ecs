@@ -30,12 +30,28 @@ namespace ecs {
 		}
 	}
 
-	void EditProcessor::process() {
+	EntityStates& EditProcessor::getStateChanges() {
+		states.clear();
+		for (EntityEdit& e : edited) {
+			switch (e.state) {
+				case EntityState::CREATED:
+					states.changed.emplace_back(e.getEntity());
+					break;
+				case EntityState::DELETED:
+					states.deleted.emplace_back(e.getEntity());
+					break;
+				case EntityState::CHANGED:
+					states.changed.emplace_back(e.getEntity());
+					break;
+				default:
+					assert(false);
+					break;
+			}
+		}
+
 		editedIds.reset();
 		edited.clear();
-	}
 
-//	bool EditProcessor::IsMatchedEntityEdit(int entityId) {
-//		return false;
-//	}
+		return states;
+	}
 }

@@ -60,15 +60,14 @@ void hmm() {
 	ecs::Mapper<Sprite> sprite(&world);
 
 	ecs::ComponentManager& cm = world.components();
-	auto e1 = world.createEntity();
-	cm.set<Sprite>(e1, 1);
-	auto e2 = world.createEntity();
+	auto& e1 = world.createEntity();
+	e1.set<Sprite>(1);
+	auto& e2 = world.createEntity();
 
 	world.process();
 
-	sprite.has(e1);
+	sprite.has(e1.getEntity());
 
-	cm.unset<Sprite>(e1);
-//	world.updateState(e1);
+	e1.unset<Sprite>();
 }
 

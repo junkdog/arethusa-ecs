@@ -18,9 +18,9 @@ void SystemManager::process() {
 
 void SystemManager::inform(EntityStates& entitiesChanged) {
 	for (auto& system : systems) {
-		system->insert(entitiesChanged.getAdded());
-		system->update(entitiesChanged.getChanged());
-		system->remove(entitiesChanged.getRemoved());
+		system->insert(entitiesChanged.added);
+		system->update(entitiesChanged.changed);
+		system->remove(entitiesChanged.deleted);
 		system->syncActiveEntities();
 	}
 }

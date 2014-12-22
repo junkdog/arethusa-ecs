@@ -1,8 +1,6 @@
 #include "Constants.h"
 #include "ComponentManager.h"
 #include "EntityManager.h"
-#include "EntityEdit.h"
-#include "EditProcessor.h"
 
 namespace ecs {
 
@@ -25,17 +23,13 @@ void World::initialize() {
 	systemManager->initialize();
 }
 
-Entity World::createEntity() {
+EntityEdit& World::createEntity() {
 	return entityManager->createEntity();
 }
 
 Entity World::getEntity(uint id) {
 	return entityManager->getEntity(id);
 }
-
-//void World::updateState(Entity e) {
-//	entityManager->updateState(e);
-//}
 
 void World::deleteEntity(Entity e) {
 	entityManager->kill(e);
@@ -47,11 +41,11 @@ ComponentManager& World::components() {
 
 void World::informManagers(EntityStates& newStates) {
 	for (auto manager = managers.begin(); manager != managers.end(); ++manager) {
-		for (auto e : newStates.getAdded())
+		for (auto e : newStates.added)
 			manager->get()->added(e);
-		for (auto e : newStates.getChanged())
+		for (auto e : newStates.changed)
 			manager->get()->updated(e);
-		for (auto e : newStates.getRemoved())
+		for (auto e : newStates.deleted)
 			manager->get()->removed(e);
 	}
 }
@@ -61,7 +55,7 @@ SystemManager& World::systems() {
 }
 
 void World::process() {
-	entityManager->process(); // notifies systems/managers about changed entities
+	entityManager->process(edits->getStateChanges()); // notifies systems/managers about changed entities
 	systemManager->process(); // runs all systems
 }
 

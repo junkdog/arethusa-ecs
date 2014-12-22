@@ -4,8 +4,10 @@
 #include <list>
 #include "Constants.h"
 #include "Entity.h"
+#include "EntityStates.h"
 #include "Manager.h"
 #include "World.h"
+#include "EditProcessor.h"
 
 
 namespace ecs {
@@ -20,11 +22,10 @@ namespace ecs {
 		virtual ~EntityManager() = default;
 
 		virtual void initialize();
-		Entity createEntity();
+		EntityEdit& createEntity();
 		Entity getEntity(uint id);
-//		void updateState(const Entity e);
 		void kill(const Entity e);
-		void process();
+		void process(EntityStates& states);
 
 		int getActiveCount();
 
@@ -32,8 +33,5 @@ namespace ecs {
 		u_int32_t nextEntityId = 0;
 		EntityBits active {};
 		std::vector<int> recycled;
-
-		// per processing round
-		EntityStates entityChanges {};
 	};
 }

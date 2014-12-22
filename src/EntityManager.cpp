@@ -13,7 +13,7 @@ namespace ecs {
 
 	void EntityManager::initialize() {}
 
-	Entity EntityManager::createEntity() {
+	EntityEdit& EntityManager::createEntity() {
 		uint32_t id;
 		if (recycled.size() > 0) {
 			id = recycled.back();
@@ -22,9 +22,8 @@ namespace ecs {
 			id = nextEntityId++;
 		}
 
-		entityChanges.added[id] = true;
 		active[id] = true;
-		return {id};
+		return world->edits->create({id});
 	}
 
 //	void EntityManager::updateState(const Entity e) {
@@ -37,22 +36,19 @@ namespace ecs {
 	}
 
 	void EntityManager::kill(const Entity e) {
-		entityChanges.removed[e.id] = true;
+		world->edits->remove(e);
 	}
 
-	void EntityManager::process() {
-		if (entityChanges.isEmpty())
+	void EntityManager::process(EntityStates& states) {
+		if (states.isEmpty())
 			return;
 
-		EntityStates oldState(entityChanges);
-		entityChanges.clear();
-
-		world->systems().inform(oldState);
-		world->informManagers(oldState);
+		world->systems().inform(states);
+		world->informManagers(states);
 
 		// postponing clearing the components of deleted entities
 		// in case a system wants to act on any entities' components.
-		for (auto e : oldState.getRemoved()) {
+		for (auto e : states.deleted) {
 			world->components().clear(e);
 			recycled.push_back(e.id);
 			active[e.id] = false;

@@ -21,7 +21,7 @@ namespace ecs {
 		C& set(Args&& ... args) {
 			auto cid = cm->store.index<C>();
 
-			*componentBits[cid] = true;
+			(*componentBits)[cid] = true;
 			cm->store.getComponents<C>()[entity.getId()] = C(std::forward<Args>(args) ...);
 
 			return cm->store.getComponents<C>()[entity.getId()];
@@ -32,6 +32,10 @@ namespace ecs {
 			u_int16_t cid = cm->store.index<C>();
 			(*componentBits)[cid] = false;
 			cm->store.getComponents<C>()[entity.getId()] = {};
+		}
+
+		const Entity getEntity() {
+			return entity;
 		}
 
 	private:

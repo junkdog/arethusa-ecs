@@ -26,12 +26,12 @@ class EntityEdit;
 
 class World {
 friend class ComponentManager;
+friend class EntityManager;
 	public:
 		World();
 		~World() = default;
 
-		Entity createEntity();
-//		void updateState(Entity e);
+		EntityEdit& createEntity();
 		EntityEdit edit(Entity e);
 		Entity getEntity(uint id);
 		void deleteEntity(Entity e);
