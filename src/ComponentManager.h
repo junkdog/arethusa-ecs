@@ -71,7 +71,7 @@ namespace ecs {
 
 		void clear(const Entity e);
 
-		ComponentBits& getComponentBits(const Entity& e);
+		ComponentBits& getComponentBits(const Entity e);
 
 	private:
 		Store store;

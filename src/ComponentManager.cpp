@@ -13,7 +13,7 @@ namespace ecs {
 		components.reset();
 	}
 
-	ComponentBits& ComponentManager::getComponentBits(const Entity &e) {
+	ComponentBits& ComponentManager::getComponentBits(const Entity e) {
 		return entityComponentBits[e.id];
 	}
 }

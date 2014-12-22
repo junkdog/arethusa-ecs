@@ -16,6 +16,12 @@ struct Velocity : public ecs::Component {
     float x, y;
 };
 
+struct Sprite : public ecs::Component {
+    Sprite(int id = 0) : id(id) {
+    }
+
+    int id;
+};
 
 class PositionSystem :  public ecs::EntitySystem<PositionSystem> {
 public:
@@ -33,6 +39,19 @@ public:
     virtual ~VelocitySystem() = default;
 
     void processEntity(__attribute__((__unused__)) ecs::Entity e) {}
+};
+
+class MapperSystem :  public ecs::EntitySystem<MapperSystem> {
+public:
+    MapperSystem(ecs::World* world) :
+            EntitySystem(world, world->components().componentBits<Sprite>()),
+            sprite(world) {}
+    virtual ~MapperSystem() {};
+
+    ecs::Mapper<Sprite> sprite;
+    void processEntity(ecs::Entity e) {
+        sprite[e].id++;
+    }
 };
 
 
@@ -89,4 +108,27 @@ TEST(EntitySystem, EntityDeleted) {
     world.deleteEntity(e3);
     world.process();
     ASSERT_EQ(0u, ps.getActiveCount());
+}
+
+
+TEST(EntitySystem, Mappers) {
+    ecs::World world;
+    world.systems().set<MapperSystem>();
+    world.initialize();
+
+    ecs::ComponentManager& cm = world.components();
+    auto e1 = world.createEntity();
+    cm.set<Sprite>(e1, 1);
+    auto e2 = world.createEntity();
+    cm.set<Sprite>(e2, 2);
+
+    ASSERT_EQ(1, cm.get<Sprite>(e1).id);
+    ASSERT_EQ(2, cm.get<Sprite>(e2).id);
+
+    world.process();
+    world.process();
+    world.process();
+
+    ASSERT_EQ(4, cm.get<Sprite>(e1).id);
+    ASSERT_EQ(5, cm.get<Sprite>(e2).id);
 }

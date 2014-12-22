@@ -12,6 +12,8 @@ namespace ecs {
 	friend class ComponentManager;
 	friend class EntityManager;
 	friend class System;
+//	template<typename C>
+//	friend class Mapper;
 
 	public:
 		Entity& operator=(Entity other) {

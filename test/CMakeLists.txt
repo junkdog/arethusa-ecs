@@ -4,6 +4,7 @@ include_directories(${GTEST_INCLUDE_DIRS} ../src)
 set(files
  	WorldTest.cpp
  	ComponentManagerTest.cpp
+ 	MapperTest.cpp
  	BitsTest.cpp
  	EntitySystemTest.cpp)
 

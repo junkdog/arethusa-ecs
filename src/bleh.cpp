@@ -25,10 +25,10 @@ struct Sprite : public ecs::Component {
 	int id;
 };
 
-//class PositionSystem : public ecs::EntitySystem<PositionSystem> {
+//class MapperSystem : public ecs::EntitySystem<MapperSystem> {
 //public:
-//	PositionSystem(ecs::World* world) : EntitySystem(world) {}
-//	~PositionSystem() = default;
+//	MapperSystem(ecs::World* world) : EntitySystem(world) {}
+//	MapperSystem = default;
 //
 //
 ////	virtual ecs::ComponentBits requiredAspect() override {
@@ -40,35 +40,32 @@ struct Sprite : public ecs::Component {
 //	}
 //};
 
-class PositionSystem :  public ecs::EntitySystem<PositionSystem> {
+class MapperSystem :  public ecs::EntitySystem<MapperSystem> {
 public:
-	PositionSystem(ecs::World* world)
-		: EntitySystem(world, world->components().componentBits<Position>()) {}
-	virtual ~PositionSystem() {};
+	MapperSystem(ecs::World* world) :
+		EntitySystem(world, world->components().componentBits<Sprite>()),
+		sprite(world) {}
+	virtual ~MapperSystem() {};
 
-
+	ecs::Mapper<Sprite> sprite;
 	void processEntity(ecs::Entity e) {
-		std::cout << "\tprocessEntity" << std::endl;
+		sprite[e].id++;
 	}
 };
 
 void hmm() {
 	ecs::World world;
-	PositionSystem& ps = world.systems().set<PositionSystem>();
 	world.initialize();
 
-	ecs::Entity e = world.createEntity();
-	world.components().set<Position>(e);
-	ecs::Entity e2 = world.createEntity();
-	ecs::Entity e3 = world.createEntity();
-	world.components().set<Position>(e3);
-	ecs::Entity e4 = world.createEntity();
-	ecs::Entity e5 = world.createEntity();
-	world.components().set<Position>(e5);
+	ecs::Mapper<Sprite> sprite(&world);
+
+	ecs::ComponentManager& cm = world.components();
+	auto e1 = world.createEntity();
+	cm.set<Sprite>(e1, 1);
+	auto e2 = world.createEntity();
 
 	world.process();
 
-	world.process();
-
+	sprite.has(e1);
 }
 
