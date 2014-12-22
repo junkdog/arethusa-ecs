@@ -111,6 +111,35 @@ TEST(EntitySystem, EntityDeleted) {
 }
 
 
+TEST(EntitySystem, EntityRemoved) {
+    ecs::World world;
+    PositionSystem& ps = world.systems().set<PositionSystem>();
+    world.initialize();
+
+    ecs::Entity e = world.createEntity();
+    world.components().set<Position>(e);
+    ecs::Entity e2 = world.createEntity();
+    world.components().set<Position>(e2);
+    ecs::Entity e3 = world.createEntity();
+    world.components().set<Position>(e3);
+
+    world.process();
+    ASSERT_EQ(3u, ps.getActiveCount());
+
+    world.components().unset<Position>(e2);
+    world.updateState(e2);
+    world.process();
+    ASSERT_EQ(2u, ps.getActiveCount());
+
+    world.components().unset<Position>(e);
+    world.components().unset<Position>(e3);
+    world.updateState(e);
+    world.updateState(e3);
+    world.process();
+    ASSERT_EQ(0u, ps.getActiveCount());
+}
+
+
 TEST(EntitySystem, Mappers) {
     ecs::World world;
     world.systems().set<MapperSystem>();

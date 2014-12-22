@@ -30,11 +30,11 @@ Entity World::getEntity(uint id) {
 	return entityManager->getEntity(id);
 }
 
-void World::updateState(Entity& e) {
+void World::updateState(Entity e) {
 	entityManager->updateState(e);
 }
 
-void World::deleteEntity(Entity& e) {
+void World::deleteEntity(Entity e) {
 	entityManager->kill(e);
 }
 

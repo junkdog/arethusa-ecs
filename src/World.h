@@ -28,9 +28,9 @@ friend class ComponentManager;
 		~World() = default;
 
 		Entity createEntity();
-		void updateState(Entity& e);
+		void updateState(Entity e);
 		Entity getEntity(uint id);
-		void deleteEntity(Entity& e);
+		void deleteEntity(Entity e);
 
 		template <typename T, typename ... Args,
 			typename std::enable_if<std::is_base_of<Manager, T>::value>::type* = nullptr>

@@ -67,5 +67,8 @@ void hmm() {
 	world.process();
 
 	sprite.has(e1);
+
+	cm.unset<Sprite>(e1);
+	world.updateState(e1);
 }
 
