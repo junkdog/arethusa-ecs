@@ -1,36 +1,24 @@
-set(GTEST "gtest-1.7.0")
-set(GTEST_ZIP "${GTEST}.zip")
+find_package(GTest REQUIRED)
+include_directories(${GTEST_INCLUDE_DIRS} ../src)
 
-if(NOT EXISTS "../test/lib/${GTEST}")
-	file(DOWNLOAD
-		"https://googletest.googlecode.com/files/${GTEST_ZIP}"
-		"../test/lib/${GTEST_ZIP}")
-	execute_process(COMMAND	unzip ${GTEST_ZIP}
-		WORKING_DIRECTORY ../test/lib)
-endif()
+set(files
+ 	WorldTest.cpp
+ 	ComponentManagerTest.cpp
+ 	BitsTest.cpp
+ 	EntitySystemTest.cpp)
 
-add_subdirectory(lib/${GTEST})
-include_directories(include  ../src lib/${GTEST}/include lib/${GTEST}/src)
+add_executable(unit-tests ${files})
+add_dependencies(unit-tests gtest)
 
-enable_testing()
-
-# Add test executable target
-add_executable(unit-tests
-	WorldTest.cpp
-	ComponentManagerTest.cpp
-	BitsTest.cpp
-	EntitySystemTest.cpp)
-
-target_link_libraries(
-	unit-tests
+target_link_libraries(unit-tests
 	arethusa
-	gtest
-	gtest_main)
+	${GTEST_LIBRARIES}
+	${GTEST_MAIN_LIBRARIES}
+	pthread)
 
 add_custom_command(
 	TARGET unit-tests POST_BUILD
 	COMMAND valgrind --track-origins=yes --tool=memcheck --leak-check=full --num-callers=40 ./unit-tests)
 
-#add_custom_command(
-#	TARGET unit-tests POST_BUILD
-#	COMMAND unit-tests)
+GTEST_ADD_TESTS(unit-tests ${files})
+add_test(ArethusaTests unit-tests)
