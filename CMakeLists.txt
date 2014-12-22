@@ -19,7 +19,4 @@ elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL "MSVC")
 endif()
 
 add_subdirectory(src)
-if (${ARETHUSA_TESTS})
-	add_subdirectory(test)
-endif()
-
+add_subdirectory(test)
