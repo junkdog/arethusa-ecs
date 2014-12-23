@@ -25,9 +25,9 @@ friend class SystemManager;
 
 		virtual void begin() {};
 		virtual void end() {};
-		virtual void added(__attribute__((__unused__)) Entity e) {};
-		virtual void removed(__attribute__((__unused__)) Entity e) {};
-		virtual void updated(__attribute__((__unused__)) Entity e) {};
+		virtual void added(__attribute__((__unused__)) Entity e) = 0;
+		virtual void removed(__attribute__((__unused__)) Entity e) = 0;
+		virtual void updated(__attribute__((__unused__)) Entity e) = 0;
 
 		virtual bool isActive();
 		virtual void processSystem() = 0;

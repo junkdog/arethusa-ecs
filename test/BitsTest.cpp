@@ -1,7 +1,6 @@
 #include <backtrace.h>
-#include <src/Bits.h>
+#include <Bits.h>
 #include "gtest/gtest.h"
-#include "arethusa.h"
 
 TEST(Bits, SimpleSetUnset) {
     ecs::Bits bits;

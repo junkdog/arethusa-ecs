@@ -1,10 +1,8 @@
 cmake_minimum_required(VERSION 2.8.4)
 
-project(arethusa-root)
+project(arethusa)
 
-set(ARETHUSA_TESTS false CACHE BOOL "Build test suite.")
-
-include_directories(${CMAKE_CURRENT_LIST_DIR})
+#include_directories(${CMAKE_CURRENT_LIST_DIR})
 enable_testing()
 
 # Bump up warning levels appropriately for clang, gcc & msvc and build in debug mode
