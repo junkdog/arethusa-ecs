@@ -11,8 +11,8 @@ set(sources
 add_library(arethusa STATIC ${sources})
 
 install(
-	DIRECTORY "src"
-	DESTINATION "include"
+	DIRECTORY "."
+	DESTINATION "include/arethusa"
 	FILES_MATCHING PATTERN "*.h"
 )
 
