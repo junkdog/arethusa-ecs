@@ -12,6 +12,7 @@
 #include "Component.h"
 #include "SystemManager.h"
 #include "EditProcessor.h"
+#include "Util.h"
 
 typedef uint32_t uint; // osx fix
 
@@ -40,7 +41,7 @@ friend class EntityManager;
 			typename std::enable_if<std::is_base_of<Manager, T>::value>::type* = nullptr>
 		T& setManager(Args && ... args) {
 
-			auto manager = std::unique_ptr<T>(new T(this, std::forward<Args>(args) ...));
+			auto manager = make_unique<T>(this, std::forward<Args>(args) ...);
 			T& managerRef = *manager;
 			managerIndices[typeid(T)] = nextManagerIndex++;
 			managers.push_back(std::move(manager));

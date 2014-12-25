@@ -5,6 +5,7 @@
 #include "System.h"
 #include "Manager.h"
 #include "EditProcessor.h"
+#include "Util.h"
 
 namespace ecs {
 
@@ -27,7 +28,7 @@ class SystemManager : public Manager {
 
 		template <typename T, typename ... Args, typename enable_if_system<T>::type* = nullptr>
 		T& set(Args && ... args) {
-			auto system = std::unique_ptr<T>(new T(world, std::forward<Args>(args) ...));
+			auto system = make_unique<T>(world, std::forward<Args>(args) ...);
 			uint systemBit = (uint)systems.size();
 			system->systemBit = systemBit;
 			T& systemRef = *system;

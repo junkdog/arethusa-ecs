@@ -82,6 +82,11 @@ TEST(Bits, IterateBits) {
     ASSERT_EQ(7u, count);
 }
 
+TEST(Bits, IterateBitsEmpty) {
+    ecs::Bits bits;
+    ASSERT_EQ(-1, bits.nextSetBit());
+}
+
 TEST(Bits, BitwiseAND) {
     ecs::Bits bits1;
     bits1[1] = true;
