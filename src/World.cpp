@@ -1,6 +1,7 @@
 #include "Constants.h"
 #include "ComponentManager.h"
 #include "EntityManager.h"
+#include "Util.h"
 
 namespace ecs {
 
@@ -8,7 +9,7 @@ World::World() {
 	systemManager = &setManager<SystemManager>();
 	entityManager = &setManager<EntityManager>();
 	componentManager = &setManager<ComponentManager>();
-	edits = std::make_unique<EditProcessor>(componentManager);
+	edits = make_unique<EditProcessor>(componentManager);
 }
 
 void World::initialize() {
