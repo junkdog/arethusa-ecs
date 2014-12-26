@@ -7,23 +7,24 @@
 
 
 namespace ecs {
-	class EditProcessor {
+class EditProcessor {
 
-	public:
-		EditProcessor(ComponentManager* cm) : cm(cm) {}
-		~EditProcessor() = default;
-		EntityEdit& edit(Entity e);
-		EntityEdit& create(Entity e);
-		EntityEdit& remove(Entity e);
-		void process();
-		EntityStates& getStateChanges();
+  public:
+	EditProcessor(ComponentManager* cm) : cm(cm) {}
 
-	private:
-		EntityBits editedIds;
-		std::vector<EntityEdit> edited;
-		ComponentManager* cm;
-		EntityStates states;
+	~EditProcessor() = default;
+	EntityEdit& edit(Entity e);
+	EntityEdit& create(Entity e);
+	EntityEdit& remove(Entity e);
+	void process();
+	EntityStates& getStateChanges();
 
-		EntityEdit& findEdit(Entity e, EntityState newState);
-	};
+  private:
+	EntityBits editedIds;
+	std::vector<EntityEdit> edited;
+	ComponentManager* cm;
+	EntityStates states;
+
+	EntityEdit& findEdit(Entity e, EntityState newState);
+};
 }

@@ -14,48 +14,51 @@ namespace ecs {
 class World;
 
 class System {
-friend class SystemManager;
-	public:
-		System(World* world, ComponentBits required, ComponentBits disallowed)
-			: world(world),	requiredComponents(required), disallowedComponents(disallowed) {
+	friend class SystemManager;
 
-			isVoidSystem = requiredComponents.none() && disallowedComponents.none();
-		}
-		virtual ~System() = default;
+  public:
+	System(World* world, ComponentBits required, ComponentBits disallowed)
+		: world(world), requiredComponents(required), disallowedComponents(disallowed) {
 
-		virtual void begin() {};
-		virtual void end() {};
-		virtual void added(__attribute__((__unused__)) Entity e) = 0;
-		virtual void removed(__attribute__((__unused__)) Entity e) = 0;
-		virtual void updated(__attribute__((__unused__)) Entity e) = 0;
+		isVoidSystem = requiredComponents.none() && disallowedComponents.none();
+	}
 
-		virtual bool isActive();
-		virtual void processSystem() = 0;
-		virtual void initialize();
+	virtual ~System() = default;
 
-	protected:
-		World* world;
-		std::vector<Entity> actives;
-		EntityBits activeIds;
+	virtual void begin() {};
 
-	private:
-		bool activeNeedsRebuilding;
-		ComponentBits requiredComponents;
-		ComponentBits disallowedComponents;
-		ComponentBits tmpBits;
-		bool isVoidSystem = false;
-		unsigned int systemBit = 0;
+	virtual void end() {};
+	virtual void added(__attribute__((__unused__)) Entity e) = 0;
+	virtual void removed(__attribute__((__unused__)) Entity e) = 0;
+	virtual void updated(__attribute__((__unused__)) Entity e) = 0;
 
-		void insert(std::vector<Entity>& entities);
-		void remove(std::vector<Entity>& entities);
-		void update(std::vector<Entity>& entities);
-		void syncActiveEntities();
+	virtual bool isActive();
+	virtual void processSystem() = 0;
+	virtual void initialize();
 
-		bool isInterested(Entity e);
-		void insert(Entity e);
-		void remove(Entity e);
-		void update(Entity e);
+  protected:
+	World* world;
+	std::vector<Entity> actives;
+	EntityBits activeIds;
 
-		ComponentBits& logicalAND(ComponentBits a, ComponentBits b);
+  private:
+	bool activeNeedsRebuilding;
+	ComponentBits requiredComponents;
+	ComponentBits disallowedComponents;
+	ComponentBits tmpBits;
+	bool isVoidSystem = false;
+	unsigned int systemBit = 0;
+
+	void insert(std::vector<Entity>& entities);
+	void remove(std::vector<Entity>& entities);
+	void update(std::vector<Entity>& entities);
+	void syncActiveEntities();
+
+	bool isInterested(Entity e);
+	void insert(Entity e);
+	void remove(Entity e);
+	void update(Entity e);
+
+	ComponentBits& logicalAND(ComponentBits a, ComponentBits b);
 };
 }

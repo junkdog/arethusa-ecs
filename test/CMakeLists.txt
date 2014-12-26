@@ -5,6 +5,7 @@ set(files
  	WorldTest.cpp
  	ComponentManagerTest.cpp
  	MapperTest.cpp
+ 	ManagerTest.cpp
  	BitsTest.cpp
  	EntitySystemTest.cpp)
 

@@ -1,6 +1,5 @@
 #include "gtest/gtest.h"
 #include "arethusa.h"
-#include <iostream>
 
 using namespace ecs;
 

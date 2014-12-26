@@ -1,5 +1,4 @@
 set(sources
-	bleh.cpp
 	Bits.cpp
 	Manager.cpp
 	ComponentManager.cpp

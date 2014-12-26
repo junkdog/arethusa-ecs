@@ -36,4 +36,3 @@ TEST(World, CreateDeleteEntity) {
 
     ASSERT_EQ(0, em.getActiveCount());
 }
-
