@@ -23,56 +23,58 @@ class EntityManager;
 class SystemManager;
 class ComponentManager;
 class EntityEdit;
-//class E;
 
 class World {
-friend class ComponentManager;
-friend class EntityManager;
-	public:
-		World();
-		~World() = default;
+	friend class ComponentManager;
+	friend class EntityManager;
+	friend class SystemManager;
 
-		EntityEdit& createEntity();
-		EntityEdit edit(Entity e);
-		Entity getEntity(uint id);
-		void deleteEntity(Entity e);
+  public:
+	World();
+	~World() = default;
 
-		template <typename T, typename ... Args,
-			typename std::enable_if<std::is_base_of<Manager, T>::value>::type* = nullptr>
-		T& setManager(Args && ... args) {
+	EntityEdit& createEntity();
+	EntityEdit edit(Entity e);
+	Entity getEntity(uint id);
+	void deleteEntity(Entity e);
 
-			auto manager = make_unique<T>(this, std::forward<Args>(args) ...);
-			T& managerRef = *manager;
-			managerIndices[typeid(T)] = nextManagerIndex++;
-			managers.push_back(std::move(manager));
-			return static_cast<T&>(managerRef);
-		}
+	template<typename T, typename ... Args,
+		typename std::enable_if<std::is_base_of<Manager, T>::value>::type* = nullptr>
+	T& setManager(Args&& ... args) {
 
-		template <typename T,
-			typename std::enable_if<std::is_base_of<Manager, T>::value>::type* = nullptr>
-		T& getManager() {
-			uint managerIndex = managerIndices[typeid(T)];
-			return static_cast<T&>(*managers[managerIndex]);
-		}
+		auto manager = make_unique<T>(this, std::forward<Args>(args) ...);
+		T& managerRef = *manager;
+		managerIndices[typeid(T)] = nextManagerIndex++;
+		managers.push_back(std::move(manager));
+		return static_cast<T&>(managerRef);
+	}
 
-		void informManagers(EntityStates& newStates);
-		void initialize();
-		void process();
-		ComponentManager& components();
-		SystemManager& systems();
-		float delta = 0;
+	template<typename T,
+		typename std::enable_if<std::is_base_of<Manager, T>::value>::type* = nullptr>
+	T& getManager() {
+		uint managerIndex = managerIndices[typeid(T)];
+		return static_cast<T&>(*managers[managerIndex]);
+	}
 
-	private:
-		std::unique_ptr<EditProcessor> edits;
-		std::vector<std::unique_ptr<Manager>> managers;
-		std::unordered_map<std::type_index, uint> managerIndices;
-		uint nextManagerIndex = 0;
+	void informManagers(EntityStates& newStates);
+	void initialize();
+	void process();
 
-		ComponentManager* componentManager;
-		EntityManager* entityManager;
-		SystemManager* systemManager;
+	ComponentManager& components();
+	SystemManager& systems();
+	float delta = 0;
 
-		static const u_int32_t MAX_ENTITIES;
+  private:
+	std::unique_ptr<EditProcessor> edits;
+	std::vector<std::unique_ptr<Manager>> managers;
+	std::unordered_map<std::type_index, uint> managerIndices;
+
+	uint nextManagerIndex = 0;
+	ComponentManager* componentManager;
+	EntityManager* entityManager;
+	SystemManager* systemManager;
+
+	void updateEntityStates();
 };
 
 }

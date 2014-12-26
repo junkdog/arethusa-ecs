@@ -1,6 +1,7 @@
 #include <memory>
 #include "Constants.h"
 #include "SystemManager.h"
+#include "World.h"
 
 namespace ecs {
 
@@ -13,6 +14,7 @@ void SystemManager::initialize() {
 void SystemManager::process() {
 	for (auto& system : systems) {
 		system->processSystem();
+		world->updateEntityStates();
 	}
 }
 

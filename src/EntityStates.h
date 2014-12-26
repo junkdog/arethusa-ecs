@@ -4,26 +4,26 @@
 #include "Constants.h"
 
 namespace ecs {
-	struct EntityStates {
-		EntityStates() {}
+struct EntityStates {
+	EntityStates() {}
 
-		EntityStates(const EntityStates& source) :
-				added(source.added),
-				deleted(source.deleted),
-				changed(source.changed) {}
+	EntityStates(const EntityStates& source) :
+		added(source.added),
+		deleted(source.deleted),
+		changed(source.changed) {}
 
-		bool isEmpty() {
-			return added.size() && deleted.size() && changed.size();
-		}
+	bool isEmpty() {
+		return added.size() && deleted.size() && changed.size();
+	}
 
-		void clear() {
-			added.clear();
-			deleted.clear();
-			changed.clear();
-		}
+	void clear() {
+		added.clear();
+		deleted.clear();
+		changed.clear();
+	}
 
-		std::vector<Entity> added {};
-		std::vector<Entity> deleted {};
-		std::vector<Entity> changed {};
-	};
+	std::vector<Entity> added{};
+	std::vector<Entity> deleted{};
+	std::vector<Entity> changed{};
+};
 }

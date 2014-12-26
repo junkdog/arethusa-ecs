@@ -16,27 +16,27 @@ class World;
 
 template<typename Derived>
 class EntitySystem : public System {
-	public:
-		EntitySystem(World* world, ComponentBits required = {}, ComponentBits disallowed = {})
-			: System(world, required, disallowed) {}
-		virtual ~EntitySystem() = default;
+  public:
+	EntitySystem(World* world, ComponentBits required = {}, ComponentBits disallowed = {})
+		: System(world, required, disallowed) {}
 
-		virtual void added(__attribute__((__unused__)) Entity e) {};
-		virtual void removed(__attribute__((__unused__)) Entity e) {};
-		virtual void updated(__attribute__((__unused__)) Entity e) {};
-		unsigned int getActiveCount() const {
-			return actives.size();
+	virtual ~EntitySystem() = default;
+	virtual void added(__attribute__((__unused__)) Entity e) {};
+	virtual void removed(__attribute__((__unused__)) Entity e) {};
+	virtual void updated(__attribute__((__unused__)) Entity e) {};
+
+	unsigned int getActiveCount() const {
+		return actives.size();
+	}
+
+	void processSystem() {
+		if (!isActive()) return;
+
+		begin();
+		for (auto entity : actives) {
+			static_cast<Derived*>(this)->processEntity(entity);
 		}
-
-		void processSystem() {
-
-			if (!isActive()) return;
-
-			begin();
-			for (auto entity : actives) {
-				static_cast<Derived*>(this)->processEntity(entity);
-			}
-			end();
-		}
+		end();
+	}
 };
 }

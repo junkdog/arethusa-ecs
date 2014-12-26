@@ -1,9 +1,5 @@
 #pragma once
 
-#include <iostream>
-#include <vector>
-#include <typeinfo>
-#include <cstring>
 #include "Bits.h"
 
 namespace ecs {

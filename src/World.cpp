@@ -56,13 +56,18 @@ SystemManager& World::systems() {
 }
 
 void World::process() {
-	entityManager->process(edits->getStateChanges()); // notifies systems/managers about changed entities
+	updateEntityStates();
 	systemManager->process(); // runs all systems
+}
+
+void World::updateEntityStates() {
+	entityManager->process(edits->getStateChanges());
 }
 
 EntityEdit World::edit(Entity e) {
 	return edits->edit(e);
 }
+
 }
 
 
