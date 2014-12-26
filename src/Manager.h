@@ -1,12 +1,13 @@
 #pragma once
 
 #include "Entity.h"
+#include "NoCopy.h"
 
 namespace ecs {
 
 class World;
 
-class Manager {
+class Manager : private NoCopy {
   public:
 	Manager(World* world) : world(world) {}
 	virtual ~Manager() = default;

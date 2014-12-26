@@ -8,12 +8,13 @@
 #include "Constants.h"
 #include "Entity.h"
 #include "Component.h"
+#include "NoCopy.h"
 
 namespace ecs {
 
 class World;
 
-class System {
+class System : private NoCopy {
 	friend class SystemManager;
 
   public:

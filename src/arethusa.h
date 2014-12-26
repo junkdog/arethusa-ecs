@@ -5,6 +5,7 @@
 #include "Entity.h"
 #include "World.h"
 #include "Manager.h"
+#include "NoCopy.h"
 #include "EntitySystem.h"
 #include "ComponentManager.h"
 #include "SystemManager.h"

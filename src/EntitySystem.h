@@ -15,7 +15,7 @@ namespace ecs {
 class World;
 
 template<typename Derived>
-class EntitySystem : public System {
+class EntitySystem : public System, private NoCopy {
   public:
 	EntitySystem(World* world, ComponentBits required = {}, ComponentBits disallowed = {})
 		: System(world, required, disallowed) {}

@@ -9,6 +9,7 @@ World::World() {
 	systemManager = &setManager<SystemManager>();
 	entityManager = &setManager<EntityManager>();
 	componentManager = &setManager<ComponentManager>();
+	setManager<ComponentManager>();
 	edits = make_unique<EditProcessor>(componentManager);
 }
 
