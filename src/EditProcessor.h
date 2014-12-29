@@ -17,7 +17,7 @@ class EditProcessor : private NoCopy {
 	EntityEdit& create(Entity e);
 	EntityEdit& remove(Entity e);
 	void process();
-	EntityStates& getStateChanges();
+	EntityStates getStateChanges();
 
   private:
 	EntityBits editedIds;
