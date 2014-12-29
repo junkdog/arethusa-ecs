@@ -42,6 +42,19 @@ class VelocitySystem : public ecs::EntitySystem<VelocitySystem> {
 	void processEntity(__attribute__((__unused__)) ecs::Entity e) {}
 };
 
+class VelToPosSystem : public ecs::EntitySystem<VelToPosSystem> {
+  public:
+	VelToPosSystem(ecs::World* world)
+		: EntitySystem(world, world->components().componentBits<Velocity>()) {}
+
+	virtual ~VelToPosSystem() = default;
+
+	void processEntity(ecs::Entity e) {
+		world->edit(e).set<Position>();
+		world->edit(e).unset<Velocity>();
+	}
+};
+
 class MapperSystem : public ecs::EntitySystem<MapperSystem> {
   public:
 	MapperSystem(ecs::World* world) :
@@ -67,8 +80,17 @@ class DeleterSystem : public ecs::EntitySystem<DeleterSystem> {
 		if (tick == 0)
 			return;
 
-		if (e.getId() % 2 == 0)
+		if (tick == 1 && e.getId() % 2 == 0) {
 			world->deleteEntity(e);
+			e = world->createEntity().getEntity();
+			auto& cb = world->components().getComponentBits(e);
+			ASSERT_FALSE(cb.any());
+		} else if (tick > 1) {
+			world->deleteEntity(e);
+			e = world->createEntity().getEntity();
+			auto& cb = world->components().getComponentBits(e);
+			ASSERT_FALSE(cb.any());
+		}
 	}
 
 	void end() override {
@@ -143,25 +165,53 @@ TEST(EntitySystem, EntityDeleted) {
 
 TEST(EntitySystem, EntityDeletedInSystem) {
 	ecs::World world;
-	DeleterSystem& ds = world.systems().set<DeleterSystem>();
+	world.systems().set<VelToPosSystem>();
 	PositionSystem& ps = world.systems().set<PositionSystem>();
+	DeleterSystem& ds = world.systems().set<DeleterSystem>();
 	world.initialize();
 
 	world.createEntity().set<Position>();
+	world.createEntity().set<Velocity>();
+	world.createEntity();
 	world.createEntity();
 	world.createEntity().set<Position>();
 	world.createEntity().set<Position>();
 
 	world.process();
-	ASSERT_EQ(3u, ds.getActiveCount());
-	ASSERT_EQ(3u, ps.getActiveCount());
+	ASSERT_EQ(4u, ds.getActiveCount());
+	ASSERT_EQ(4u, ps.getActiveCount());
 	ASSERT_EQ(0, ds.removedCount);
 
 	world.process();
-	ASSERT_EQ(1u, ds.getActiveCount());
-	ASSERT_EQ(1u, ps.getActiveCount());
+	ASSERT_EQ(2u, ds.getActiveCount());
+	ASSERT_EQ(2u, ps.getActiveCount());
 	ASSERT_EQ(2, ds.removedCount);
+
+	world.process();
+	ASSERT_EQ(0u, ds.getActiveCount());
+	ASSERT_EQ(0u, ps.getActiveCount());
+	ASSERT_EQ(4, ds.removedCount);
 }
+
+//TEST(EntitySystem, EntityChangeMoveInSystem) {
+//	ecs::World world;
+//	world.systems().set<VelToPosSystem>();
+//	PositionSystem& ps = world.systems().set<PositionSystem>();
+//	world.initialize();
+//
+//	world.createEntity().set<Position>();
+//	world.createEntity().set<Velocity>();
+//	world.createEntity().set<Position>();
+//	world.createEntity().set<Position>();
+//
+//	world.process();
+//	ASSERT_EQ(4u, ps.getActiveCount());
+//	ASSERT_EQ(0, ds.removedCount);
+//
+//	world.process();
+//	ASSERT_EQ(2u, ps.getActiveCount());
+//	ASSERT_EQ(2, ds.removedCount);
+//}
 
 
 TEST(EntitySystem, EntityRemoved) {

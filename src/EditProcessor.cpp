@@ -1,6 +1,7 @@
 #include <algorithm>
 #include "Constants.h"
 #include "EditProcessor.h"
+#include <memory>
 
 namespace ecs {
 EntityEdit& EditProcessor::edit(Entity e) {
@@ -16,17 +17,17 @@ EntityEdit& EditProcessor::remove(Entity e) {
 }
 
 EntityEdit& EditProcessor::findEdit(Entity e, EntityState newState) {
-	if (this->editedIds[e.getId()]) {
-		auto edit = std::find_if(this->edited.begin(), this->edited.end(),
+	if (editedIds[e.getId()]) {
+		auto edit = std::find_if(edited.begin(), edited.end(),
 			[=](const EntityEdit& edit) -> bool {return edit.entity.getId() == e.getId();});
 
-		assert(this->edited.end() != edit);
+		assert(edited.end() != edit);
 		edit->state = std::max(edit->state, newState);
 		return *edit;
 	} else {
-		this->editedIds[e.getId()] = true;
-		this->edited.emplace_back(this->cm, e, newState);
-		return this->edited.back();
+		editedIds[e.getId()] = true;
+		edited.emplace_back(cm, e, newState);
+		return edited.back();
 	}
 }
 

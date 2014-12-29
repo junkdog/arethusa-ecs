@@ -12,51 +12,52 @@
 
 namespace ecs {
 
-	class World;
+class World;
 
-	class ComponentManager : public Manager {
+class ComponentManager : public Manager {
 
 	template<typename C, typename enable_if_component<C>::type*>
-	friend class Mapper;
+	friend
+	class Mapper;
+
 	friend class EntityEdit;
 
-	public:
+  public:
 
-		ComponentManager(World* world) : Manager(world) {
-			entityComponentBits.resize(MAX_ENTITIES);
-		}
+	ComponentManager(World* world) : Manager(world) {
+		entityComponentBits.resize(MAX_ENTITIES);
+	}
+	virtual ~ComponentManager() = default;
 
-		virtual ~ComponentManager() = default;
+	template<typename C, typename enable_if_component<C>::type* = nullptr>
+	C& get(const Entity& e) {
+		return store.getComponents<C>()[e.id];
+	}
 
-		template<typename C, typename enable_if_component<C>::type* = nullptr>
-		C& get(const Entity& e) {
-			return store.getComponents<C>()[e.id];
-		}
+	template<typename C, typename enable_if_component<C>::type* = nullptr>
+	ComponentBits componentBits() {
 
-		template<typename C, typename enable_if_component<C>::type* = nullptr>
-		ComponentBits componentBits() {
+		ComponentBits aspect;
+		aspect[store.index<C>()] = true;
+		return aspect;
+	}
 
-			ComponentBits aspect;
-			aspect[store.index<C>()] = true;
-			return aspect;
-		}
+	template<typename C1, typename C2, typename ... Cn>
+	ComponentBits componentBits() {
+		return componentBits<C1>() | componentBits<C2, Cn...>();
+	}
 
-		template<typename C1, typename C2, typename ... Cn>
-		ComponentBits componentBits() {
-			return componentBits<C1>() | componentBits<C2, Cn...>();
-		}
+	template<typename C, typename enable_if_component<C>::type* = nullptr>
+	std::vector<C>& getComponents() {
+		return store.getComponents<C>();
+	}
 
-		template<typename C, typename enable_if_component<C>::type* = nullptr>
-		std::vector<C>& getComponents() {
-			return store.getComponents<C>();
-		}
+	void clear(const Entity e);
 
-		void clear(const Entity e);
+	ComponentBits& getComponentBits(const Entity e);
 
-		ComponentBits& getComponentBits(const Entity e);
-
-	private:
-		Store store;
-		std::vector<ComponentBits> entityComponentBits;
-	};
+  private:
+	Store store;
+	std::vector<ComponentBits> entityComponentBits;
+};
 }

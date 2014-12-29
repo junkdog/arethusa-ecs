@@ -43,7 +43,7 @@ class System : private NoCopy {
 	EntityBits activeIds;
 
   private:
-	bool activeNeedsRebuilding;
+	bool activeNeedsRebuilding = false;
 	ComponentBits requiredComponents;
 	ComponentBits disallowedComponents;
 	ComponentBits tmpBits;

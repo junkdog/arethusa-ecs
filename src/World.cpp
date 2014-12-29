@@ -65,7 +65,7 @@ void World::updateEntityStates() {
 	entityManager->process(edits->getStateChanges());
 }
 
-EntityEdit World::edit(Entity e) {
+EntityEdit& World::edit(Entity e) {
 	return edits->edit(e);
 }
 
