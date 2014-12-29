@@ -5,15 +5,15 @@
 
 namespace ecs {
 EntityEdit& EditProcessor::edit(Entity e) {
-	return findEdit(e, EntityState::CHANGED);
+	return findEdit(e, EntityState::CHANGE);
 }
 
 EntityEdit& EditProcessor::create(Entity e) {
-	return findEdit(e, EntityState::CREATED);
+	return findEdit(e, EntityState::CREATE);
 }
 
 EntityEdit& EditProcessor::remove(Entity e) {
-	return findEdit(e, EntityState::DELETED);
+	return findEdit(e, EntityState::DELETE);
 }
 
 EntityEdit& EditProcessor::findEdit(Entity e, EntityState newState) {
@@ -36,13 +36,13 @@ EntityStates EditProcessor::getStateChanges() {
 //	states.clear();
 	for (EntityEdit& e : edited) {
 		switch (e.state) {
-			case EntityState::CREATED:
+			case EntityState::CREATE:
 				states.added.emplace_back(e.getEntity());
 				break;
-			case EntityState::DELETED:
+			case EntityState::DELETE:
 				states.deleted.emplace_back(e.getEntity());
 				break;
-			case EntityState::CHANGED:
+			case EntityState::CHANGE:
 				states.changed.emplace_back(e.getEntity());
 				break;
 			default:

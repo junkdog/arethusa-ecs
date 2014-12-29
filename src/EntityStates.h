@@ -13,7 +13,7 @@ struct EntityStates {
 		changed(source.changed) {}
 
 	bool isEmpty() {
-		return added.size() && deleted.size() && changed.size();
+		return added.empty() && deleted.empty() && changed.empty();
 	}
 
 	void clear() {

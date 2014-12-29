@@ -6,13 +6,14 @@
 
 namespace ecs {
 
-	enum class EntityState {CHANGED = 0, CREATED = 1, DELETED = 2};
+	enum class EntityState {
+		CHANGE = 0, CREATE = 1, DELETE = 2};
 
 	class EntityEdit {
 	friend class EditProcessor;
 
 	public:
-		EntityEdit(ComponentManager* cm, Entity e, EntityState state = EntityState::CHANGED) : cm(cm), entity(e), state(state) {
+		EntityEdit(ComponentManager* cm, Entity e, EntityState state = EntityState::CHANGE) : cm(cm), entity(e), state(state) {
 			componentBits = &(cm->getComponentBits(e));
 		}
 		~EntityEdit() = default;
