@@ -7,7 +7,8 @@ set(files
  	MapperTest.cpp
  	ManagerTest.cpp
  	BitsTest.cpp
- 	EntitySystemTest.cpp)
+ 	EntitySystemTest.cpp
+ 	EntityTest.cpp)
 
 add_executable(unit-tests ${files})
 

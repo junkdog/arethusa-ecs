@@ -26,12 +26,15 @@ struct Entity {
 	}
 
   private:
-
 	u_int32_t id;
 };
 
 inline std::ostream& operator<<(std::ostream& out, const Entity& e) {
 	out << "Entity[" << e.getId() << "]";
 	return out;
+}
+
+inline bool operator==(const Entity& lhs, const Entity& rhs) {
+	return lhs.getId() == rhs.getId();
 }
 }

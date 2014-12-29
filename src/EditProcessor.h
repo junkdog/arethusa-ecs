@@ -7,7 +7,7 @@
 
 
 namespace ecs {
-class EditProcessor {
+class EditProcessor : private NoCopy {
 
   public:
 	EditProcessor(ComponentManager* cm) : cm(cm) {}
