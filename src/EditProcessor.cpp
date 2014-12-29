@@ -31,9 +31,8 @@ EntityEdit& EditProcessor::findEdit(Entity e, EntityState newState) {
 	}
 }
 
-EntityStates EditProcessor::getStateChanges() {
-	states = {};
-//	states.clear();
+EntityStates& EditProcessor::getStateChanges() {
+	states.clear();
 	for (EntityEdit& e : edited) {
 		switch (e.state) {
 			case EntityState::CREATE:
