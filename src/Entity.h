@@ -21,7 +21,7 @@ struct Entity {
 
 	Entity(u_int32_t id) : id(id) {}
 
-	int getId() const {
+	u_int32_t getId() const {
 		return id;
 	}
 
