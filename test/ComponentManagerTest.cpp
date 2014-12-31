@@ -26,58 +26,64 @@ TEST(ComponentManager, AddRetrieveComponents) {
     ecs::World world;
     world.initialize();
 
-    ecs::EntityEdit e = world.createEntity();
-    ecs::EntityEdit e2 = world.createEntity();
-    ecs::EntityEdit e3 = world.createEntity();
+    ecs::EntityEdit ee = world.createEntity();
+    ecs::EntityEdit ee2 = world.createEntity();
+    ecs::EntityEdit ee3 = world.createEntity();
+    auto e = ee.getEntity();
+    auto e2 = ee2.getEntity();
+    auto e3 = ee3.getEntity();
 
     auto& cm = world.components();
-    e.set<Position>(1.0, 2.0);
-    e.set<Velocity>(3.0, 4.0);
-    e.set<Sprite>(1);
-    e2.set<Sprite>(2);
-    e3.set<Position>(5.0, 6.0);
-    e3.set<Sprite>(3);
+    ee.set<Position>(1.0, 2.0);
+    ee.set<Velocity>(3.0, 4.0);
+    ee.set<Sprite>(1);
+    ee2.set<Sprite>(2);
+    ee3.set<Position>(5.0, 6.0);
+    ee3.set<Sprite>(3);
 
     world.process();
 
-    ASSERT_FLOAT_EQ(cm.get<Position>(e.getEntity()).x, 1.0);
-    ASSERT_FLOAT_EQ(cm.get<Position>(e.getEntity()).y, 2.0);
+    ASSERT_FLOAT_EQ(cm.get<Position>(e).x, 1.0);
+    ASSERT_FLOAT_EQ(cm.get<Position>(e).y, 2.0);
 
-    ASSERT_FLOAT_EQ(cm.get<Velocity>(e.getEntity()).x, 3.0);
-    ASSERT_FLOAT_EQ(cm.get<Velocity>(e.getEntity()).y, 4.0);
+    ASSERT_FLOAT_EQ(cm.get<Velocity>(e).x, 3.0);
+    ASSERT_FLOAT_EQ(cm.get<Velocity>(e).y, 4.0);
 
-    ASSERT_FLOAT_EQ(cm.get<Position>(e3.getEntity()).x, 5.0);
-    ASSERT_FLOAT_EQ(cm.get<Position>(e3.getEntity()).y, 6.0);
+    ASSERT_FLOAT_EQ(cm.get<Position>(e3).x, 5.0);
+    ASSERT_FLOAT_EQ(cm.get<Position>(e3).y, 6.0);
 
-    ASSERT_EQ(cm.get<Sprite>(e.getEntity()).id, 1);
-    ASSERT_EQ(cm.get<Sprite>(e2.getEntity()).id, 2);
-    ASSERT_EQ(cm.get<Sprite>(e3.getEntity()).id, 3);
+    ASSERT_EQ(cm.get<Sprite>(e).id, 1);
+    ASSERT_EQ(cm.get<Sprite>(e2).id, 2);
+    ASSERT_EQ(cm.get<Sprite>(e3).id, 3);
 }
 
 TEST(ComponentManager, ComponentBits) {
     ecs::World world;
     world.initialize();
 
-    ecs::EntityEdit e = world.createEntity();
-    ecs::EntityEdit e2 = world.createEntity();
-    ecs::EntityEdit e3 = world.createEntity();
+    ecs::EntityEdit ee = world.createEntity();
+    ecs::EntityEdit ee2 = world.createEntity();
+    ecs::EntityEdit ee3 = world.createEntity();
+    auto e = ee.getEntity();
+    auto e2 = ee2.getEntity();
+    auto e3 = ee3.getEntity();
 
     auto& cm = world.components();
-    e.set<Position>(1.0, 2.0);
-    e.set<Velocity>(3.0, 4.0);
-    e.set<Sprite>(1);
-    e2.set<Sprite>(2);
-    e3.set<Position>(5.0, 6.0);
-    e3.set<Sprite>(3);
+    ee.set<Position>(1.0, 2.0);
+    ee.set<Velocity>(3.0, 4.0);
+    ee.set<Sprite>(1);
+    ee2.set<Sprite>(2);
+    ee3.set<Position>(5.0, 6.0);
+    ee3.set<Sprite>(3);
 
     world.process();
 
     // sanity check
     ASSERT_NE((cm.componentBits<Position, Sprite>()), (cm.componentBits<Sprite>()));
 
-    ASSERT_EQ((cm.componentBits<Position, Sprite, Velocity>()), cm.getComponentBits(e.getEntity()));
-    ASSERT_EQ((cm.componentBits<Sprite>()), cm.getComponentBits(e2.getEntity()));
-    ASSERT_EQ((cm.componentBits<Position, Sprite>()), cm.getComponentBits(e3.getEntity()));
+    ASSERT_EQ((cm.componentBits<Position, Sprite, Velocity>()), cm.getComponentBits(e));
+    ASSERT_EQ((cm.componentBits<Sprite>()), cm.getComponentBits(e2));
+    ASSERT_EQ((cm.componentBits<Position, Sprite>()), cm.getComponentBits(e3));
 }
 
 TEST(ComponentManager, ReadComponents) {

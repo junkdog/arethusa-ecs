@@ -4,4 +4,5 @@ test/lib
 test/src
 test/test
 CMakeFiles
+CMakeLists.txt.user
 

@@ -33,8 +33,8 @@ class World {
 	World();
 	~World() = default;
 
-	EntityEdit& createEntity();
-	EntityEdit& edit(Entity e);
+	EntityEdit createEntity();
+	EntityEdit edit(Entity e);
 	Entity getEntity(uint id);
 	void deleteEntity(Entity e);
 

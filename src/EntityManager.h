@@ -22,7 +22,7 @@ namespace ecs {
 		virtual ~EntityManager() = default;
 
 		virtual void initialize();
-		EntityEdit& createEntity();
+		EntityEdit createEntity();
 		Entity getEntity(uint id);
 		void kill(const Entity e);
 		void process(EntityStates& states);

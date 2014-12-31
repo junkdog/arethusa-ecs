@@ -4,6 +4,7 @@
 #include "Constants.h"
 #include "Component.h"
 
+// TODO: refactor -> store per type, incl clear component
 namespace ecs {
 class Store {
   public:

@@ -8,14 +8,12 @@
 
 namespace ecs {
 class EditProcessor : private NoCopy {
+friend class World;
+friend class EntityManager;
 
   public:
 	EditProcessor(ComponentManager* cm) : cm(cm) {}
-
 	~EditProcessor() = default;
-	EntityEdit& edit(Entity e);
-	EntityEdit& create(Entity e);
-	EntityEdit& remove(Entity e);
 	void process();
 	EntityStates& getStateChanges();
 
@@ -24,6 +22,10 @@ class EditProcessor : private NoCopy {
 	std::vector<EntityEdit> edited;
 	ComponentManager* cm;
 	EntityStates states;
+
+	EntityEdit edit(Entity e);
+	EntityEdit create(Entity e);
+	void remove(Entity e);
 
 	EntityEdit& findEdit(Entity e, EntityState newState);
 };

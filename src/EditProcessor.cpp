@@ -4,28 +4,30 @@
 #include <memory>
 
 namespace ecs {
-EntityEdit& EditProcessor::edit(Entity e) {
+EntityEdit EditProcessor::edit(Entity e) {
 	return findEdit(e, EntityState::CHANGE);
 }
 
-EntityEdit& EditProcessor::create(Entity e) {
+EntityEdit EditProcessor::create(Entity e) {
 	return findEdit(e, EntityState::CREATE);
 }
 
-EntityEdit& EditProcessor::remove(Entity e) {
-	return findEdit(e, EntityState::DELETE);
+void EditProcessor::remove(Entity e) {
+	findEdit(e, EntityState::DELETE);
 }
 
 EntityEdit& EditProcessor::findEdit(Entity e, EntityState newState) {
 	if (editedIds[e.getId()]) {
 		auto edit = std::find_if(edited.begin(), edited.end(),
-			[=](const EntityEdit& edit) -> bool {return edit.entity.getId() == e.getId();});
+			[=](const EntityEdit& edit) -> bool {return edit.entity == e;});
 
 		assert(edited.end() != edit);
 		edit->state = std::max(edit->state, newState);
 		return *edit;
 	} else {
 		editedIds[e.getId()] = true;
+//		EntityEdit ee {cm, e, newState};
+//		edited.push_back(ee);
 		edited.emplace_back(cm, e, newState);
 		return edited.back();
 	}
