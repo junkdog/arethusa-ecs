@@ -3,6 +3,7 @@
 #include <vector>
 #include "Constants.h"
 #include "EntityStates.h"
+#include "NoCopy.h"
 #include "EntityEdit.h"
 
 

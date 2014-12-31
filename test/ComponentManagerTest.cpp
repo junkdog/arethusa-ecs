@@ -153,3 +153,24 @@ TEST(ComponentManager, WriteComponents) {
     ASSERT_EQ(3, (cm.get<Sprite>(e2.getEntity()).id));
     ASSERT_EQ(4, (cm.get<Sprite>(e3.getEntity()).id));
 }
+
+TEST(ComponentManager, ComponentsPerType) {
+    ecs::World world;
+    world.initialize();
+
+    ecs::EntityEdit e = world.createEntity();
+    ecs::EntityEdit e2 = world.createEntity();
+    ecs::EntityEdit e3 = world.createEntity();
+
+    e.set<Position>();
+
+    e2.set<Velocity>();
+
+    e3.set<Velocity>();
+    e3.set<Position>();
+
+    world.process();
+
+    auto& storePosition = world.components().store<Position>();
+    auto& velocityPosition = world.components().store<Velocity>();
+}

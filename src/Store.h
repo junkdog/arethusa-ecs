@@ -6,31 +6,29 @@
 
 // TODO: refactor -> store per type, incl clear component
 namespace ecs {
-class Store {
-  public:
 
-	template<typename T, typename enable_if_component<T>::type* = nullptr>
+
+template<typename T, typename enable_if_component<T>::type* = nullptr>
+class Store : NoCopy {
+friend class ComponentManager;
+  public:
 	std::vector<T>& getComponents() {
-		static std::vector<T> components;
-		components.resize(MAX_COMPONENTS);
 		return components;
 	}
 
-//		template<typename T, typename enable_if_component<T>::type* = nullptr>
-//		std::bitset& getEntities() {
-//			static std::bitset<MAX_ENTITIES> entityBits;
-//			return entityBits;
-//		}
-
-	template<typename T, typename enable_if_component<T>::type* = nullptr>
-	u_int16_t index() {
-		static const u_int16_t id = nextComponentId++;
+	u_int16_t index() const {
 		return id;
 	}
 
   private:
+	std::vector<T> components {};
+	const u_int16_t id;
+	EntityBits entities {};
 
-	u_int16_t nextComponentId = 0;
+	Store(u_int16_t id) : id(id) {
+		components.resize(MAX_COMPONENTS);
+	}
+	~Store() = default;
 };
 
 }

@@ -2,7 +2,6 @@
 
 #include "Constants.h"
 #include "ComponentManager.h"
-#include "EditProcessor.h"
 #include <memory>
 
 namespace ecs {
@@ -26,19 +25,21 @@ namespace ecs {
 
 		template<typename C, typename ... Args, typename enable_if_component<C>::type* = nullptr>
 		C& set(Args&& ... args) {
-			auto cid = cm->store.index<C>();
+			auto& store = cm->store<C>();
+			auto cid = store.index();
 
 			(*componentBits)[cid] = true;
-			cm->store.getComponents<C>()[entity.getId()] = C(std::forward<Args>(args) ...);
+			store.getComponents()[entity.getId()] = C(std::forward<Args>(args) ...);
 
-			return cm->store.getComponents<C>()[entity.getId()];
+			return store.getComponents()[entity.getId()];
 		}
 
 		template<typename C, typename enable_if_component<C>::type* = nullptr>
 		void unset() {
-			u_int16_t cid = cm->store.index<C>();
+			auto& store = cm->store<C>();
+			u_int16_t cid = store.index();
 			(*componentBits)[cid] = false;
-			cm->store.getComponents<C>()[entity.getId()] = {};
+			store.getComponents()[entity.getId()] = {};
 		}
 
 		const Entity getEntity() {

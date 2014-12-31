@@ -1,7 +1,6 @@
 #include <algorithm>
 #include "Constants.h"
 #include "EditProcessor.h"
-#include <memory>
 
 namespace ecs {
 EntityEdit EditProcessor::edit(Entity e) {
@@ -26,8 +25,6 @@ EntityEdit& EditProcessor::findEdit(Entity e, EntityState newState) {
 		return *edit;
 	} else {
 		editedIds[e.getId()] = true;
-//		EntityEdit ee {cm, e, newState};
-//		edited.push_back(ee);
 		edited.emplace_back(cm, e, newState);
 		return edited.back();
 	}

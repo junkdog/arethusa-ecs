@@ -17,9 +17,7 @@ class World;
 class ComponentManager : public Manager {
 
 	template<typename C, typename enable_if_component<C>::type*>
-	friend
-	class Mapper;
-
+	friend class Mapper;
 	friend class EntityEdit;
 
   public:
@@ -31,14 +29,14 @@ class ComponentManager : public Manager {
 
 	template<typename C, typename enable_if_component<C>::type* = nullptr>
 	C& get(const Entity& e) {
-		return store.getComponents<C>()[e.id];
+		return store<C>().getComponents()[e.id];
 	}
 
 	template<typename C, typename enable_if_component<C>::type* = nullptr>
 	ComponentBits componentBits() {
 
 		ComponentBits aspect;
-		aspect[store.index<C>()] = true;
+		aspect[store<C>().index()] = true;
 		return aspect;
 	}
 
@@ -49,7 +47,7 @@ class ComponentManager : public Manager {
 
 	template<typename C, typename enable_if_component<C>::type* = nullptr>
 	std::vector<C>& getComponents() {
-		return store.getComponents<C>();
+		return store<C>().getComponents();
 	}
 
 	void clear(const Entity e);
@@ -57,7 +55,13 @@ class ComponentManager : public Manager {
 	ComponentBits& getComponentBits(const Entity e);
 
   private:
-	Store store;
 	std::vector<ComponentBits> entityComponentBits;
+	u_int16_t nextComponentId = 0;
+
+	template<typename C, typename enable_if_component<C>::type* = nullptr>
+	Store<C>& store() {
+		static Store<C> componentStore {nextComponentId++};
+		return componentStore;
+	}
 };
 }
