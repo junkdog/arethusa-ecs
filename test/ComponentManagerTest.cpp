@@ -163,14 +163,18 @@ TEST(ComponentManager, ComponentsPerType) {
     ecs::EntityEdit e3 = world.createEntity();
 
     e.set<Position>();
+    e2.set<Velocity>();
 
     e2.set<Velocity>();
 
-    e3.set<Velocity>();
     e3.set<Position>();
+    e3.set<Velocity>();
 
     world.process();
 
     auto& storePosition = world.components().store<Position>();
-    auto& velocityPosition = world.components().store<Velocity>();
+    auto& storeVelocity = world.components().store<Velocity>();
+
+    ASSERT_EQ(2, storePosition.entities().count());
+    ASSERT_EQ(3, storeVelocity.entities().count());
 }

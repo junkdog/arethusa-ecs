@@ -16,6 +16,10 @@ friend class ComponentManager;
 		return components;
 	}
 
+	EntityBits& entities() {
+		return _entities;
+	}
+
 	u_int16_t index() const {
 		return id;
 	}
@@ -23,7 +27,7 @@ friend class ComponentManager;
   private:
 	std::vector<T> components {};
 	const u_int16_t id;
-	EntityBits entities {};
+	EntityBits _entities {};
 
 	Store(u_int16_t id) : id(id) {
 		components.resize(MAX_COMPONENTS);

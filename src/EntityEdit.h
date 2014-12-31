@@ -31,6 +31,7 @@ namespace ecs {
 			(*componentBits)[cid] = true;
 			store.getComponents()[entity.getId()] = C(std::forward<Args>(args) ...);
 
+			store.entities()[entity.getId()] = true;
 			return store.getComponents()[entity.getId()];
 		}
 
@@ -40,6 +41,7 @@ namespace ecs {
 			u_int16_t cid = store.index();
 			(*componentBits)[cid] = false;
 			store.getComponents()[entity.getId()] = {};
+			store.entities()[entity.getId()] = true;
 		}
 
 		const Entity getEntity() {

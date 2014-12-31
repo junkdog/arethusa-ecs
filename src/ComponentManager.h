@@ -34,7 +34,6 @@ class ComponentManager : public Manager {
 
 	template<typename C, typename enable_if_component<C>::type* = nullptr>
 	ComponentBits componentBits() {
-
 		ComponentBits aspect;
 		aspect[store<C>().index()] = true;
 		return aspect;
@@ -54,14 +53,14 @@ class ComponentManager : public Manager {
 
 	ComponentBits& getComponentBits(const Entity e);
 
-  private:
-	std::vector<ComponentBits> entityComponentBits;
-	u_int16_t nextComponentId = 0;
-
 	template<typename C, typename enable_if_component<C>::type* = nullptr>
 	Store<C>& store() {
 		static Store<C> componentStore {nextComponentId++};
 		return componentStore;
 	}
+
+  private:
+	std::vector<ComponentBits> entityComponentBits;
+	u_int16_t nextComponentId = 0;
 };
 }
