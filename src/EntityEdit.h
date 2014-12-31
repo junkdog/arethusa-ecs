@@ -41,7 +41,7 @@ namespace ecs {
 			u_int16_t cid = store.index();
 			(*componentBits)[cid] = false;
 			store.getComponents()[entity.getId()] = {};
-			store.entities()[entity.getId()] = true;
+			store.entities()[entity.getId()] = false;
 		}
 
 		const Entity getEntity() {

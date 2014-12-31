@@ -4,7 +4,7 @@
 #include "Constants.h"
 #include "Component.h"
 
-// TODO: refactor -> store per type, incl clear component
+// TODO: save pointer to store in component manager
 namespace ecs {
 
 

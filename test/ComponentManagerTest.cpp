@@ -177,4 +177,47 @@ TEST(ComponentManager, ComponentsPerType) {
 
     ASSERT_EQ(2, storePosition.entities().count());
     ASSERT_EQ(3, storeVelocity.entities().count());
+
+    e.unset<Position>();
+
+    world.process();
+
+    ASSERT_EQ(1, storePosition.entities().count());
+    ASSERT_TRUE(storePosition.entities()[e3.getEntity().getId()]);
+    ASSERT_EQ(3, storeVelocity.entities().count());
+}
+
+TEST(ComponentManager, ComponentsPerTypeWithEntityDeletion) {
+    ecs::World world;
+    world.initialize();
+
+    ecs::EntityEdit e = world.createEntity();
+    ecs::EntityEdit e2 = world.createEntity();
+    ecs::EntityEdit e3 = world.createEntity();
+
+    e.set<Position>();
+    e2.set<Velocity>();
+
+    e2.set<Velocity>();
+
+    e3.set<Position>();
+    e3.set<Velocity>();
+
+    world.process();
+
+    auto& storePosition = world.components().store<Position>();
+    auto& storeVelocity = world.components().store<Velocity>();
+
+    ASSERT_EQ(2, storePosition.entities().count());
+    ASSERT_EQ(3, storeVelocity.entities().count());
+
+
+    world.deleteEntity(e.getEntity());
+    world.deleteEntity(e2.getEntity());
+
+    world.process();
+
+    ASSERT_EQ(0, storePosition.entities().count());
+    ASSERT_EQ(1, storeVelocity.entities().count());
+    ASSERT_TRUE(storeVelocity.entities()[e2.getEntity().getId()]);
 }
