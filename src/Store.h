@@ -7,11 +7,25 @@
 // TODO: save pointer to store in component manager
 namespace ecs {
 
+class BaseStore : NoCopy {
+  public:
+	virtual ~BaseStore() = default;
+};
+
+template<typename T, typename... Args>
+std::unique_ptr<BaseStore> make_store(Args&& ... args) {
+	return std::unique_ptr<BaseStore>{new T(std::forward<Args>(args)...)};
+}
 
 template<typename T, typename enable_if_component<T>::type* = nullptr>
-class Store : NoCopy {
+class Store : public BaseStore { //};, NoCopy {
 friend class ComponentManager;
   public:
+	Store(u_int16_t id) : id(id) {
+		components.resize(MAX_ENTITIES);
+	}
+	virtual ~Store() = default;
+
 	std::vector<T>& getComponents() {
 		return components;
 	}
@@ -29,10 +43,10 @@ friend class ComponentManager;
 	const u_int16_t id;
 	EntityBits _entities {};
 
-	Store(u_int16_t id) : id(id) {
-		components.resize(MAX_COMPONENTS);
-	}
-	~Store() = default;
+//	Store<T>& operator=(const Store<T>&& rhs) {
+//		components = std::move(rhs.components);
+//		id = rhs.id;
+//	}
 };
 
 }

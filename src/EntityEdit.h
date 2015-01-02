@@ -16,11 +16,6 @@ namespace ecs {
 		EntityEdit(ComponentManager* cm, Entity e, EntityState state = EntityState::CHANGE) : cm(cm), entity(e), state(state) {
 			componentBits = &(cm->getComponentBits(e));
 		}
-//		EntityEdit(EntityEdit&& rhs) :
-//				cm(rhs.cm),  entity(rhs.entity), state(rhs.state) {}
-//		EntityEdit(const EntityEdit& rhs) :
-//			cm(rhs.cm),  entity(rhs.entity), state(rhs.state) {}
-//				cm(std::move(rhs.cm)),  entity(std::move(rhs.entity)), state(std::move(rhs.state)) {}
 		~EntityEdit() = default;
 
 		template<typename C, typename ... Args, typename enable_if_component<C>::type* = nullptr>

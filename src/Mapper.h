@@ -23,11 +23,11 @@ class Mapper {
 	~Mapper() = default;
 
 	C& get(Entity e) {
-		return static_cast<C&>(components->at(e.getId()));
+		return components->at(e.getId());
 	}
 
 	C& operator[](Entity e) {
-		return static_cast<C&>(components->at(e.getId()));
+		return components->at(e.getId());
 	}
 
 	bool has(Entity e) {

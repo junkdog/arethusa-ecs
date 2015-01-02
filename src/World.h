@@ -46,7 +46,7 @@ class World {
 		T& managerRef = *manager;
 		managerIndices[typeid(T)] = nextManagerIndex++;
 		managers.push_back(std::move(manager));
-		return static_cast<T&>(managerRef);
+		return managerRef;
 	}
 
 	template<typename T,

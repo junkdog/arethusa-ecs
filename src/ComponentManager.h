@@ -1,5 +1,6 @@
 #pragma once
 
+#include <algorithm>
 #include <cassert>
 #include <typeinfo>
 #include <typeindex>
@@ -9,6 +10,7 @@
 #include "Manager.h"
 #include "Component.h"
 #include "Store.h"
+#include "Util.h"
 
 namespace ecs {
 
@@ -55,11 +57,26 @@ class ComponentManager : public Manager {
 
 	template<typename C, typename enable_if_component<C>::type* = nullptr>
 	Store<C>& store() {
-		static Store<C> componentStore {nextComponentId++};
-		return componentStore;
+		auto found = std::find_if(stores.begin(), stores.end(),
+			[&](std::unique_ptr<BaseStore>& bs) -> bool {
+				return typeid(*bs.get()) == template_typeid<Store<C>>();
+			});
+
+		if (found != stores.end()) {
+			return static_cast<Store<C>&>(*(*found).get());
+		} else {
+			auto componentStore = make_unique<Store<C>>(nextComponentId);
+			stores.push_back(std::move(componentStore));
+			assert(stores[0].get() != nullptr);
+			assert(stores[nextComponentId].get() != nullptr);
+			nextComponentId++;
+
+			return static_cast<Store<C>&>(*(stores.back().get()));
+		}
 	}
 
   private:
+	std::vector<std::unique_ptr<BaseStore>> stores;
 	std::vector<ComponentBits> entityComponentBits;
 	u_int16_t nextComponentId = 0;
 };

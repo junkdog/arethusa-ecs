@@ -18,7 +18,7 @@ void EditProcessor::remove(Entity e) {
 EntityEdit& EditProcessor::findEdit(Entity e, EntityState newState) {
 	if (editedIds[e.getId()]) {
 		auto edit = std::find_if(edited.begin(), edited.end(),
-			[=](const EntityEdit& edit) -> bool {return edit.entity == e;});
+			[&](const EntityEdit& edit) -> bool {return edit.entity == e;});
 
 		assert(edited.end() != edit);
 		edit->state = std::max(edit->state, newState);
