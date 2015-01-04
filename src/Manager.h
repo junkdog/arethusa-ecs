@@ -7,7 +7,7 @@ namespace ecs {
 
 class World;
 
-class Manager : private NoCopy {
+class Manager { //: private NoCopy {
   public:
 	Manager(World* world) : world(world) {}
 	virtual ~Manager() = default;
@@ -20,4 +20,4 @@ class Manager : private NoCopy {
 	World* world;
 };
 
-}
+};

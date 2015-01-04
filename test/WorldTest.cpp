@@ -26,7 +26,7 @@ TEST(World, CreateDeleteEntity) {
     ecs::EntityManager& em = world.getManager<ecs::EntityManager>();
 
     ASSERT_EQ(0, em.getActiveCount());
-    ecs::EntityEdit e = world.createEntity();
+    ecs::EntityEdit& e = world.createEntity();
     world.process();
 
     ASSERT_EQ(1, em.getActiveCount());

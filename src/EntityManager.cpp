@@ -13,7 +13,7 @@ namespace ecs {
 
 	void EntityManager::initialize() {}
 
-	EntityEdit EntityManager::createEntity() {
+	EntityEdit& EntityManager::createEntity() {
 		uint32_t id;
 		if (recycled.size() > 0) {
 			id = recycled.back();

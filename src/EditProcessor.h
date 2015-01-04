@@ -1,5 +1,6 @@
 #pragma once
 
+#include <memory>
 #include <vector>
 #include "Constants.h"
 #include "EntityStates.h"
@@ -20,12 +21,12 @@ friend class EntityManager;
 
   private:
 	EntityBits editedIds;
-	std::vector<EntityEdit> edited;
+	std::vector<std::unique_ptr<EntityEdit>> edited {};
 	ComponentManager* cm;
 	EntityStates states;
 
-	EntityEdit edit(Entity e);
-	EntityEdit create(Entity e);
+	EntityEdit& edit(Entity e);
+	EntityEdit& create(Entity e);
 	void remove(Entity e);
 
 	EntityEdit& findEdit(Entity e, EntityState newState);

@@ -25,8 +25,8 @@ void World::initialize() {
 	systemManager->initialize();
 }
 
-EntityEdit World::createEntity() {
-	return std::move(entityManager->createEntity());
+EntityEdit& World::createEntity() {
+	return entityManager->createEntity();
 }
 
 Entity World::getEntity(uint id) {
@@ -65,8 +65,8 @@ void World::updateEntityStates() {
 	entityManager->process(edits->getStateChanges());
 }
 
-EntityEdit World::edit(Entity e) {
-	return std::move(edits->edit(e));
+EntityEdit& World::edit(Entity e) {
+	return edits->edit(e);
 }
 
 }

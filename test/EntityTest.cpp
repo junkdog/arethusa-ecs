@@ -1,6 +1,5 @@
 #include "gtest/gtest.h"
 #include "arethusa.h"
-#include "../src/World.h"
 
 TEST(Entity, Equality) {
     ecs::World world;
@@ -10,4 +9,5 @@ TEST(Entity, Equality) {
     auto e2 = ecs::Entity {e1.getId()};
     ASSERT_EQ(e1, e2);
 }
+
 

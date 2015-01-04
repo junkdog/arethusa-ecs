@@ -15,12 +15,12 @@ TEST(Mapper, HasComponent) {
 
     ecs::Mapper<Sprite> sprite(&world);
 
-    auto ee1 = world.createEntity();
+    auto& ee1 = world.createEntity();
     ee1.set<Sprite>(1);
     auto e1 = ee1.getEntity();
     auto e2 = world.createEntity().getEntity();
     auto e3 = world.createEntity().getEntity();
-    auto ee4 = world.createEntity();
+    auto& ee4 = world.createEntity();
     ee4.set<Sprite>(1);
     auto e4 = ee4.getEntity();
 

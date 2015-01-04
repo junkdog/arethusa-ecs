@@ -9,13 +9,12 @@ namespace ecs {
 	enum class EntityState {
 		CHANGE = 0, CREATE = 1, DELETE = 2};
 
-	class EntityEdit { //: private NoCopy {
+	class EntityEdit : private NoCopy {
 	friend class EditProcessor;
 
 	public:
-		EntityEdit(ComponentManager* cm, Entity e, EntityState state = EntityState::CHANGE) : cm(cm), entity(e), state(state) {
-			componentBits = &(cm->getComponentBits(e));
-		}
+		EntityEdit(ComponentManager* cm, Entity e, EntityState state = EntityState::CHANGE)
+			: cm(cm), entity(e), componentBits(&(cm->getComponentBits(e))), state(state) {}
 		~EntityEdit() = default;
 
 		template<typename C, typename ... Args, typename enable_if_component<C>::type* = nullptr>
