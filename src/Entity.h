@@ -14,15 +14,16 @@ struct Entity {
 	friend class System;
 
   public:
-	Entity& operator=(Entity other) {
-		id = other.id;
-		return *this;
-	}
-
 	Entity(u_int32_t id) : id(id) {}
+	Entity& operator=(const Entity&) = delete;
+	~Entity() = default;
 
 	u_int32_t getId() const {
 		return id;
+	}
+
+	bool operator==(const Entity& rhs) const {
+		return id == rhs.id;
 	}
 
   private:
@@ -34,7 +35,4 @@ inline std::ostream& operator<<(std::ostream& out, const Entity& e) {
 	return out;
 }
 
-inline bool operator==(const Entity& lhs, const Entity& rhs) {
-	return lhs.getId() == rhs.getId();
-}
 }

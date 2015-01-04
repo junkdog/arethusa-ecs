@@ -61,7 +61,7 @@ void System::syncActiveEntities() {
 		actives.clear();
 		auto entityId = activeIds.nextSetBit();
 		while (entityId != -1) {
-			actives.insert(actives.end(), entityId);
+			actives.emplace_back(entityId);
 			entityId = activeIds.nextSetBit(entityId + 1);
 		}
 	}

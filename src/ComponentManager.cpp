@@ -5,11 +5,13 @@ namespace ecs {
 
 void ComponentManager::clear(const Entity e) {
 	auto& components = entityComponentBits[e.id];
-//		for (uint componentBit = 0; components.size() > componentBit; componentBit++) {
-//			if (components[componentBit]) {
-//				store.getEntities<T>()[e.id] = false;
-//				store.getComponents<T>() = {};
-//		}
+
+	auto index = components.nextSetBit();
+	while (index != -1) {
+		stores[index]->remove(e);
+		stores[index]->entities()[e.getId()] = false;
+		index = components.nextSetBit(index + 1);
+	}
 	components.reset();
 }
 

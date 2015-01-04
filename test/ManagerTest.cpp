@@ -14,15 +14,15 @@ class ObserverManager : public ecs::Manager {
         wasInitialized = true;
     }
 
-    virtual void added(__attribute__((__unused__)) ecs::Entity e) override {
+    void added(__attribute__((__unused__)) const ecs::Entity e) override {
         wasAdded = true;
     }
 
-    virtual void removed(__attribute__((__unused__)) ecs::Entity e) override {
+    void removed(__attribute__((__unused__)) const ecs::Entity e) override {
         wasRemoved = true;
     }
 
-    virtual void updated(__attribute__((__unused__)) ecs::Entity e) override {
+    void updated(__attribute__((__unused__)) const ecs::Entity e) override {
         wasUpdated = true;
     }
 };

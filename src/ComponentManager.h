@@ -36,9 +36,7 @@ class ComponentManager : public Manager {
 
 	template<typename C, typename enable_if_component<C>::type* = nullptr>
 	ComponentBits componentBits() {
-		ComponentBits aspect;
-		aspect[store<C>().index()] = true;
-		return aspect;
+		return {store<C>().index()};
 	}
 
 	template<typename C1, typename C2, typename ... Cn>
@@ -67,8 +65,6 @@ class ComponentManager : public Manager {
 		} else {
 			auto componentStore = make_unique<Store<C>>(nextComponentId);
 			stores.push_back(std::move(componentStore));
-			assert(stores[0].get() != nullptr);
-			assert(stores[nextComponentId].get() != nullptr);
 			nextComponentId++;
 
 			return static_cast<Store<C>&>(*(stores.back().get()));

@@ -29,7 +29,7 @@ class PositionSystem : public ecs::EntitySystem<PositionSystem> {
 
 	virtual ~PositionSystem() = default;
 
-	void processEntity(__attribute__((__unused__)) ecs::Entity e) {}
+	void processEntity(__attribute__((__unused__)) const ecs::Entity e) {}
 };
 
 class VelocitySystem : public ecs::EntitySystem<VelocitySystem> {
@@ -49,7 +49,7 @@ class VelToPosSystem : public ecs::EntitySystem<VelToPosSystem> {
 
 	virtual ~VelToPosSystem() = default;
 
-	void processEntity(ecs::Entity e) {
+	void processEntity(const ecs::Entity e) {
 		world->edit(e).set<Position>();
 		world->edit(e).unset<Velocity>();
 	}
@@ -65,7 +65,7 @@ class MapperSystem : public ecs::EntitySystem<MapperSystem> {
 
 	ecs::Mapper<Sprite> sprite;
 
-	void processEntity(ecs::Entity e) {
+	void processEntity(const ecs::Entity e) {
 		sprite[e].id++;
 	}
 };
@@ -76,19 +76,19 @@ class DeleterSystem : public ecs::EntitySystem<DeleterSystem> {
 		EntitySystem(world, world->components().componentBits<Position>()) {}
 	virtual ~DeleterSystem() = default;
 
-	void processEntity(ecs::Entity e) {
+	void processEntity(const ecs::Entity e) {
 		if (tick == 0)
 			return;
 
 		if (tick == 1 && e.getId() % 2 == 0) {
 			world->deleteEntity(e);
-			e = world->createEntity().getEntity();
-			auto& cb = world->components().getComponentBits(e);
+			auto eNew = world->createEntity().getEntity();
+			auto& cb = world->components().getComponentBits(eNew);
 			ASSERT_FALSE(cb.any());
 		} else if (tick > 1) {
 			world->deleteEntity(e);
-			e = world->createEntity().getEntity();
-			auto& cb = world->components().getComponentBits(e);
+			auto eNew = world->createEntity().getEntity();
+			auto& cb = world->components().getComponentBits(eNew);
 			ASSERT_FALSE(cb.any());
 		}
 	}
@@ -192,27 +192,6 @@ TEST(EntitySystem, EntityDeletedInSystem) {
 	ASSERT_EQ(0u, ps.getActiveCount());
 	ASSERT_EQ(4, ds.removedCount);
 }
-
-//TEST(EntitySystem, EntityChangeMoveInSystem) {
-//	ecs::World world;
-//	world.systems().set<VelToPosSystem>();
-//	PositionSystem& ps = world.systems().set<PositionSystem>();
-//	world.initialize();
-//
-//	world.createEntity().set<Position>();
-//	world.createEntity().set<Velocity>();
-//	world.createEntity().set<Position>();
-//	world.createEntity().set<Position>();
-//
-//	world.process();
-//	ASSERT_EQ(4u, ps.getActiveCount());
-//	ASSERT_EQ(0, ds.removedCount);
-//
-//	world.process();
-//	ASSERT_EQ(2u, ps.getActiveCount());
-//	ASSERT_EQ(2, ds.removedCount);
-//}
-
 
 TEST(EntitySystem, EntityRemoved) {
 	ecs::World world;

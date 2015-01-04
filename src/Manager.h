@@ -12,9 +12,9 @@ class Manager { //: private NoCopy {
 	Manager(World* world) : world(world) {}
 	virtual ~Manager() = default;
 	virtual void initialize();
-	virtual void added(Entity e);
-	virtual void removed(Entity e);
-	virtual void updated(Entity e);
+	virtual void added(const Entity e);
+	virtual void removed(const Entity e);
+	virtual void updated(const Entity e);
 
   protected:
 	World* world;

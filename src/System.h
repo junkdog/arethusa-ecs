@@ -29,9 +29,9 @@ class System : private NoCopy {
 	virtual void begin() {};
 
 	virtual void end() {};
-	virtual void added(__attribute__((__unused__)) Entity e) = 0;
-	virtual void removed(__attribute__((__unused__)) Entity e) = 0;
-	virtual void updated(__attribute__((__unused__)) Entity e) = 0;
+	virtual void added(__attribute__((__unused__)) const Entity e) = 0;
+	virtual void removed(__attribute__((__unused__)) const Entity e) = 0;
+	virtual void updated(__attribute__((__unused__)) const Entity e) = 0;
 
 	virtual bool isActive();
 	virtual void processSystem() = 0;
@@ -55,10 +55,10 @@ class System : private NoCopy {
 	void update(std::vector<Entity>& entities);
 	void syncActiveEntities();
 
-	bool isInterested(Entity e);
-	void insert(Entity e);
-	void remove(Entity e);
-	void update(Entity e);
+	bool isInterested(const Entity e);
+	void insert(const Entity e);
+	void remove(const Entity e);
+	void update(const Entity e);
 
 	ComponentBits& logicalAND(ComponentBits a, ComponentBits b);
 };
