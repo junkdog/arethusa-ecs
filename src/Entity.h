@@ -15,7 +15,6 @@ struct Entity {
 
   public:
 	Entity(u_int32_t id) : id(id) {}
-	Entity& operator=(const Entity&) = delete;
 	~Entity() = default;
 
 	u_int32_t getId() const {
