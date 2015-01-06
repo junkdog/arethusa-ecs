@@ -22,8 +22,8 @@ struct EntityStates {
 		changed.clear();
 	}
 
-	std::vector<Entity> added{};
-	std::vector<Entity> deleted{};
-	std::vector<Entity> changed{};
+	std::vector<Entity> added {};
+	std::vector<Entity> deleted {};
+	std::vector<Entity> changed {};
 };
 }

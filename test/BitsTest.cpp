@@ -66,6 +66,9 @@ TEST(Bits, BitwiseOR) {
     ASSERT_EQ(bits1[8], false);
 
     ASSERT_TRUE(bits1 == bits3);
+
+    ASSERT_EQ(4, bits2.count());
+    ASSERT_EQ(6, bits1.count());
 }
 
 TEST(Bits, IterateBits) {
@@ -79,6 +82,20 @@ TEST(Bits, IterateBits) {
         index = bits.nextSetBit(index + 1);
     }
     ASSERT_EQ(7u, count);
+}
+
+TEST(Bits, RangeForIterateBits) {
+    ecs::Bits bits {0, 3, 14, 23, 43, 534, 256, 124};
+    ecs::Bits bits2 {};
+    auto count = 0;
+    for (auto bit : bits) {
+        bits2[bit] = true;
+        count++;
+    }
+
+    ASSERT_EQ(8, count);
+    ASSERT_EQ(8u, bits2.count());
+    ASSERT_EQ(bits, bits2);
 }
 
 TEST(Bits, IterateBitsEmpty) {
@@ -127,6 +144,26 @@ TEST(Bits, Equality) {
     bits2[7] = true;
 
     ASSERT_TRUE(bits1 == bits2);
+}
+
+TEST(Bits, HighestSetBit) {
+    ecs::Bits bits1a {2, 4, 14, 24};
+    ecs::Bits bits1b {31};
+    ecs::Bits bits2 {1, 24, 32, 63};
+
+    ASSERT_EQ(24, bits1a.highestBit());
+    ASSERT_EQ(31, bits1b.highestBit());
+    ASSERT_EQ(63, bits2.highestBit());
+}
+
+TEST(Bits, LowestSetBit) {
+    ecs::Bits bits1a {2, 4, 14, 24};
+    ecs::Bits bits1b {31};
+    ecs::Bits bits2 {1, 24, 32, 63};
+
+    ASSERT_EQ(2, bits1a.lowestBit());
+    ASSERT_EQ(31, bits1b.lowestBit());
+    ASSERT_EQ(1, bits2.lowestBit());
 }
 
 TEST(Bits, EqualityDifferentWordLength) {

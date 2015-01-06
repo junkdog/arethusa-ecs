@@ -3,6 +3,7 @@
 #include <unordered_map>
 #include <typeinfo>
 #include <typeindex>
+#include <type_traits>
 #include <memory>
 #include <vector>
 #include "Constants.h"

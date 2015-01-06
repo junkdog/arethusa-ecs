@@ -57,11 +57,11 @@ class ComponentManager : public Manager {
 	Store<C>& store() {
 		auto found = std::find_if(stores.begin(), stores.end(),
 			[&](std::unique_ptr<BaseStore>& bs) -> bool {
-				return typeid(*bs.get()) == template_typeid<Store<C>>();
+				return typeid(*bs.get()) == typeid(Store<C>);
 			});
 
 		if (found != stores.end()) {
-			return static_cast<Store<C>&>(*(*found).get());
+			return static_cast<Store<C>&>(*found->get());
 		} else {
 			auto componentStore = make_unique<Store<C>>(nextComponentId);
 			stores.push_back(std::move(componentStore));
