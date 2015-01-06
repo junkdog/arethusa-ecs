@@ -1,9 +1,12 @@
 #include "Util.h"
 
 namespace ecs {
-unsigned int rightmostBit(unsigned int value) {
-	// see https://graphics.stanford.edu/~seander/bithacks.html#IntegerLog
-	unsigned int bit = 32;
+int rightmostBit(unsigned int value) {
+	if (value == 0)
+		return -1;
+
+	// see https://graphics.stanford.edu/~seander/bithacks.html
+	int bit = 32;
 	value &= -signed(value);
 	if (value) bit--;
 	if (value & 0x0000FFFF) bit -= 16;
@@ -15,8 +18,8 @@ unsigned int rightmostBit(unsigned int value) {
 	return bit;
 }
 
-unsigned int leftmostBit(unsigned int value) {
-	// see https://graphics.stanford.edu/~seander/bithacks.html#IntegerLog
+int leftmostBit(unsigned int value) {
+	// see https://graphics.stanford.edu/~seander/bithacks.html
 	static const int multiplyDeBruijnBitPosition[32] = {
 		0, 9, 1, 10, 13, 21, 2, 29, 11, 14, 16, 18, 22, 25, 3, 30,
 		8, 12, 20, 28, 15, 17, 24, 7, 19, 27, 23, 6, 26, 5, 4, 31

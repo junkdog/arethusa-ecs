@@ -17,7 +17,7 @@ class Mapper {
 	Mapper(World* world) {
 		ComponentManager& cm = world->components();
 		components = &cm.store<C>().getComponents();
-		componentBit = cm.componentBits<C>().nextSetBit(0);
+		componentBit = cm.componentBits<C>().nextSetBit();
 		entityComponentBits = &cm.entityComponentBits;
 	}
 	~Mapper() = default;

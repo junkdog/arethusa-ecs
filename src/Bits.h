@@ -20,7 +20,6 @@ class BitIterator {
 	}
 
 	int operator*() const;
-
 	BitIterator& operator++();
 
   private:

@@ -59,10 +59,8 @@ void System::syncActiveEntities() {
 	if (activeNeedsRebuilding) {
 		activeNeedsRebuilding = false;
 		actives.clear();
-		auto entityId = activeIds.nextSetBit();
-		while (entityId != -1) {
+		for (auto entityId : activeIds) {
 			actives.emplace_back(entityId);
-			entityId = activeIds.nextSetBit(entityId + 1);
 		}
 	}
 }

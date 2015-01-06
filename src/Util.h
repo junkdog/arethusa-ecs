@@ -10,7 +10,7 @@ std::unique_ptr<T> make_unique(Args&& ... args) {
 	return std::unique_ptr<T>{new T(std::forward<Args>(args)...)};
 }
 
-unsigned int rightmostBit(unsigned int value);
-unsigned int leftmostBit(unsigned int value);
+int rightmostBit(unsigned int value);
+int leftmostBit(unsigned int value);
 
 }

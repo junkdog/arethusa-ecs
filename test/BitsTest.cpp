@@ -98,6 +98,16 @@ TEST(Bits, RangeForIterateBits) {
     ASSERT_EQ(bits, bits2);
 }
 
+TEST(Bits, RangeForEmpty) {
+    ecs::Bits bits {};
+    auto count = 0;
+    for (auto bit : bits) {
+        count += 1 + bit;
+    }
+
+    ASSERT_EQ(0, count);
+}
+
 TEST(Bits, IterateBitsEmpty) {
     ecs::Bits bits;
     ASSERT_EQ(-1, bits.nextSetBit());

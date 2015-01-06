@@ -16,13 +16,12 @@ Bits::Bits(const size_t words, std::initializer_list<unsigned int> bits)
 
 int Bits::nextSetBit(unsigned int fromIndex) const {
 	unsigned int wordIndex = fromIndex / WORD_SIZE;
-	unsigned int bitIndex = fromIndex % WORD_SIZE;
 	if (wordIndex >= words.size())
 		return -1;
 
 	unsigned int word = words[wordIndex];
-	// remove trailing bits on the rhs
-	word &= ~((1 << bitIndex) - 1);
+	unsigned int bitIndex = fromIndex % WORD_SIZE;
+	word &= ~((1 << bitIndex) - 1); // remove trailing bits on the rhs
 
 	if (word > 0)
 		return rightmostBit(word) + (wordIndex * WORD_SIZE);
@@ -160,13 +159,16 @@ int Bits::lowestBit() const {
 		lowestWordIndex++;
 	}
 
+	if (lowestWordIndex == words.size())
+		return -1;
+
 	return rightmostBit(words[lowestWordIndex]) + (lowestWordIndex * WORD_SIZE);
 }
 
 #pragma region WordProxy
 
 Bits::WordProxy& Bits::WordProxy::operator=(bool rhs) {
-	Word mask = 1ul << bit;
+	Word mask = 1u << bit;
 	if (rhs) {
 		*word = *word | mask;
 	} else {

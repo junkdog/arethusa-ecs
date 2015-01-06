@@ -6,11 +6,9 @@ namespace ecs {
 void ComponentManager::clear(const Entity e) {
 	auto& components = entityComponentBits[e.id];
 
-	auto index = components.nextSetBit();
-	while (index != -1) {
+	for (auto index : components) {
 		stores[index]->remove(e);
 		stores[index]->entities()[e.getId()] = false;
-		index = components.nextSetBit(index + 1);
 	}
 	components.reset();
 }
