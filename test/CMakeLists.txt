@@ -19,5 +19,6 @@ target_link_libraries(unit-tests
 	pthread)
 
 add_custom_target(valgrind COMMAND valgrind --track-origins=yes --tool=memcheck --leak-check=full --num-callers=40 ./unit-tests)
+# add_custom_target(valgrind COMMAND valgrind --track-origins=yes --tool=memcheck --leak-check=full --num-callers=40 ./unit-tests --gtest_filter=Bits.*)
 
 GTEST_ADD_TESTS(unit-tests "" ${files})

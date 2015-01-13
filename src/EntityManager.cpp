@@ -4,7 +4,7 @@
 namespace ecs {
 
 	EntityManager::EntityManager(World* world) : Manager(world) {
-		recycled.reserve(MAX_ENTITIES);
+		recycled.reserve(INITIAL_ENTITY_COUNT);
 	}
 
 	void EntityManager::initialize() {}
@@ -16,6 +16,10 @@ namespace ecs {
 			recycled.pop_back();
 		} else {
 			id = nextEntityId++;
+			if (nextEntityId == containerSize) {
+				containerSize *= 2;
+				world->components().resize(containerSize);
+			}
 		}
 
 		active[id] = true;

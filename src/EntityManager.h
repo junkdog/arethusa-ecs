@@ -22,6 +22,7 @@ class EntityManager : public Manager {
 
   private:
 	u_int32_t nextEntityId = 0;
+	u_int32_t containerSize = INITIAL_ENTITY_COUNT;
 	EntityBits active{};
 	std::vector<int> recycled;
 };

@@ -17,11 +17,12 @@ class ComponentManager : public Manager {
 	template<typename C, typename enable_if_component<C>::type*>
 	friend class Mapper;
 	friend class EntityEdit;
+	friend class EntityManager;
 
   public:
 
 	ComponentManager(World* world) : Manager(world) {
-		entityComponentBits.resize(MAX_ENTITIES);
+		entityComponentBits.resize(INITIAL_ENTITY_COUNT);
 	}
 	virtual ~ComponentManager() = default;
 
@@ -71,5 +72,12 @@ class ComponentManager : public Manager {
 	std::vector<std::unique_ptr<BaseStore>> stores;
 	std::vector<ComponentBits> entityComponentBits;
 	u_int16_t nextComponentId = 0;
+
+	void resize(u_int32_t size) {
+		entityComponentBits.resize(size);
+		for (auto& store : stores) {
+			store.get()->resize(size);
+		}
+	}
 };
 }

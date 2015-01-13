@@ -11,6 +11,7 @@ class BaseStore : NoCopy {
 	virtual ~BaseStore() = default;
 	virtual void remove(const Entity e) = 0;
 	virtual EntityBits& entities() = 0;
+	virtual void resize(u_int32_t size) = 0;
 };
 
 template<typename T, typename enable_if_component<T>::type* = nullptr>
@@ -18,7 +19,7 @@ class Store : public BaseStore {
 friend class ComponentManager;
   public:
 	Store(u_int16_t id) : id(id) {
-		components.resize(MAX_ENTITIES);
+		components.resize(INITIAL_ENTITY_COUNT);
 	}
 	virtual ~Store() = default;
 
@@ -38,9 +39,14 @@ friend class ComponentManager;
 		_entities[e.getId()] = false;
 	}
 
+	void resize(u_int32_t size) {
+		components.reserve(size);
+	}
+
   private:
 	std::vector<T> components {};
 	const u_int16_t id;
 	EntityBits _entities {};
+
 };
 }

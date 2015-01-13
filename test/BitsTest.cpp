@@ -201,3 +201,18 @@ TEST(Bits, EqualityDifferentWordLength) {
     ASSERT_TRUE(bits3 != bits4);
 }
 
+TEST(Bits, FillBitByBit) {
+    ecs::Bits bs;
+    for (int i = 0; 4096 > i; i++) {
+        bs[i] = true;
+    }
+
+    for (int i = 0; 4096 > i; i++) {
+        ASSERT_TRUE(bs[i]);
+    }
+
+    for (int i = 0; 4096 > i; i++) {
+        ASSERT_FALSE(bs[i + 4096]);
+    }
+}
+

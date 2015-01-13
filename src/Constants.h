@@ -6,8 +6,7 @@ namespace ecs {
 
 	struct Entity;
 
-	const int MAX_COMPONENTS = 2048;
-	const int MAX_ENTITIES = 2048;
+	const int INITIAL_ENTITY_COUNT = 2048;
 
 	using ComponentBits = Bits;
 	using EntityBits = Bits;
