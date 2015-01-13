@@ -14,29 +14,27 @@ template<typename C, typename enable_if_component<C>::type* = nullptr>
 class Mapper {
 
   public:
-	Mapper(World* world) {
-		ComponentManager& cm = world->components();
-		components = &cm.store<C>().getComponents();
-		componentBit = cm.componentBits<C>().nextSetBit();
-		entityComponentBits = &cm.entityComponentBits;
-	}
+	Mapper(World* world) :
+		store(world->components().store<C>()),
+		components(store.getComponents()),
+		componentBit(store.index()) {}
 	~Mapper() = default;
 
 	C& get(Entity e) {
-		return components->at(e.getId());
+		return components[e.getId()];
 	}
 
 	C& operator[](Entity e) {
-		return components->at(e.getId());
+		return components[e.getId()];
 	}
 
 	bool has(Entity e) {
-		return entityComponentBits->at(e.getId())[componentBit];
+		return store.entities()[e.getId()];
 	}
 
   private:
-	std::vector<C>* components;
+	Store<C>& store;
+	std::vector<C>& components;
 	u_int16_t componentBit;
-	std::vector<ComponentBits>* entityComponentBits;
 };
 }

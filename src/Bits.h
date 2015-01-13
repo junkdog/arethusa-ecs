@@ -46,10 +46,11 @@ class Bits {
 	};
 
   public:
-	Bits() : Bits(1u, {}) {}
-	Bits(std::initializer_list<unsigned int> bits) : Bits(1u, bits) {};
-	Bits(const size_t words, std::initializer_list<unsigned int> bits);
+	Bits() noexcept : Bits(1u, {}) {}
+	Bits(std::initializer_list<unsigned int> bits) noexcept : Bits(1u, bits) {};
+	Bits(const size_t words, std::initializer_list<unsigned int> bits) noexcept;
 	Bits(const Bits& other) : words(other.words) {}
+	Bits(Bits&& other) noexcept;
 
 	~Bits() = default;
 	WordProxy& operator[](unsigned int bitIndex);
@@ -61,6 +62,7 @@ class Bits {
 
 		return (words[index] & (1 << bit)) != 0;
 	}
+	Bits& operator=(const Bits& rhs);
 	bool operator==(const Bits& rhs) const;
 	bool operator!=(const Bits& rhs) const;
 	Bits& operator|=(const Bits& rhs);

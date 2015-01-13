@@ -38,7 +38,7 @@ namespace ecs {
 			store.entities()[entity.getId()] = false;
 		}
 
-		const Entity getEntity() {
+		const Entity getEntity() const {
 			return entity;
 		}
 

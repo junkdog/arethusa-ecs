@@ -1,5 +1,6 @@
 #pragma once
 
+#include <algorithm>
 #include <unordered_map>
 #include "Constants.h"
 #include "System.h"
@@ -26,27 +27,27 @@ class SystemManager : public Manager {
 	template<typename T, typename ... Args, typename enable_if_system<T>::type* = nullptr>
 	T& set(Args&& ... args) {
 		auto system = make_unique<T>(world, std::forward<Args>(args) ...);
-		uint systemBit = (uint) systems.size();
-		system->systemBit = systemBit;
 		T& systemRef = *system;
 
 		systems.push_back(std::move(system));
-		systemMap[typeid(T)] = systemBit;
 
 		return systemRef;
 	}
 
 	template<typename T, typename enable_if_system<T>::type* = nullptr>
 	T& get() {
-		auto system = systems[systemMap[typeid(T)]].get();
-		return static_cast<T&>(*system);
+		auto foundSystem = std::__find_if(systems.cbegin(), systems.cend(),
+		[&](std::unique_ptr<System>& es) -> bool {
+			return typeid(*es.get()) == typeid(T);
+		});
+
+		return static_cast<T&>(*foundSystem.get());
 	}
 
 	virtual void initialize() override;
 
   private:
 	std::vector<std::unique_ptr<System>> systems;
-	std::unordered_map<std::type_index, uint> systemMap;
 };
 
 }

@@ -6,12 +6,16 @@
 
 namespace ecs {
 
-Bits::Bits(const size_t words, std::initializer_list<unsigned int> bits)
+Bits::Bits(const size_t words, std::initializer_list<unsigned int> bits) noexcept
 	: words(std::vector<Word>(words, {})) {
 
 	for (auto bit : bits) {
 		(*this)[bit] = true;
 	}
+}
+
+Bits::Bits(Bits&& other) noexcept : Bits() {
+	*this = std::move(other);
 }
 
 int Bits::nextSetBit(unsigned int fromIndex) const {
@@ -43,6 +47,13 @@ Bits::WordProxy& Bits::operator[](unsigned int bitIndex) {
 
 unsigned long Bits::wordsInUse() const {
 	return words.size();
+}
+
+Bits& Bits::operator=(const Bits& rhs) {
+	if (this != &rhs)
+		words = rhs.words;
+
+	return *this;
 }
 
 bool Bits::operator==(const Bits& rhs) const {
@@ -165,8 +176,6 @@ int Bits::lowestBit() const {
 	return rightmostBit(words[lowestWordIndex]) + (lowestWordIndex * WORD_SIZE);
 }
 
-#pragma region WordProxy
-
 Bits::WordProxy& Bits::WordProxy::operator=(bool rhs) {
 	Word mask = 1u << bit;
 	if (rhs) {
@@ -181,8 +190,6 @@ Bits::WordProxy::operator bool() const {
 	Word mask = 1u << bit;
 	return (*word & mask) != 0;
 }
-
-#pragma region BitIterator
 
 int BitIterator::operator*() const {
 	return pos;
@@ -200,5 +207,4 @@ BitIterator Bits::end() const {
 BitIterator Bits::begin() const {
 	return BitIterator(this, lowestBit());
 }
-
 }

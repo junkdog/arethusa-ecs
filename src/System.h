@@ -1,13 +1,8 @@
 #pragma once
 
-#include <unordered_map>
 #include <typeinfo>
-#include <typeindex>
 #include <memory>
-#include <vector>
-#include "Constants.h"
 #include "Entity.h"
-#include "Component.h"
 #include "NoCopy.h"
 
 namespace ecs {
@@ -48,7 +43,6 @@ class System : private NoCopy {
 	ComponentBits disallowedComponents;
 	ComponentBits tmpBits;
 	bool isVoidSystem = false;
-	unsigned int systemBit = 0;
 
 	void insert(std::vector<Entity>& entities);
 	void remove(std::vector<Entity>& entities);

@@ -2,9 +2,6 @@
 
 #include "Constants.h"
 #include <ostream>
-#include <set>
-#include <vector>
-#include <memory>
 
 namespace ecs {
 

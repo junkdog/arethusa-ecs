@@ -26,10 +26,6 @@ namespace ecs {
 		return world->edits->create({id});
 	}
 
-//	void EntityManager::updateState(const Entity e) {
-//		entityChanges.changed[e.id] = true;
-//	}
-
 	Entity EntityManager::getEntity(uint id) {
 		assert(active[id]);
 		return {id};
