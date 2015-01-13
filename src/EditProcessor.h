@@ -2,7 +2,6 @@
 
 #include <memory>
 #include <vector>
-#include "Constants.h"
 #include "EntityStates.h"
 #include "NoCopy.h"
 #include "EntityEdit.h"
@@ -10,8 +9,8 @@
 
 namespace ecs {
 class EditProcessor : private NoCopy {
-friend class World;
-friend class EntityManager;
+	friend class World;
+	friend class EntityManager;
 
   public:
 	EditProcessor(ComponentManager* cm) : cm(cm) {}

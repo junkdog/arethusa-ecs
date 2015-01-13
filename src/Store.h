@@ -1,7 +1,6 @@
 #pragma once
 
 #include <vector>
-#include "Constants.h"
 #include "Component.h"
 
 // TODO: save pointer to store in component manager

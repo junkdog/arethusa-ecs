@@ -2,11 +2,7 @@
 
 #include <algorithm>
 #include <cassert>
-#include <typeinfo>
-#include <typeindex>
-#include <memory>
 #include <vector>
-#include <unordered_map>
 #include "Manager.h"
 #include "Component.h"
 #include "Store.h"

@@ -1,6 +1,5 @@
 #pragma once
 
-#include <typeinfo>
 #include <memory>
 #include "Entity.h"
 #include "NoCopy.h"

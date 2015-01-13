@@ -1,9 +1,5 @@
 #include <cassert>
-#include "Constants.h"
-#include "Entity.h"
 #include "EntityManager.h"
-#include "SystemManager.h"
-#include "ComponentManager.h"
 
 namespace ecs {
 

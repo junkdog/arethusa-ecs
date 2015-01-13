@@ -1,14 +1,5 @@
 #pragma once
 
-#include <unordered_map>
-#include <typeinfo>
-#include <typeindex>
-#include <type_traits>
-#include <memory>
-#include <vector>
-#include "Constants.h"
-#include "Entity.h"
-#include "Component.h"
 #include "System.h"
 
 namespace ecs {

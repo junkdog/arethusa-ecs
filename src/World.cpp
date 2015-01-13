@@ -1,7 +1,5 @@
 #include "Constants.h"
-#include "ComponentManager.h"
 #include "EntityManager.h"
-#include "Util.h"
 
 namespace ecs {
 

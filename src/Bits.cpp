@@ -1,6 +1,4 @@
 #include <cassert>
-#include <cmath>
-#include <algorithm>
 #include "Bits.h"
 #include "Util.h"
 

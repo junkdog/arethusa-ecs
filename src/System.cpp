@@ -1,8 +1,4 @@
-#include <algorithm>
-#include "Constants.h"
-#include "Entity.h"
 #include "System.h"
-#include "ComponentManager.h"
 #include "World.h"
 
 namespace ecs {

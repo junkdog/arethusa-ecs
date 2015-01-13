@@ -1,20 +1,12 @@
 #pragma once
 
 #include <cstdint>
-#include <unordered_map>
 #include <typeinfo>
-#include <typeindex>
 #include <memory>
 #include <vector>
-#include "Manager.h"
-#include "Constants.h"
 #include "Entity.h"
-#include "Component.h"
 #include "SystemManager.h"
-#include "EditProcessor.h"
 #include "Util.h"
-
-typedef uint32_t uint; // osx fix
 
 namespace ecs {
 

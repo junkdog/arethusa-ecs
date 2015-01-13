@@ -1,4 +1,3 @@
-#include "Constants.h"
 #include "ComponentManager.h"
 
 namespace ecs {
