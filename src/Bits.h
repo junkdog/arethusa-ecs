@@ -46,9 +46,8 @@ class Bits {
 	};
 
   public:
-	Bits() noexcept : Bits(1u, {}) {}
-	Bits(std::initializer_list<unsigned int> bits) noexcept : Bits(1u, bits) {};
-	Bits(const size_t words, std::initializer_list<unsigned int> bits) noexcept;
+	Bits() noexcept : Bits({}) {}
+	Bits(std::initializer_list<unsigned int> bits) noexcept;
 	Bits(const Bits& other) : words(other.words) {}
 	Bits(Bits&& other) noexcept;
 

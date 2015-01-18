@@ -17,7 +17,7 @@ namespace ecs {
 			: cm(cm), entity(e), componentBits(&(cm->getComponentBits(e))), state(state) {}
 		~EntityEdit() = default;
 
-		template<typename C, typename ... Args, typename enable_if_component<C>::type* = nullptr>
+		template<typename C, typename ... Args, enable_if_component_t<C> = nullptr>
 		C& set(Args&& ... args) {
 			auto& store = cm->store<C>();
 			auto cid = store.index();
@@ -29,7 +29,7 @@ namespace ecs {
 			return store.getComponents()[entity.getId()];
 		}
 
-		template<typename C, typename enable_if_component<C>::type* = nullptr>
+		template<typename C, enable_if_component_t<C> = nullptr>
 		void unset() {
 			auto& store = cm->store<C>();
 			u_int16_t cid = store.index();

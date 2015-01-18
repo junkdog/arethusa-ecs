@@ -14,7 +14,7 @@ class BaseStore : NoCopy {
 	virtual void resize(u_int32_t size) = 0;
 };
 
-template<typename T, typename enable_if_component<T>::type* = nullptr>
+template<typename T, enable_if_component_t<T> = nullptr>
 class Store : public BaseStore {
 friend class ComponentManager;
   public:

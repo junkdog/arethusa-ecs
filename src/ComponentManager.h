@@ -14,7 +14,7 @@ class World;
 
 class ComponentManager : public Manager {
 
-	template<typename C, typename enable_if_component<C>::type*>
+	template<typename C, enable_if_component_t<C>>
 	friend class Mapper;
 	friend class EntityEdit;
 	friend class EntityManager;
@@ -26,12 +26,12 @@ class ComponentManager : public Manager {
 	}
 	virtual ~ComponentManager() = default;
 
-	template<typename C, typename enable_if_component<C>::type* = nullptr>
+	template<typename C, enable_if_component_t<C> = nullptr>
 	C& get(const Entity& e) {
 		return store<C>().getComponents()[e.id];
 	}
 
-	template<typename C, typename enable_if_component<C>::type* = nullptr>
+	template<typename C, enable_if_component_t<C> = nullptr>
 	ComponentBits componentBits() {
 		return {store<C>().index()};
 	}
@@ -41,7 +41,7 @@ class ComponentManager : public Manager {
 		return componentBits<C1>() | componentBits<C2, Cn...>();
 	}
 
-	template<typename C, typename enable_if_component<C>::type* = nullptr>
+	template<typename C, enable_if_component_t<C> = nullptr>
 	std::vector<C>& getComponents() {
 		return store<C>().getComponents();
 	}
@@ -50,7 +50,7 @@ class ComponentManager : public Manager {
 
 	ComponentBits& getComponentBits(const Entity e);
 
-	template<typename C, typename enable_if_component<C>::type* = nullptr>
+	template<typename C, enable_if_component_t<C> = nullptr>
 	Store<C>& store() {
 		auto found = std::find_if(stores.begin(), stores.end(),
 			[&](std::unique_ptr<BaseStore>& bs) -> bool {

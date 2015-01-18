@@ -4,8 +4,8 @@
 
 namespace ecs {
 
-Bits::Bits(const size_t words, std::initializer_list<unsigned int> bits) noexcept
-	: words(std::vector<Word>(words, {})) {
+Bits::Bits(std::initializer_list<unsigned int> bits) noexcept
+	: words({0}) {
 
 	for (auto bit : bits) {
 		(*this)[bit] = true;
@@ -118,7 +118,7 @@ Bits Bits::operator&(const Bits& rhs) {
 unsigned int Bits::count() {
 	auto index = nextSetBit();
 
-	auto count = 0u;
+	auto count = 0;
 	while (index != -1) {
 		count++;
 		index = nextSetBit(index + 1);
@@ -150,7 +150,7 @@ void Bits::reset() {
 
 int Bits::highestBit() const {
 	Word highestWordIndex = words.size();
-	for (auto word = words.rbegin(); word != words.rend(); word++) {
+	for (auto word = words.crbegin(); word != words.crend(); word++) {
 		highestWordIndex--;
 		if (*word > 0)
 			break;
@@ -161,7 +161,7 @@ int Bits::highestBit() const {
 
 int Bits::lowestBit() const {
 	Word lowestWordIndex = 0;
-	for (auto word = words.begin(); word != words.end(); word++) {
+	for (auto word = words.cbegin(); word != words.cend(); word++) {
 		if (*word > 0)
 			break;
 

@@ -10,7 +10,7 @@
 
 namespace ecs {
 
-template<typename C, typename enable_if_component<C>::type* = nullptr>
+template<typename C, enable_if_component_t<C> = nullptr>
 class Mapper {
 
   public:

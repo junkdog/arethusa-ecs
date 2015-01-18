@@ -8,4 +8,7 @@ namespace ecs {
 
 	template <typename C>
 	using enable_if_component = std::enable_if<is_component<C>::value>;
+
+	template <typename C>
+	using enable_if_component_t = typename enable_if_component<C>::type*;
 }

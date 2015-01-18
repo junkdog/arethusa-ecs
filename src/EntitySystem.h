@@ -25,7 +25,7 @@ class EntitySystem : public System, private NoCopy {
 		if (!isActive()) return;
 
 		begin();
-		for (auto entity : actives) {
+		for (const auto entity : actives) {
 			static_cast<Derived*>(this)->processEntity(std::move(entity));
 		}
 		end();

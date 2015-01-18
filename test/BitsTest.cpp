@@ -26,11 +26,11 @@ TEST(Bits, WordsInUse) {
     ecs::Bits bits;
     ASSERT_EQ(1u, bits.wordsInUse());
 
-    ecs::Bits bits2(4, {});
-    ASSERT_EQ(4u, bits2.wordsInUse());
+    ecs::Bits bits2;
+    ASSERT_EQ(1u, bits2.wordsInUse());
 
-    ecs::Bits bits3(2, {1, 3});
-    ASSERT_EQ(2u, bits3.wordsInUse());
+    ecs::Bits bits3{1, 3};
+    ASSERT_EQ(1u, bits3.wordsInUse());
 
     ecs::Bits bits4{2, 1, 3};
     ASSERT_EQ(1u, bits4.wordsInUse());
