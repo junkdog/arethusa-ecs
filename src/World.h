@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cassert>
+#include <algorithm>
 #include <cstdint>
 #include <typeinfo>
 #include <memory>
@@ -35,17 +37,20 @@ class World {
 	T& setManager(Args&& ... args) {
 
 		auto manager = make_unique<T>(this, std::forward<Args>(args) ...);
-		T& managerRef = *manager;
-		managerIndices[typeid(T)] = nextManagerIndex++;
 		managers.push_back(std::move(manager));
-		return managerRef;
+		return static_cast<T&>(*managers.back());
 	}
 
 	template<typename T,
 		typename std::enable_if<std::is_base_of<Manager, T>::value>::type* = nullptr>
 	T& getManager() {
-		uint managerIndex = managerIndices[typeid(T)];
-		return static_cast<T&>(*managers[managerIndex]);
+		auto found = std::find_if(managers.cbegin(), managers.cend(),
+			[&](const std::unique_ptr<Manager>& m) -> bool {
+				return typeid(*m.get()) == typeid(T);
+			});
+
+		assert(managers.cend() != found);
+		return static_cast<T&>(**found);
 	}
 
 	void informManagers(EntityStates& newStates);
@@ -59,7 +64,6 @@ class World {
   private:
 	std::unique_ptr<EditProcessor> edits;
 	std::vector<std::unique_ptr<Manager>> managers;
-	std::unordered_map<std::type_index, uint> managerIndices;
 
 	uint nextManagerIndex = 0;
 	ComponentManager* componentManager;

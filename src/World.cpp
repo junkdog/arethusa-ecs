@@ -16,7 +16,7 @@ void World::initialize() {
 	// skip initializing SystemManager until all other
 	// managers have been initialized, so that EntitySystems
 	// can interact with managers reliably.
-	assert(managerIndices[typeid(SystemManager)] == 0);
+	assert(typeid(*managers[0]) == typeid(SystemManager));
 	for (uint i = 1; managers.size() > i; i++) {
 		managers[i]->initialize();
 	}
@@ -40,13 +40,13 @@ ComponentManager& World::components() {
 }
 
 void World::informManagers(EntityStates& newStates) {
-	for (auto manager = managers.begin(); manager != managers.end(); ++manager) {
+	for (auto& manager : managers) {
 		for (auto e : newStates.added)
-			manager->get()->added(e);
+			manager->added(e);
 		for (auto e : newStates.changed)
-			manager->get()->updated(e);
+			manager->updated(e);
 		for (auto e : newStates.deleted)
-			manager->get()->removed(e);
+			manager->removed(e);
 	}
 }
 
