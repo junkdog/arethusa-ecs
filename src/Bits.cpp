@@ -43,6 +43,15 @@ Bits::WordProxy& Bits::operator[](unsigned int bitIndex) {
 	return proxy;
 }
 
+bool Bits::get(unsigned int bitIndex) const {
+	auto bit = bitIndex % WORD_SIZE;
+	auto index = bitIndex / WORD_SIZE;
+	if (words.size() <= (index + 1))
+		return false;
+
+	return (words[index] & (1 << bit)) != 0;
+}
+
 unsigned long Bits::wordsInUse() const {
 	return words.size();
 }

@@ -58,7 +58,7 @@ class ComponentManager : public Manager {
 			});
 
 		if (found != stores.end()) {
-			return static_cast<Store<C>&>(*found->get());
+			return static_cast<Store<C>&>(**found);
 		} else {
 			auto componentStore = make_unique<Store<C>>(nextComponentId);
 			stores.push_back(std::move(componentStore));

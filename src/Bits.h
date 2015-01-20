@@ -53,14 +53,8 @@ class Bits {
 
 	~Bits() = default;
 	WordProxy& operator[](unsigned int bitIndex);
-	bool get(unsigned int bitIndex) const {
-		auto bit = bitIndex % WORD_SIZE;
-		auto index = bitIndex / WORD_SIZE;
-		if (words.size() <= (index + 1))
-			return false;
 
-		return (words[index] & (1 << bit)) != 0;
-	}
+	bool get(unsigned int bitIndex) const;
 	Bits& operator=(const Bits& rhs);
 	bool operator==(const Bits& rhs) const;
 	bool operator!=(const Bits& rhs) const;

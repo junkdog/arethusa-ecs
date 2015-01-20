@@ -1,6 +1,5 @@
 #pragma once
 
-#include <vector>
 #include "Bits.h"
 #include "Entity.h"
 #include "World.h"

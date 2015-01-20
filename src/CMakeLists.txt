@@ -1,5 +1,6 @@
 set(sources
 	Util.cpp
+	Entity.cpp
 	Bits.cpp
 	Manager.cpp
 	ComponentManager.cpp

@@ -65,7 +65,6 @@ class World {
 	std::unique_ptr<EditProcessor> edits;
 	std::vector<std::unique_ptr<Manager>> managers;
 
-	uint nextManagerIndex = 0;
 	ComponentManager* componentManager;
 	EntityManager* entityManager;
 	SystemManager* systemManager;
