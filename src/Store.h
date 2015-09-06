@@ -3,7 +3,6 @@
 #include <vector>
 #include "Component.h"
 
-// TODO: save pointer to store in component manager
 namespace ecs {
 
 class BaseStore : NoCopy {
